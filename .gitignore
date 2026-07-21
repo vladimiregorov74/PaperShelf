@@ -1,0 +1,37 @@
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual env
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Qt
+*.qm
+*.qrc
+
+# Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+
+# Logs
+*.log
+
+# Saved articles
+saved/
+
+# Coverage
+.coverage
+htmlcov/

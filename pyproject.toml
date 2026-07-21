@@ -1,0 +1,46 @@
+[project]
+name = "papershelf"
+version = "0.1.0"
+description = "Desktop application for saving and organizing web articles."
+authors = [
+    {name = "vladimiregorov74",email = "vladimiregorov74@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "pyside6 (>=6.11.1,<7.0.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "beautifulsoup4 (>=4.15.0,<5.0.0)",
+    "trafilatura (>=2.1.0,<3.0.0)",
+    "lxml (>=6.1.1,<7.0.0)",
+    "pillow (>=12.3.0,<13.0.0)",
+    "python-slugify (>=8.0.4,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    { include = "papershelf", from = "src" }
+]
+
+[dependency-groups]
+dev = [
+    "black (>=26.5.1,<27.0.0)",
+    "ruff (>=0.15.22,<0.16.0)",
+    "mypy (>=2.3.0,<3.0.0)"
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[project.scripts]
+papershelf = "papershelf.app:main"
