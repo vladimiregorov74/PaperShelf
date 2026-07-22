@@ -1,15 +1,27 @@
 from __future__ import annotations
 
+import copy
+
 from bs4 import BeautifulSoup
+from bs4 import Tag
 
 from papershelf.models import Article
 from papershelf.parsers.base_parser import BaseParser
 
 
 class HabrParser(BaseParser):
-    """Парсер статей Хабра."""
+    """
+    Парсер статей Habr.
+    """
 
-    def parse(self, html: str, url: str) -> Article:
+    def parse(
+        self,
+        html: str,
+        url: str,
+    ) -> Article:
+        """
+        Преобразовать HTML страницы Habr в объект Article.
+        """
 
         soup = BeautifulSoup(html, "lxml")
 
@@ -18,36 +30,139 @@ class HabrParser(BaseParser):
             title=self._parse_title(soup),
             author=self._parse_author(soup),
             source="Habr",
-            html=html,
+            html=self._parse_article_html(soup),
             text="",
         )
 
     # ------------------------------------------------------------------
 
-    def _parse_title(self, soup: BeautifulSoup) -> str:
+    def _parse_title(
+        self,
+        soup: BeautifulSoup,
+    ) -> str:
+        """
+        Получить заголовок статьи.
+        """
 
         title = soup.find("title")
 
         if title is None:
             return ""
 
-        return title.get_text(strip=True)
+        return (
+            title.get_text(" ", strip=True)
+            .replace(" / Хабр", "")
+            .strip()
+        )
 
     # ------------------------------------------------------------------
 
-    def _parse_author(self, soup: BeautifulSoup) -> str:
+    def _parse_author(
+        self,
+        soup: BeautifulSoup,
+    ) -> str:
+        """
+        Получить автора статьи.
+        """
 
-        selectors = [
+        selectors = (
             "a.tm-user-info__username",
-            "span.tm-user-info__user",
-            "a.author-name",
-        ]
+            "span.tm-user-info__username",
+            "a[class*='user-info']",
+            "meta[name='author']",
+        )
 
         for selector in selectors:
 
             node = soup.select_one(selector)
 
-            if node:
-                return node.get_text(strip=True)
+            if node is None:
+                continue
+
+            if node.name == "meta":
+                return node.get("content", "").strip()
+
+            return node.get_text(strip=True)
 
         return ""
+
+    # ------------------------------------------------------------------
+
+    def _parse_article_container(
+        self,
+        soup: BeautifulSoup,
+    ) -> Tag | None:
+        """
+        Найти контейнер статьи.
+        """
+
+        selectors = (
+            "article.tm-article-presenter__content",
+            "div.tm-article-body",
+            "article",
+            "main article",
+        )
+
+        for selector in selectors:
+
+            node = soup.select_one(selector)
+
+            if node is not None:
+                return node
+
+        return None
+
+    # ------------------------------------------------------------------
+
+    def _clone_container(
+        self,
+        container: Tag,
+    ) -> Tag:
+        """
+        Создать независимую копию контейнера статьи.
+        """
+
+        return copy.deepcopy(container)
+
+    # ------------------------------------------------------------------
+
+    def _remove_unwanted_elements(
+        self,
+        container: Tag,
+    ) -> None:
+        """
+        Удалить элементы, которые никогда не должны
+        попадать в сохранённую статью.
+        """
+
+        selectors = (
+            "script",
+            "style",
+            "noscript",
+        )
+
+        for selector in selectors:
+
+            for node in container.select(selector):
+                node.decompose()
+
+    # ------------------------------------------------------------------
+
+    def _parse_article_html(
+        self,
+        soup: BeautifulSoup,
+    ) -> str:
+        """
+        Получить HTML статьи.
+        """
+
+        container = self._parse_article_container(soup)
+
+        if container is None:
+            return ""
+
+        article = self._clone_container(container)
+
+        self._remove_unwanted_elements(article)
+
+        return str(article)
