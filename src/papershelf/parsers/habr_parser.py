@@ -12,6 +12,7 @@ from papershelf.parsers.selectors import (
     HABR_AUTHOR_SELECTORS,
     HABR_CONTENT_SELECTORS,
 )
+from papershelf.services import HtmlCleaner
 
 
 class HabrParser(BaseParser):
@@ -21,23 +22,30 @@ class HabrParser(BaseParser):
 
     # ------------------------------------------------------------------
 
+    def __init__(self) -> None:
+
+        self._cleaner = HtmlCleaner()
+
+    # ------------------------------------------------------------------
+
     def parse(
         self,
         html: str,
         url: str,
     ) -> Article:
-        """
-        Преобразовать HTML страницы в объект Article.
-        """
 
         soup = BeautifulSoup(html, "lxml")
+
+        article_html = self._parse_article_html(soup)
+
+        article_html = self._cleaner.clean(article_html)
 
         return Article(
             url=url,
             title=self._parse_title(soup),
             author=self._parse_author(soup),
             source="Habr",
-            html=self._parse_article_html(soup),
+            html=article_html,
             text="",
         )
 
@@ -47,9 +55,6 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> str:
-        """
-        Получить заголовок статьи.
-        """
 
         title = soup.find("title")
 
@@ -68,9 +73,6 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> str:
-        """
-        Получить автора статьи.
-        """
 
         for selector in HABR_AUTHOR_SELECTORS:
 
@@ -93,9 +95,6 @@ class HabrParser(BaseParser):
         root: BeautifulSoup | Tag,
         selectors: tuple[str, ...],
     ) -> Tag | None:
-        """
-        Найти первый элемент по списку CSS-селекторов.
-        """
 
         for selector in selectors:
 
@@ -112,9 +111,6 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> Tag | None:
-        """
-        Найти контейнер статьи.
-        """
 
         return self._find_first(
             soup,
@@ -127,9 +123,6 @@ class HabrParser(BaseParser):
         self,
         article: Tag,
     ) -> Tag | None:
-        """
-        Найти контейнер с содержимым статьи.
-        """
 
         return self._find_first(
             article,
@@ -142,33 +135,8 @@ class HabrParser(BaseParser):
         self,
         container: Tag,
     ) -> Tag:
-        """
-        Создать независимую копию контейнера.
-        """
 
         return copy.deepcopy(container)
-
-    # ------------------------------------------------------------------
-
-    def _remove_unwanted_elements(
-        self,
-        container: Tag,
-    ) -> None:
-        """
-        Удалить элементы,
-        которые не нужны в сохраненной статье.
-        """
-
-        selectors = (
-            "script",
-            "style",
-            "noscript",
-        )
-
-        for selector in selectors:
-
-            for node in container.select(selector):
-                node.decompose()
 
     # ------------------------------------------------------------------
 
@@ -176,9 +144,6 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> str:
-        """
-        Получить HTML статьи.
-        """
 
         article = self._parse_article_container(soup)
 
@@ -191,7 +156,5 @@ class HabrParser(BaseParser):
             content = article
 
         content = self._clone_container(content)
-
-        self._remove_unwanted_elements(content)
 
         return str(content)

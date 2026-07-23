@@ -11,3 +11,13 @@ MIN_HEIGHT = 700
 LOG_PANEL_WIDTH = 350
 
 STATUS_READY = "Готово"
+
+# ----------------------------------------------------------------------
+# Export
+# ----------------------------------------------------------------------
+
+SAVE_DIRECTORY = "saved"
+
+ARTICLE_HTML_FILENAME = "article.html"
+
+ARTICLE_JSON_FILENAME = "article.json"
