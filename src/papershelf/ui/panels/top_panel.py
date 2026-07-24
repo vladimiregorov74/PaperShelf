@@ -1,9 +1,8 @@
 from __future__ import annotations
 
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
-    QLabel,
     QPushButton,
-    QProgressBar,
     QVBoxLayout,
     QWidget,
 )
@@ -12,26 +11,30 @@ from papershelf.ui.widgets.url_widget import UrlWidget
 
 
 class TopPanel(QWidget):
-    """Верхняя панель приложения."""
+    """
+    Верхняя панель приложения.
+    """
 
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
+    save_requested = Signal(str)
+
+    # ------------------------------------------------------------------
+
+    def __init__(self) -> None:
+        super().__init__()
 
         self._create_widgets()
         self._create_layout()
+        self._connect_signals()
 
     # ------------------------------------------------------------------
 
     def _create_widgets(self) -> None:
 
-        self.url_label = QLabel("URL статьи")
+        self.url_widget = UrlWidget()
 
-        self.url_edit = UrlWidget()
-
-        self.download_button = QPushButton("📥 Скачать")
-
-        self.progress_bar = QProgressBar()
-        self.progress_bar.hide()
+        self.save_button = QPushButton(
+            "📥 Сохранить статью"
+        )
 
     # ------------------------------------------------------------------
 
@@ -39,30 +42,38 @@ class TopPanel(QWidget):
 
         layout = QVBoxLayout(self)
 
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(8)
-
-        layout.addWidget(self.url_label)
-        layout.addWidget(self.url_edit)
-        layout.addWidget(self.download_button)
-        layout.addWidget(self.progress_bar)
+        layout.addWidget(self.url_widget)
+        layout.addWidget(self.save_button)
 
     # ------------------------------------------------------------------
-    # Public API
+
+    def _connect_signals(self) -> None:
+
+        self.save_button.clicked.connect(
+            self._on_save_clicked
+        )
+
     # ------------------------------------------------------------------
 
-    def url(self) -> str:
-        """Вернуть введённый URL."""
+    def _on_save_clicked(self) -> None:
 
-        return self.url_edit.url()
+        url = self.url_widget.text().strip()
 
-    def set_progress(self, value: int) -> None:
-        """Установить значение прогресса."""
+        if not url:
+            return
 
-        self.progress_bar.setValue(value)
+        self.save_requested.emit(url)
 
-    def show_progress(self) -> None:
-        self.progress_bar.show()
+    # ------------------------------------------------------------------
 
-    def hide_progress(self) -> None:
-        self.progress_bar.hide()
+    def set_busy(
+        self,
+        busy: bool,
+    ) -> None:
+        """
+        Заблокировать элементы управления.
+        """
+
+        self.url_widget.setEnabled(not busy)
+
+        self.save_button.setEnabled(not busy)

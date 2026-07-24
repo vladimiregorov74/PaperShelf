@@ -90,17 +90,10 @@ class MainWindow(BaseWindow):
         self.setCentralWidget(self.central_widget)
 
     # ------------------------------------------------------------------
-
+    
     def _connect_signals(self) -> None:
-
-        self.actions.exit.triggered.connect(self.close)
-
-        self.actions.about.triggered.connect(
-            self.show_about_dialog
-        )
-
-        self.top_panel.download_button.clicked.connect(
-            self._download_clicked
+        self.top_panel.save_requested.connect(
+            self._on_save_requested
         )
 
     # ------------------------------------------------------------------
@@ -125,4 +118,12 @@ class MainWindow(BaseWindow):
                 "<p>Настольное приложение для хранения "
                 "технических статей.</p>"
             ),
+        )
+    
+    def _on_save_requested(
+            self,
+            url: str,
+    ) -> None:
+        self.log_widget.info(
+            f"Получен URL: {url}"
         )
