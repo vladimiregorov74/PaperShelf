@@ -9,10 +9,13 @@ DEFAULT_TIMEOUT = 20
 
 class DownloaderService:
     """
-    Сервис загрузки HTML-страниц.
+    Универсальный сервис загрузки ресурсов.
     """
 
+    # ------------------------------------------------------------------
+
     def __init__(self) -> None:
+
         self._session = Session()
 
         self._session.headers.update(
@@ -33,21 +36,37 @@ class DownloaderService:
     def download(self, url: str) -> str:
         """
         Скачать HTML страницы.
+        """
 
-        Parameters
-        ----------
-        url:
-            Адрес страницы.
+        response = self._get(url)
 
-        Returns
-        -------
-        str
-            HTML страницы.
+        return response.text
 
-        Raises
-        ------
-        RuntimeError
-            Если страницу получить не удалось.
+    # ------------------------------------------------------------------
+
+    def download_binary(self, url: str) -> bytes:
+        """
+        Скачать бинарный ресурс.
+
+        Используется для:
+
+            - изображений
+            - PDF
+            - CSS
+            - SVG
+            - шрифтов
+            - вложений
+        """
+
+        response = self._get(url)
+
+        return response.content
+
+    # ------------------------------------------------------------------
+
+    def _get(self, url: str):
+        """
+        Выполнить GET-запрос.
         """
 
         try:
@@ -59,9 +78,10 @@ class DownloaderService:
 
             response.raise_for_status()
 
-            return response.text
+            return response
 
         except RequestException as exc:
+
             raise RuntimeError(
-                f"Не удалось скачать страницу:\n{url}"
+                f"Не удалось скачать ресурс:\n{url}"
             ) from exc

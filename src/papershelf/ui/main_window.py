@@ -238,28 +238,27 @@ class MainWindow(BaseWindow):
         self._thread.start()
         
     # ------------------------------------------------------------------
-
+    
     def _on_worker_success(
-        self,
-        directory,
+            self,
+            directory,
     ) -> None:
         """
         Статья успешно сохранена.
         """
-
+        
         self.log_widget.success(
             f"Статья успешно сохранена:\n{directory}"
         )
-
+        
+        self.preview_widget.load_article(
+            directory
+        )
+        
         self.status_bar.showMessage(
             "Статья сохранена.",
             5000,
         )
-
-        #
-        # На следующем этапе будем автоматически
-        # открывать сохранённую статью в PreviewWidget.
-        #
 
     # ------------------------------------------------------------------
 

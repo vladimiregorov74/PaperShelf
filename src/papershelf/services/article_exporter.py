@@ -206,3 +206,35 @@ code {{
 
 </html>
 """
+    # ------------------------------------------------------------------
+
+    def create_directory(
+        self,
+        article: Article,
+    ) -> Path:
+        """
+        Создать каталог статьи.
+        """
+
+        return self._create_directory(article)
+
+    # ------------------------------------------------------------------
+
+    def save(
+        self,
+        article: Article,
+        directory: Path,
+    ) -> None:
+        """
+        Сохранить статью в уже существующий каталог.
+        """
+
+        self._save_html(
+            article,
+            directory,
+        )
+
+        self._save_json(
+            article,
+            directory,
+        )
