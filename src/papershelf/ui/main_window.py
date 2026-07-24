@@ -1,7 +1,10 @@
 
 from __future__ import annotations
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import (
+    Qt,
+    QThread,
+)
 from PySide6.QtWidgets import (
     QMessageBox,
     QSplitter,
@@ -35,6 +38,8 @@ class MainWindow(BaseWindow):
         self._controller = ArticleController()
 
         self._worker: SaveArticleWorker | None = None
+        
+        self._thread: QThread | None = None
 
         self._create_actions()
         self._create_widgets()
@@ -142,17 +147,17 @@ class MainWindow(BaseWindow):
         )
 
     # ------------------------------------------------------------------
-
+    
     def _on_save_requested(
-        self,
-        url: str,
+            self,
+            url: str,
     ) -> None:
         """
         Пользователь нажал кнопку сохранения.
         """
-
+        
         url = url.strip()
-
+        
         if not url:
             QMessageBox.warning(
                 self,
@@ -160,43 +165,77 @@ class MainWindow(BaseWindow):
                 "Введите адрес статьи.",
             )
             return
-
+        
         self.top_panel.set_busy(True)
-
+        
         self.log_widget.info(
             f"Получен URL: {url}"
         )
-
+        
         self.status_bar.showMessage(
             "Сохранение статьи..."
         )
-
+        
+        self._thread = QThread(self)
+        
         self._worker = SaveArticleWorker(
             controller=self._controller,
             url=url,
         )
-
+        
+        self._worker.moveToThread(self._thread)
+        
+        #
+        # Запуск
+        #
+        self._thread.started.connect(
+            self._worker.run
+        )
+        
+        #
+        # Логирование
+        #
         self._worker.log.connect(
             self.log_widget.info
         )
-
+        
+        #
+        # Успешное завершение
+        #
         self._worker.success.connect(
             self._on_worker_success
         )
-
+        
+        #
+        # Ошибка
+        #
         self._worker.error.connect(
             self._on_worker_error
         )
-
+        
+        #
+        # Завершение
+        #
         self._worker.finished.connect(
             self._on_worker_finished
         )
-
+        
         #
-        # Пока запускаем синхронно.
-        # Следующим коммитом перенесём в QThread.
+        # Корректное закрытие потока
         #
-        self._worker.run()
+        self._worker.finished.connect(
+            self._thread.quit
+        )
+        
+        self._worker.finished.connect(
+            self._worker.deleteLater
+        )
+        
+        self._thread.finished.connect(
+            self._thread.deleteLater
+        )
+        
+        self._thread.start()
         
     # ------------------------------------------------------------------
 
@@ -248,12 +287,18 @@ class MainWindow(BaseWindow):
         )
 
     # ------------------------------------------------------------------
-
+    
     def _on_worker_finished(self) -> None:
         """
         Завершение работы Worker.
         """
-
+        
         self.top_panel.set_busy(False)
-
+        
+        self.status_bar.showMessage(
+            "Готово.",
+            3000,
+        )
+        
         self._worker = None
+        self._thread = None
