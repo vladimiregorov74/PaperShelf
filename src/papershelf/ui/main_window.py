@@ -1,6 +1,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from PySide6.QtCore import (
     Qt,
     QThread,
@@ -25,6 +27,10 @@ from papershelf.ui.toolbar import MainToolBar
 from papershelf.ui.widgets.log_widget import LogWidget
 from papershelf.ui.widgets.preview_widget import PreviewWidget
 from papershelf.workers import SaveArticleWorker
+from papershelf.services.library_scanner import LibraryScanner
+from papershelf.ui.widgets.library_widget import LibraryWidget
+from papershelf.core.paths import SAVED_DIR
+
 
 
 class MainWindow(BaseWindow):
@@ -36,7 +42,10 @@ class MainWindow(BaseWindow):
         super().__init__()
 
         self._controller = ArticleController()
-
+        self._library_scanner = LibraryScanner(
+            SAVED_DIR,
+        )
+        print(SAVED_DIR.resolve())
         self._worker: SaveArticleWorker | None = None
         
         self._thread: QThread | None = None
@@ -45,6 +54,7 @@ class MainWindow(BaseWindow):
         self._create_widgets()
         self._create_layout()
         self._connect_signals()
+        self._reload_library()
 
     # ------------------------------------------------------------------
 
@@ -62,6 +72,8 @@ class MainWindow(BaseWindow):
         self.top_panel = TopPanel()
 
         self.log_widget = LogWidget()
+        
+        self.library_widget = LibraryWidget()
 
         self.preview_widget = PreviewWidget()
 
@@ -88,13 +100,45 @@ class MainWindow(BaseWindow):
         layout.setSpacing(10)
 
         layout.addWidget(self.top_panel)
-
-        self.splitter.addWidget(self.log_widget)
-        self.splitter.addWidget(self.preview_widget)
-
-        self.splitter.setStretchFactor(0, 1)
-        self.splitter.setStretchFactor(1, 3)
-
+        
+        left_splitter = QSplitter(Qt.Orientation.Vertical)
+        
+        left_splitter.addWidget(
+            self.library_widget
+        )
+        
+        left_splitter.addWidget(
+            self.log_widget
+        )
+        
+        left_splitter.setStretchFactor(
+            0,
+            3,
+        )
+        
+        left_splitter.setStretchFactor(
+            1,
+            2,
+        )
+        
+        self.splitter.addWidget(
+            left_splitter
+        )
+        
+        self.splitter.addWidget(
+            self.preview_widget
+        )
+        
+        self.splitter.setStretchFactor(
+            0,
+            1,
+        )
+        
+        self.splitter.setStretchFactor(
+            1,
+            3,
+        )
+        
         self.splitter.setSizes(
             [
                 LOG_PANEL_WIDTH,
@@ -116,7 +160,9 @@ class MainWindow(BaseWindow):
         self.top_panel.save_requested.connect(
             self._on_save_requested
         )
-
+        self.library_widget.article_selected.connect(
+            self._on_article_selected
+        )
     # ------------------------------------------------------------------
 
     def _download_clicked(self) -> None:
@@ -251,9 +297,11 @@ class MainWindow(BaseWindow):
             f"Статья успешно сохранена:\n{directory}"
         )
         
-        self.preview_widget.load_article(
+        self._open_article(
             directory
         )
+        
+        self._reload_library()
         
         self.status_bar.showMessage(
             "Статья сохранена.",
@@ -301,3 +349,41 @@ class MainWindow(BaseWindow):
         
         self._worker = None
         self._thread = None
+    
+    # ------------------------------------------------------------------
+    
+    def _on_article_selected(
+            self,
+            article,
+    ) -> None:
+        """
+        Пользователь выбрал статью в библиотеке.
+        """
+        
+        self._open_article(
+            article.directory
+        )
+        
+        self.status_bar.showMessage(
+            article.title,
+            3000,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _open_article(
+            self,
+            directory: Path,
+    ) -> None:
+        self.preview_widget.load_article(directory)
+    
+    # ------------------------------------------------------------------
+    
+    def _reload_library(self) -> None:
+        """
+        Перезагрузить библиотеку.
+        """
+        
+        self.library_widget.set_articles(
+            self._library_scanner.scan()
+        )

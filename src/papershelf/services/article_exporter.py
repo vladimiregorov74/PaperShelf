@@ -7,8 +7,9 @@ from pathlib import Path
 from papershelf.config.constants import (
     ARTICLE_HTML_FILENAME,
     ARTICLE_JSON_FILENAME,
-    SAVE_DIRECTORY,
 )
+
+from papershelf.core.paths import SAVED_DIR
 from papershelf.models import Article
 from slugify import slugify
 
@@ -54,7 +55,7 @@ class ArticleExporter:
         """
 
         directory = (
-            Path(SAVE_DIRECTORY)
+            SAVED_DIR
             / slugify(article.title)
         )
 

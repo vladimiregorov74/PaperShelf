@@ -16,7 +16,7 @@ STATUS_READY = "Готово"
 # Export
 # ----------------------------------------------------------------------
 
-SAVE_DIRECTORY = "saved"
+
 
 ARTICLE_HTML_FILENAME = "article.html"
 
