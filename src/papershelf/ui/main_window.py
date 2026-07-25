@@ -172,6 +172,12 @@ class MainWindow(BaseWindow):
         self.library_widget.article_selected.connect(
             self._on_article_selected
         )
+        #
+        # Действия меню и панели инструментов
+        #
+        self.actions.library.triggered.connect(
+            self._toggle_library
+        )
     # ------------------------------------------------------------------
 
     def _download_clicked(self) -> None:
@@ -404,3 +410,19 @@ class MainWindow(BaseWindow):
         )
         
         return articles
+    
+    # ------------------------------------------------------------------
+    
+    def _toggle_library(self) -> None:
+        """
+        Показать или скрыть библиотеку.
+        """
+        
+        left_panel = self.splitter.widget(0)
+        
+        if left_panel is None:
+            return
+        
+        left_panel.setVisible(
+            not left_panel.isVisible()
+        )
