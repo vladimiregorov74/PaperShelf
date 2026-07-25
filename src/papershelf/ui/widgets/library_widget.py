@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QListWidget, QListWidgetItem
 
@@ -39,13 +40,12 @@ class LibraryWidget(QListWidget):
         """
         Загрузить список статей.
         """
-        print(f"Получено статей: {len(articles)}")  ##
+ 
         self.clear()
 
         self._items = articles
 
         for article in articles:
-            print(article.title)
             item = QListWidgetItem()
 
             item.setText(
@@ -61,8 +61,7 @@ class LibraryWidget(QListWidget):
             )
 
             self.addItem(item)
-        
-        print("Элементов в QListWidget:", self.count())  ###
+
 
     # ------------------------------------------------------------------
 
@@ -82,3 +81,29 @@ class LibraryWidget(QListWidget):
         self.article_selected.emit(
             self._items[index]
         )
+    
+    # ------------------------------------------------------------------
+    
+    def select_article(
+            self,
+            directory: Path,
+    ) -> None:
+        """
+        Выделить статью по каталогу.
+        """
+        
+        for index, article in enumerate(self._items):
+            
+            if article.directory != directory:
+                continue
+            
+            item = self.item(index)
+            
+            if item is None:
+                return
+            
+            self.setCurrentItem(item)
+            
+            self.scrollToItem(item)
+            
+            return

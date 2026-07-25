@@ -45,7 +45,7 @@ class MainWindow(BaseWindow):
         self._library_scanner = LibraryScanner(
             SAVED_DIR,
         )
-        print(SAVED_DIR.resolve())
+        # print(SAVED_DIR.resolve())
         self._worker: SaveArticleWorker | None = None
         
         self._thread: QThread | None = None
@@ -54,7 +54,16 @@ class MainWindow(BaseWindow):
         self._create_widgets()
         self._create_layout()
         self._connect_signals()
-        self._reload_library()
+        articles = self._reload_library()
+        
+        if articles:
+            self._open_article(
+                articles[0].directory
+            )
+            
+            self.library_widget.select_article(
+                articles[0].directory
+            )
 
     # ------------------------------------------------------------------
 
@@ -303,6 +312,10 @@ class MainWindow(BaseWindow):
         
         self._reload_library()
         
+        self.library_widget.select_article(
+            directory
+        )
+        
         self.status_bar.showMessage(
             "Статья сохранена.",
             5000,
@@ -379,11 +392,15 @@ class MainWindow(BaseWindow):
     
     # ------------------------------------------------------------------
     
-    def _reload_library(self) -> None:
+    def _reload_library(self) -> list:
         """
         Перезагрузить библиотеку.
         """
         
+        articles = self._library_scanner.scan()
+        
         self.library_widget.set_articles(
-            self._library_scanner.scan()
+            articles
         )
+        
+        return articles
