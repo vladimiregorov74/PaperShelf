@@ -157,7 +157,6 @@ class MainWindow(BaseWindow):
         )
 
         layout.addWidget(self.splitter, 1,)
-        print(layout.count())
 
         self.setCentralWidget(self.central_widget)
     
