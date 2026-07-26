@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
+    QHBoxLayout,
     QPushButton,
-    QVBoxLayout,
     QWidget,
 )
 
@@ -23,6 +23,9 @@ class TopPanel(QWidget):
         super().__init__()
 
         self._create_widgets()
+        self.save_button.setFixedWidth(
+	        170
+        )
         self._create_layout()
         self._connect_signals()
 
@@ -39,11 +42,29 @@ class TopPanel(QWidget):
     # ------------------------------------------------------------------
 
     def _create_layout(self) -> None:
+	    """
+		Создание компоновки.
+		"""
 
-        layout = QVBoxLayout(self)
+	    layout = QHBoxLayout(self)
 
-        layout.addWidget(self.url_widget)
-        layout.addWidget(self.save_button)
+	    layout.setContentsMargins(
+		    0,
+		    0,
+		    0,
+		    0,
+	    )
+
+	    layout.setSpacing(8)
+
+	    layout.addWidget(
+		    self.url_widget,
+		    1,
+	    )
+
+	    layout.addWidget(
+		    self.save_button,
+	    )
 
     # ------------------------------------------------------------------
 

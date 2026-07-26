@@ -108,7 +108,11 @@ class MainWindow(BaseWindow):
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(10)
 
-        layout.addWidget(self.top_panel)
+        layout.addWidget(self.top_panel, 0,)
+        print(layout.count())
+        print(self.top_panel.sizeHint())
+        print(self.top_panel.minimumSizeHint())
+
         
         left_splitter = QSplitter(Qt.Orientation.Vertical)
         
@@ -155,7 +159,8 @@ class MainWindow(BaseWindow):
             ]
         )
 
-        layout.addWidget(self.splitter)
+        layout.addWidget(self.splitter, 1,)
+        print(layout.count())
 
         self.setCentralWidget(self.central_widget)
     

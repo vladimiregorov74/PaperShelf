@@ -4,17 +4,19 @@ from PySide6.QtWidgets import QLineEdit
 
 
 class UrlWidget(QLineEdit):
-    """Поле ввода URL."""
+	"""Поле ввода URL."""
 
-    def __init__(self) -> None:
-        super().__init__()
+	def __init__(self) -> None:
+		super().__init__()
 
-        self._configure()
+		self._configure()
 
-    def _configure(self) -> None:
-        self.setPlaceholderText("https://")
+	def _configure(self) -> None:
+		self.setPlaceholderText("https://")
 
-        self.setClearButtonEnabled(True)
+		self.setClearButtonEnabled(True)
 
-    def url(self) -> str:
-        return self.text().strip()
+		self.setMinimumHeight(38)
+
+	def url(self) -> str:
+		return self.text().strip()

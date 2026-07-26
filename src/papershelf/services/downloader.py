@@ -4,7 +4,7 @@ from requests import Session
 from requests.exceptions import RequestException
 
 
-DEFAULT_TIMEOUT = 20
+DEFAULT_TIMEOUT = 100
 
 
 class DownloaderService:
