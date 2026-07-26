@@ -110,10 +110,6 @@ class MainWindow(BaseWindow):
         layout.setSpacing(10)
 
         layout.addWidget(self.top_panel, 0,)
-        print(layout.count())
-        print(self.top_panel.sizeHint())
-        print(self.top_panel.minimumSizeHint())
-
         
         left_splitter = QSplitter(Qt.Orientation.Vertical)
         
@@ -181,9 +177,6 @@ class MainWindow(BaseWindow):
         #
         # Действия меню и панели инструментов
         #
-        self.actions.library.triggered.connect(
-            self._toggle_library
-        )
         self.actions.library.triggered.connect(
             self._toggle_library
         )
@@ -460,3 +453,5 @@ class MainWindow(BaseWindow):
         FileOpener.open_directory(
             item.directory
         )
+    
+ 
