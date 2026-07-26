@@ -26,9 +26,9 @@ class LibraryWidget(QListWidget):
         self.setSelectionMode(
             self.SelectionMode.SingleSelection
         )
-
-        self.itemClicked.connect(
-            self._item_clicked
+        
+        self.itemDoubleClicked.connect(
+            self._item_double_clicked
         )
 
     # ------------------------------------------------------------------
@@ -65,12 +65,12 @@ class LibraryWidget(QListWidget):
 
     # ------------------------------------------------------------------
 
-    def _item_clicked(
+    def _item_double_clicked(
         self,
         item: QListWidgetItem,
     ) -> None:
         """
-        Пользователь выбрал статью.
+        Пользователь дважды щёлкнул по статье.
         """
 
         index = self.row(item)
@@ -107,3 +107,17 @@ class LibraryWidget(QListWidget):
             self.scrollToItem(item)
             
             return
+    
+    # ------------------------------------------------------------------
+    
+    def current_article(self) -> LibraryItem | None:
+        """
+        Вернуть выбранную статью.
+        """
+        
+        row = self.currentRow()
+        
+        if row < 0:
+            return None
+        
+        return self._items[row]

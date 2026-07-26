@@ -28,6 +28,7 @@ from papershelf.ui.widgets.log_widget import LogWidget
 from papershelf.ui.widgets.preview_widget import PreviewWidget
 from papershelf.workers import SaveArticleWorker
 from papershelf.services.library_scanner import LibraryScanner
+from papershelf.services import FileOpener
 from papershelf.ui.widgets.library_widget import LibraryWidget
 from papershelf.core.paths import SAVED_DIR
 
@@ -182,6 +183,12 @@ class MainWindow(BaseWindow):
         #
         self.actions.library.triggered.connect(
             self._toggle_library
+        )
+        self.actions.library.triggered.connect(
+            self._toggle_library
+        )
+        self.actions.open_folder.triggered.connect(
+            self._open_current_directory
         )
     # ------------------------------------------------------------------
 
@@ -430,4 +437,26 @@ class MainWindow(BaseWindow):
         
         left_panel.setVisible(
             not left_panel.isVisible()
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _open_current_directory(self) -> None:
+        """
+        Открыть каталог текущей статьи.
+        """
+        
+        item = self.library_widget.current_article()
+        
+        if item is None:
+            QMessageBox.information(
+                self,
+                "Нет выбранной статьи",
+                "Выберите статью в библиотеке.",
+            )
+            
+            return
+        
+        FileOpener.open_directory(
+            item.directory
         )
