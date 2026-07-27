@@ -29,8 +29,9 @@ from papershelf.ui.widgets.preview_widget import PreviewWidget
 from papershelf.workers import SaveArticleWorker
 from papershelf.services.library_scanner import LibraryScanner
 from papershelf.services import FileOpener
-from papershelf.ui.widgets.library_widget import LibraryWidget
+from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.core.paths import SAVED_DIR
+
 
 
 
@@ -46,7 +47,7 @@ class MainWindow(BaseWindow):
         self._library_scanner = LibraryScanner(
             SAVED_DIR,
         )
-        # print(SAVED_DIR.resolve())
+        self._sort_mode = "date"
         self._worker: SaveArticleWorker | None = None
         
         self._thread: QThread | None = None
@@ -83,7 +84,7 @@ class MainWindow(BaseWindow):
 
         self.log_widget = LogWidget()
         
-        self.library_widget = LibraryWidget()
+        self.library_widget = LibraryPanel()
 
         self.preview_widget = PreviewWidget()
 
@@ -170,6 +171,11 @@ class MainWindow(BaseWindow):
         self.top_panel.save_requested.connect(
             self._on_save_requested
         )
+        
+        self.actions.download.triggered.connect(
+            self._download_clicked
+        )
+        
         self.library_widget.article_selected.connect(
             self._on_article_selected
         )
@@ -182,16 +188,28 @@ class MainWindow(BaseWindow):
         self.actions.open_folder.triggered.connect(
             self._open_current_directory
         )
+        
+        self.actions.refresh_library.triggered.connect(
+            self._reload_library
+        )
+        
+        self.actions.sort_by_date.triggered.connect(
+            self._sort_by_date
+        )
+        
+        self.actions.sort_by_title.triggered.connect(
+            self._sort_by_title
+        )
     # ------------------------------------------------------------------
-
+    
     def _download_clicked(self) -> None:
         """
-        Временный обработчик.
+        Скачать статью через кнопку панели инструментов.
         """
-
-        url = self.top_panel.url()
-
-        self.log_widget.info(f"URL: {url}")
+        
+        self._on_save_requested(
+            self.top_panel.url_widget.text()
+        )
 
     # ------------------------------------------------------------------
 
@@ -316,10 +334,6 @@ class MainWindow(BaseWindow):
             f"Статья успешно сохранена:\n{directory}"
         )
         
-        self._open_article(
-            directory
-        )
-        
         self._reload_library()
         
         self.library_widget.select_article(
@@ -406,13 +420,18 @@ class MainWindow(BaseWindow):
         """
         Перезагрузить библиотеку.
         """
-        
-        articles = self._library_scanner.scan()
+        current = self.library_widget.current_article()
+        articles = self._library_scanner.scan(
+            sort_by=self._sort_mode,
+        )
         
         self.library_widget.set_articles(
             articles
         )
-        
+        if current is not None:
+            self.library_widget.select_article(
+                current.directory
+            )
         return articles
     
     # ------------------------------------------------------------------
@@ -451,6 +470,38 @@ class MainWindow(BaseWindow):
         
         FileOpener.open_directory(
             item.directory
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _sort_by_date(self) -> None:
+        """
+        Сортировка библиотеки по дате.
+        """
+        
+        self._sort_mode = "date"
+        
+        self._reload_library()
+        
+        self.status_bar.showMessage(
+            "Сортировка: по дате",
+            3000,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _sort_by_title(self) -> None:
+        """
+        Сортировка библиотеки по названию.
+        """
+        
+        self._sort_mode = "title"
+        
+        self._reload_library()
+        
+        self.status_bar.showMessage(
+            "Сортировка: по названию",
+            3000,
         )
     
  

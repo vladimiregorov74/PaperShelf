@@ -106,18 +106,26 @@ class LibraryWidget(QListWidget):
             
             self.scrollToItem(item)
             
+            self.article_selected.emit(
+                article
+            )
+            
             return
     
+
     # ------------------------------------------------------------------
     
     def current_article(self) -> LibraryItem | None:
         """
-        Вернуть выбранную статью.
+        Возвращает выбранную статью.
         """
         
         row = self.currentRow()
         
         if row < 0:
+            return None
+        
+        if row >= len(self._items):
             return None
         
         return self._items[row]

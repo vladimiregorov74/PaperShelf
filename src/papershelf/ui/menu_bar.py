@@ -16,9 +16,22 @@ class MainMenuBar(QMenuBar):
         file_menu.addAction(actions.open_folder)
         file_menu.addSeparator()
         file_menu.addAction(actions.exit)
-
+        
         library_menu = self.addMenu("Библиотека")
-        library_menu.addAction(actions.library)
+        
+        library_menu.addAction(
+            actions.refresh_library
+        )
+        
+        library_menu.addSeparator()
+        
+        library_menu.addAction(
+            actions.sort_by_date
+        )
+        
+        library_menu.addAction(
+            actions.sort_by_title
+        )
 
         settings_menu = self.addMenu("Настройки")
         settings_menu.addAction(actions.settings)
