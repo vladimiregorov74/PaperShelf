@@ -1,8 +1,16 @@
 from __future__ import annotations
 
 from pathlib import Path
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QListWidget, QListWidgetItem
+from PySide6.QtCore import (
+    Qt,
+    Signal,
+    QPoint,
+)
+from PySide6.QtWidgets import (
+    QListWidget,
+    QListWidgetItem,
+    QMenu,
+)
 
 from papershelf.models import LibraryItem
 
@@ -13,6 +21,12 @@ class LibraryWidget(QListWidget):
     """
 
     article_selected = Signal(LibraryItem)
+    
+    open_folder_requested = Signal(LibraryItem)
+    
+    open_original_requested = Signal(LibraryItem)
+    
+    delete_requested = Signal(LibraryItem)
 
     # ------------------------------------------------------------------
 
@@ -29,6 +43,14 @@ class LibraryWidget(QListWidget):
         
         self.itemDoubleClicked.connect(
             self._item_double_clicked
+        )
+        
+        self.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu
+        )
+        
+        self.customContextMenuRequested.connect(
+            self._show_context_menu
         )
 
     # ------------------------------------------------------------------
@@ -129,3 +151,61 @@ class LibraryWidget(QListWidget):
             return None
         
         return self._items[row]
+    
+    # ------------------------------------------------------------------
+    
+    def _show_context_menu(
+            self,
+            position: QPoint,
+    ) -> None:
+        """
+        Контекстное меню статьи.
+        """
+        
+        item = self.itemAt(position)
+        
+        if item is None:
+            return
+        
+        index = self.row(item)
+        
+        if index < 0:
+            return
+        
+        article = self._items[index]
+        
+        menu = QMenu(self)
+        
+        open_action = menu.addAction("📖 Открыть")
+        
+        menu.addSeparator()
+        
+        open_folder_action = menu.addAction(
+            "📂 Открыть папку"
+        )
+        
+        open_original_action = menu.addAction(
+            "🌍 Открыть оригинал"
+        )
+        
+        menu.addSeparator()
+        
+        delete_action = menu.addAction(
+            "🗑 Удалить статью"
+        )
+        
+        action = menu.exec(
+            self.mapToGlobal(position)
+        )
+        
+        if action == open_action:
+            self.article_selected.emit(article)
+        
+        elif action == open_folder_action:
+            self.open_folder_requested.emit(article)
+        
+        elif action == open_original_action:
+            self.open_original_requested.emit(article)
+        
+        elif action == delete_action:
+            self.delete_requested.emit(article)

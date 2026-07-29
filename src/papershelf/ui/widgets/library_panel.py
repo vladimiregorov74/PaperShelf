@@ -17,6 +17,12 @@ class LibraryPanel(QWidget):
     """
 
     article_selected = Signal(LibraryItem)
+    
+    open_folder_requested = Signal(LibraryItem)
+    
+    open_original_requested = Signal(LibraryItem)
+    
+    delete_requested = Signal(LibraryItem)
 
     # ------------------------------------------------------------------
 
@@ -71,6 +77,17 @@ class LibraryPanel(QWidget):
         )
         self.search.textChanged.connect(
             self._filter_articles
+        )
+        self.library.open_folder_requested.connect(
+            self.open_folder_requested
+        )
+        
+        self.library.open_original_requested.connect(
+            self.open_original_requested
+        )
+        
+        self.library.delete_requested.connect(
+            self.delete_requested
         )
 
     # ------------------------------------------------------------------

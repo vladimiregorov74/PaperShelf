@@ -57,6 +57,7 @@ class LibraryScanner:
                         title=data.get("title", "Без названия"),
                         author=data.get("author", ""),
                         source=data.get("source", ""),
+                        url=data.get("url", "", ),
                         directory=directory,
                         created_at=data.get("created_at", ""),
                     )

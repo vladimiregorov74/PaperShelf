@@ -14,7 +14,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
+from PySide6.QtGui import QDesktopServices
+from PySide6.QtCore import QUrl
 from papershelf.config.constants import (
     LOG_PANEL_WIDTH,
     STATUS_READY,
@@ -31,6 +32,7 @@ from papershelf.services.library_scanner import LibraryScanner
 from papershelf.services import FileOpener
 from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.core.paths import SAVED_DIR
+from papershelf.services.library_manager import LibraryManager
 
 
 
@@ -179,6 +181,14 @@ class MainWindow(BaseWindow):
         self.library_widget.article_selected.connect(
             self._on_article_selected
         )
+        
+        self.library_widget.open_folder_requested.connect(
+            self._on_open_folder_requested
+        )
+        
+        self.library_widget.open_original_requested.connect(
+            self._on_open_original_requested
+        )
         #
         # Действия меню и панели инструментов
         #
@@ -199,6 +209,10 @@ class MainWindow(BaseWindow):
         
         self.actions.sort_by_title.triggered.connect(
             self._sort_by_title
+        )
+        
+        self.library_widget.delete_requested.connect(
+            self._on_delete_requested
         )
     # ------------------------------------------------------------------
     
@@ -504,4 +518,78 @@ class MainWindow(BaseWindow):
             3000,
         )
     
- 
+    # ------------------------------------------------------------------
+    
+    def _on_open_folder_requested(
+            self,
+            article,
+    ) -> None:
+        """
+        Открыть каталог статьи.
+        """
+        
+        QDesktopServices.openUrl(
+            QUrl.fromLocalFile(
+                str(article.directory)
+            )
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_open_original_requested(
+            self,
+            article,
+    ) -> None:
+        """
+        Открыть оригинальную статью в браузере.
+        """
+        
+        if not article.url:
+            return
+        
+        QDesktopServices.openUrl(
+            QUrl(article.url)
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_delete_requested(
+            self,
+            article,
+    ) -> None:
+        """
+        Запрос на удаление статьи.
+        """
+        
+        answer = QMessageBox.question(
+            self,
+            "Удаление статьи",
+            (
+                "Удалить статью?\n\n"
+                f"{article.title}"
+            ),
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        
+        LibraryManager.delete_article(
+            article.directory
+        )
+        
+        self.log_widget.success(
+            f"Статья удалена:\n{article.title}"
+        )
+        
+        self._reload_library()
+        
+        # очистка поля просмотра статьи
+        self.preview_widget.clear_preview()
+        
+        self.status_bar.showMessage(
+            "Статья удалена.",
+            5000,
+        )

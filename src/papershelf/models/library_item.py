@@ -19,3 +19,5 @@ class LibraryItem:
     directory: Path
 
     created_at: str
+    
+    url: str
