@@ -21,6 +21,7 @@ from papershelf.config.constants import (
     STATUS_READY,
 )
 from papershelf.controllers import ArticleController
+from papershelf.services.article_service import ArticleService
 from papershelf.ui.base_window import BaseWindow
 from papershelf.ui.menu_bar import MainMenuBar
 from papershelf.ui.panels.top_panel import TopPanel
@@ -29,10 +30,10 @@ from papershelf.ui.widgets.log_widget import LogWidget
 from papershelf.ui.widgets.preview_widget import PreviewWidget
 from papershelf.workers import SaveArticleWorker
 from papershelf.services.library_scanner import LibraryScanner
-from papershelf.services import FileOpener
 from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.core.paths import SAVED_DIR
-from papershelf.services.library_manager import LibraryManager
+from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
+
 
 
 
@@ -482,7 +483,7 @@ class MainWindow(BaseWindow):
             
             return
         
-        FileOpener.open_directory(
+        ArticleService.open_directory(
             item.directory
         )
     
@@ -561,22 +562,14 @@ class MainWindow(BaseWindow):
         Запрос на удаление статьи.
         """
         
-        answer = QMessageBox.question(
-            self,
-            "Удаление статьи",
-            (
-                "Удалить статью?\n\n"
-                f"{article.title}"
-            ),
-            QMessageBox.StandardButton.Yes
-            | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No,
-        )
-        
-        if answer != QMessageBox.StandardButton.Yes:
+        if not ConfirmDialog.ask(
+                parent=self,
+                title="Удаление статьи",
+                text=article.title,
+        ):
             return
         
-        LibraryManager.delete_article(
+        ArticleService.delete_article(
             article.directory
         )
         
