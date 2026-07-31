@@ -33,6 +33,7 @@ from papershelf.services.library_scanner import LibraryScanner
 from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.core.paths import SAVED_DIR
 from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
+from papershelf.services.library_service import LibraryService
 
 
 
@@ -42,7 +43,10 @@ class MainWindow(BaseWindow):
     """
     Главное окно приложения.
     """
-
+    
+    # ------------------------------------------------------------------
+    # Construction
+    # ------------------------------------------------------------------
     def __init__(self) -> None:
         super().__init__()
 
@@ -50,7 +54,11 @@ class MainWindow(BaseWindow):
         self._library_scanner = LibraryScanner(
             SAVED_DIR,
         )
-        self._sort_mode = "date"
+        
+        self._library_service = LibraryService(
+            self._library_scanner
+        )
+        
         self._worker: SaveArticleWorker | None = None
         
         self._thread: QThread | None = None
@@ -215,17 +223,9 @@ class MainWindow(BaseWindow):
         self.library_widget.delete_requested.connect(
             self._on_delete_requested
         )
-    # ------------------------------------------------------------------
     
-    def _download_clicked(self) -> None:
-        """
-        Скачать статью через кнопку панели инструментов.
-        """
-        
-        self._on_save_requested(
-            self.top_panel.url_widget.text()
-        )
-
+    # ------------------------------------------------------------------
+    # Dialogs
     # ------------------------------------------------------------------
 
     def show_about_dialog(self) -> None:
@@ -243,13 +243,12 @@ class MainWindow(BaseWindow):
                 "для хранения технических статей.</p>"
             ),
         )
-
+    
+    # ------------------------------------------------------------------
+    # Save
     # ------------------------------------------------------------------
     
-    def _on_save_requested(
-            self,
-            url: str,
-    ) -> None:
+    def _on_save_requested(self, url: str,) -> None:
         """
         Пользователь нажал кнопку сохранения.
         """
@@ -334,13 +333,211 @@ class MainWindow(BaseWindow):
         )
         
         self._thread.start()
+    
+    # ------------------------------------------------------------------
+    # Library
+    # ------------------------------------------------------------------
+    def _on_open_folder_requested(self, article, ) -> None:
+        """
+        Открыть каталог статьи.
+        """
+        
+        QDesktopServices.openUrl(
+            QUrl.fromLocalFile(
+                str(article.directory)
+            )
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_open_original_requested(self, article, ) -> None:
+        """
+        Открыть оригинальную статью в браузере.
+        """
+        
+        if not article.url:
+            return
+        
+        QDesktopServices.openUrl(
+            QUrl(article.url)
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _reload_library(self) -> list:
+        """
+        Перезагрузить библиотеку.
+        """
+        current = self.library_widget.current_article()
+        articles = self._library_service.reload()
+        
+        self.library_widget.set_articles(
+            articles
+        )
+        if current is not None:
+            self.library_widget.select_article(
+                current.directory
+            )
+        return articles
+    
+    # ------------------------------------------------------------------
+    
+    def _toggle_library(self) -> None:
+        """
+        Показать или скрыть библиотеку.
+        """
+        
+        left_panel = self.splitter.widget(0)
+        
+        if left_panel is None:
+            return
+        
+        left_panel.setVisible(
+            not left_panel.isVisible()
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _sort_library(self, mode: str, message: str, ) -> None:
+        """
+        Изменить способ сортировки библиотеки.
+
+        Parameters
+        ----------
+        mode:
+            Режим сортировки.
+
+        message:
+            Сообщение для строки состояния.
+        """
+        
+        self._library_service.set_sort_mode(
+            mode
+        )
+        
+        self._reload_library()
+        
+        self.status_bar.showMessage(
+            message,
+            3000,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _sort_by_date(self) -> None:
+        """
+        Сортировка библиотеки по дате.
+        """
+        
+        self._sort_library(
+            "date",
+            "Сортировка: по дате",
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _sort_by_title(self) -> None:
+        """
+        Сортировка библиотеки по названию.
+        """
+        
+        self._sort_library(
+            "title",
+            "Сортировка: по названию",
+        )
+    
+    # ------------------------------------------------------------------
+    # Article
+    # ------------------------------------------------------------------
+    
+    def _open_current_directory(self) -> None:
+        """
+        Открыть каталог текущей статьи.
+        """
+        
+        item = self.library_widget.current_article()
+        
+        if item is None:
+            QMessageBox.information(
+                self,
+                "Нет выбранной статьи",
+                "Выберите статью в библиотеке.",
+            )
+            
+            return
+        
+        ArticleService.open_directory(
+            item.directory
+        )
         
     # ------------------------------------------------------------------
     
-    def _on_worker_success(
-            self,
-            directory,
-    ) -> None:
+    def _open_article(self, directory: Path, ) -> None:
+        """
+        Открыть статью в области просмотра.
+        """
+        
+        if not ArticleService.article_exists(
+                directory
+        ):
+            return
+        
+        self.preview_widget.load_article(
+            directory
+        )
+    # ------------------------------------------------------------------
+    
+    def _on_delete_requested(self, article, ) -> None:
+        """
+        Запрос на удаление статьи.
+        """
+        
+        if not ConfirmDialog.ask(
+                parent=self,
+                title="Удаление статьи",
+                text=article.title,
+        ):
+            return
+        
+        ArticleService.delete_article(
+            article.directory
+        )
+        
+        self.log_widget.success(
+            f"Статья удалена:\n{article.title}"
+        )
+        
+        self._reload_library()
+        
+        # очистка поля просмотра статьи
+        self.preview_widget.clear_preview()
+        
+        self.status_bar.showMessage(
+            "Статья удалена.",
+            5000,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_article_selected(self, article, ) -> None:
+        """
+        Пользователь выбрал статью в библиотеке.
+        """
+        
+        self._open_article(
+            article.directory
+        )
+        
+        self.status_bar.showMessage(
+            article.title,
+            3000,
+        )
+    
+    # ------------------------------------------------------------------
+    # Save article
+    # ------------------------------------------------------------------
+    
+    def _on_worker_success(self, directory,) -> None:
         """
         Статья успешно сохранена.
         """
@@ -362,10 +559,7 @@ class MainWindow(BaseWindow):
 
     # ------------------------------------------------------------------
 
-    def _on_worker_error(
-        self,
-        traceback_text: str,
-    ) -> None:
+    def _on_worker_error(self, traceback_text: str,) -> None:
         """
         Ошибка при сохранении.
         """
@@ -401,188 +595,20 @@ class MainWindow(BaseWindow):
         
         self._worker = None
         self._thread = None
-    
+        
     # ------------------------------------------------------------------
     
-    def _on_article_selected(
-            self,
-            article,
-    ) -> None:
+    def _download_clicked(self) -> None:
         """
-        Пользователь выбрал статью в библиотеке.
+        Скачать статью через кнопку панели инструментов.
         """
         
-        self._open_article(
-            article.directory
+        self._on_save_requested(
+            self.top_panel.url_widget.text()
         )
-        
-        self.status_bar.showMessage(
-            article.title,
-            3000,
-        )
-    
     # ------------------------------------------------------------------
     
-    def _open_article(
-            self,
-            directory: Path,
-    ) -> None:
-        self.preview_widget.load_article(directory)
     
-    # ------------------------------------------------------------------
     
-    def _reload_library(self) -> list:
-        """
-        Перезагрузить библиотеку.
-        """
-        current = self.library_widget.current_article()
-        articles = self._library_scanner.scan(
-            sort_by=self._sort_mode,
-        )
-        
-        self.library_widget.set_articles(
-            articles
-        )
-        if current is not None:
-            self.library_widget.select_article(
-                current.directory
-            )
-        return articles
     
-    # ------------------------------------------------------------------
     
-    def _toggle_library(self) -> None:
-        """
-        Показать или скрыть библиотеку.
-        """
-        
-        left_panel = self.splitter.widget(0)
-        
-        if left_panel is None:
-            return
-        
-        left_panel.setVisible(
-            not left_panel.isVisible()
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _open_current_directory(self) -> None:
-        """
-        Открыть каталог текущей статьи.
-        """
-        
-        item = self.library_widget.current_article()
-        
-        if item is None:
-            QMessageBox.information(
-                self,
-                "Нет выбранной статьи",
-                "Выберите статью в библиотеке.",
-            )
-            
-            return
-        
-        ArticleService.open_directory(
-            item.directory
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _sort_by_date(self) -> None:
-        """
-        Сортировка библиотеки по дате.
-        """
-        
-        self._sort_mode = "date"
-        
-        self._reload_library()
-        
-        self.status_bar.showMessage(
-            "Сортировка: по дате",
-            3000,
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _sort_by_title(self) -> None:
-        """
-        Сортировка библиотеки по названию.
-        """
-        
-        self._sort_mode = "title"
-        
-        self._reload_library()
-        
-        self.status_bar.showMessage(
-            "Сортировка: по названию",
-            3000,
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _on_open_folder_requested(
-            self,
-            article,
-    ) -> None:
-        """
-        Открыть каталог статьи.
-        """
-        
-        QDesktopServices.openUrl(
-            QUrl.fromLocalFile(
-                str(article.directory)
-            )
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _on_open_original_requested(
-            self,
-            article,
-    ) -> None:
-        """
-        Открыть оригинальную статью в браузере.
-        """
-        
-        if not article.url:
-            return
-        
-        QDesktopServices.openUrl(
-            QUrl(article.url)
-        )
-    
-    # ------------------------------------------------------------------
-    
-    def _on_delete_requested(
-            self,
-            article,
-    ) -> None:
-        """
-        Запрос на удаление статьи.
-        """
-        
-        if not ConfirmDialog.ask(
-                parent=self,
-                title="Удаление статьи",
-                text=article.title,
-        ):
-            return
-        
-        ArticleService.delete_article(
-            article.directory
-        )
-        
-        self.log_widget.success(
-            f"Статья удалена:\n{article.title}"
-        )
-        
-        self._reload_library()
-        
-        # очистка поля просмотра статьи
-        self.preview_widget.clear_preview()
-        
-        self.status_bar.showMessage(
-            "Статья удалена.",
-            5000,
-        )

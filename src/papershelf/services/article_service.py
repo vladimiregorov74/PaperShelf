@@ -40,3 +40,25 @@ class ArticleService:
         FileOpener.open_directory(
             directory
         )
+        
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def article_exists(
+        directory: Path,
+    ) -> bool:
+        """
+        Проверить существование статьи.
+
+        Parameters
+        ----------
+        directory:
+            Каталог статьи.
+
+        Returns
+        -------
+        bool
+            True, если статья существует.
+        """
+
+        return directory.exists()
