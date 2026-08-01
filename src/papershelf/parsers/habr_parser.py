@@ -156,5 +156,8 @@ class HabrParser(BaseParser):
             content = article
 
         content = self._clone_container(content)
+        
+        with open("/tmp/debug_article.html", "w", encoding="utf-8") as f:
+            f.write(str(content))
 
         return str(content)

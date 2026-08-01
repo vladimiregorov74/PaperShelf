@@ -182,6 +182,26 @@ code {{
 
 }}
 
+figure {{
+
+    display: block;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    padding: 0;
+
+    text-align: center;
+}}
+
+figure img {{
+
+    margin: 0;
+    padding: 0;
+
+    display: inline;
+}}
+
 </style>
 
 </head>

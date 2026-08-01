@@ -78,6 +78,7 @@ class AssetDownloader:
             if local:
 
                 image["src"] = local
+                image.attrs.pop("srcset", None)
 
                 counter += 1
 
@@ -106,8 +107,16 @@ class AssetDownloader:
                 source["srcset"] = local
 
                 counter += 1
-
-        article.html = str(soup)
+        
+        body = soup.body
+        
+        if body is None:
+            article.html = str(soup)
+        else:
+            article.html = "".join(
+                str(child)
+                for child in body.children
+            )
 
     # ------------------------------------------------------------------
 
