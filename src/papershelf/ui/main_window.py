@@ -20,6 +20,7 @@ from papershelf.config.constants import (
     LOG_PANEL_WIDTH,
     STATUS_READY,
 )
+from papershelf.ui.actions import create_actions
 from papershelf.controllers import ArticleController
 from papershelf.services.article_service import ArticleService
 from papershelf.ui.base_window import BaseWindow
@@ -81,7 +82,7 @@ class MainWindow(BaseWindow):
     # ------------------------------------------------------------------
 
     def _create_actions(self) -> None:
-        from papershelf.ui.actions import create_actions
+        
 
         self.actions = create_actions(self)
 
