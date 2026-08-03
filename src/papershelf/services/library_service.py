@@ -13,9 +13,9 @@ class LibraryService:
     Выполняет все операции,
     связанные со списком сохранённых статей.
 
-    MainWindow не должна знать,
-    каким образом происходит сканирование
-    библиотеки и сортировка.
+    Сервис полностью скрывает детали
+    сканирования библиотеки и способа
+    сортировки.
 
     В дальнейшем сервис будет отвечать за:
 
@@ -36,50 +36,16 @@ class LibraryService:
         self,
         scanner: LibraryScanner,
     ) -> None:
+        """
+        Parameters
+        ----------
+        scanner:
+            Сканер библиотеки.
+        """
 
         self._scanner = scanner
-        
-        self._sort_mode = "date"
+        self._sort_mode: str = "date"
 
-    # ------------------------------------------------------------------
-
-    def load(
-        self,
-        sort_by: str = "date",
-    ) -> list[LibraryItem]:
-        """
-        Загрузить библиотеку.
-
-        Parameters
-        ----------
-        sort_by:
-            Способ сортировки.
-
-        Returns
-        -------
-        list[LibraryItem]
-        """
-
-        return self._scanner.scan(
-            sort_by=sort_by,
-        )
-    # ------------------------------------------------------------------
-
-    def set_sort_mode(
-        self,
-        mode: str,
-    ) -> None:
-        """
-        Изменить способ сортировки библиотеки.
-
-        Parameters
-        ----------
-        mode:
-            Новый способ сортировки.
-        """
-
-        self._sort_mode = mode
-        
     # ------------------------------------------------------------------
 
     def reload(
@@ -91,8 +57,78 @@ class LibraryService:
         Returns
         -------
         list[LibraryItem]
+            Список сохранённых статей.
         """
 
-        return self.load(
-            self._sort_mode
+        return self._load()
+
+    # ------------------------------------------------------------------
+
+    def sort_by_date(
+        self,
+    ) -> list[LibraryItem]:
+        """
+        Отсортировать библиотеку по дате.
+
+        Returns
+        -------
+        list[LibraryItem]
+            Отсортированный список статей.
+        """
+
+        self._set_sort_mode("date")
+
+        return self.reload()
+
+    # ------------------------------------------------------------------
+
+    def sort_by_title(
+        self,
+    ) -> list[LibraryItem]:
+        """
+        Отсортировать библиотеку по названию.
+
+        Returns
+        -------
+        list[LibraryItem]
+            Отсортированный список статей.
+        """
+
+        self._set_sort_mode("title")
+
+        return self.reload()
+
+    # ------------------------------------------------------------------
+
+    def _load(
+        self,
+    ) -> list[LibraryItem]:
+        """
+        Загрузить библиотеку.
+
+        Returns
+        -------
+        list[LibraryItem]
+            Список найденных статей.
+        """
+
+        return self._scanner.scan(
+            sort_by=self._sort_mode,
         )
+
+    # ------------------------------------------------------------------
+
+    def _set_sort_mode(
+        self,
+        mode: str,
+    ) -> None:
+        """
+        Изменить текущий способ сортировки.
+
+        Parameters
+        ----------
+        mode:
+            Новый способ сортировки.
+        """
+
+        self._sort_mode = mode

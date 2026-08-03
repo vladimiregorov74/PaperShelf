@@ -24,7 +24,7 @@ class TopPanel(QWidget):
 
         self._create_widgets()
         self.save_button.setFixedWidth(
-	        170
+            170
         )
         self._create_layout()
         self._connect_signals()
@@ -42,29 +42,29 @@ class TopPanel(QWidget):
     # ------------------------------------------------------------------
 
     def _create_layout(self) -> None:
-	    """
-		Создание компоновки.
-		"""
+        """
+        Создание компоновки.
+        """
 
-	    layout = QHBoxLayout(self)
+        layout = QHBoxLayout(self)
 
-	    layout.setContentsMargins(
-		    0,
-		    0,
-		    0,
-		    0,
-	    )
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
 
-	    layout.setSpacing(8)
+        layout.setSpacing(8)
 
-	    layout.addWidget(
-		    self.url_widget,
-		    1,
-	    )
+        layout.addWidget(
+            self.url_widget,
+            1,
+        )
 
-	    layout.addWidget(
-		    self.save_button,
-	    )
+        layout.addWidget(
+            self.save_button,
+        )
 
     # ------------------------------------------------------------------
 
@@ -87,6 +87,15 @@ class TopPanel(QWidget):
 
     # ------------------------------------------------------------------
 
+    def url(self) -> str:
+        """
+		Вернуть введённый URL.
+		"""
+
+        return self.url_widget.text().strip()
+    
+    # ------------------------------------------------------------------
+
     def set_busy(
         self,
         busy: bool,
@@ -98,3 +107,15 @@ class TopPanel(QWidget):
         self.url_widget.setEnabled(not busy)
 
         self.save_button.setEnabled(not busy)
+
+    # ------------------------------------------------------------------
+
+    def set_url(
+            self,
+            url: str,
+    ) -> None:
+        """
+        Установить URL.
+        """
+
+        self.url_widget.setText(url)

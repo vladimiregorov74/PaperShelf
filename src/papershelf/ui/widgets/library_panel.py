@@ -43,7 +43,7 @@ class LibraryPanel(QWidget):
         self.search.setPlaceholderText(
             "🔍 Поиск..."
         )
-
+        self.search.setClearButtonEnabled(True)
         self.library = LibraryWidget()
 
     # ------------------------------------------------------------------

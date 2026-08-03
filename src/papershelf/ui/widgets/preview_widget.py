@@ -125,9 +125,6 @@ b {
         """
         
         html_file = directory / "article.html"
-        # print("HTML:", html_file)
-        # print("Assets:", directory / "assets" / "asset_001.png")
-        # print("Exists:", (directory / "assets" / "asset_001.png").exists())
         
         if not html_file.exists():
             self.setHtml(

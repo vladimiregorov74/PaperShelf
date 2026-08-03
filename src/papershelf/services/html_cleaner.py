@@ -33,11 +33,7 @@ class HtmlCleaner:
 
         soup = BeautifulSoup(html, "lxml")
         
-        # body = soup.body
-        #
-        # if body is not None:
-        #     return "".join(str(child) for child in body.children)
-        #
+       
         self._remove_elements(soup)
         
         self._normalize_figures(soup)

@@ -3,7 +3,9 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
+
 from papershelf.parsers import HabrParser
+from papershelf.models import Article
 from papershelf.services import (
     ArticleExporter,
     AssetDownloader,
@@ -118,7 +120,7 @@ class ArticleController:
             html: str,
             url: str,
             logger: Logger,
-    ):
+    ) -> Article:
         """
         Преобразовать HTML страницы в объект статьи.
 
@@ -152,7 +154,7 @@ class ArticleController:
     
     def _create_directory(
             self,
-            article,
+            article: Article,
             logger: Logger,
     ) -> Path:
         """
@@ -184,7 +186,7 @@ class ArticleController:
     
     def _download_assets(
             self,
-            article,
+            article: Article,
             directory: Path,
             logger: Logger,
     ) -> None:
@@ -217,7 +219,7 @@ class ArticleController:
     
     def _export_article(
             self,
-            article,
+            article: Article,
             directory: Path,
             logger: Logger,
     ) -> None:
