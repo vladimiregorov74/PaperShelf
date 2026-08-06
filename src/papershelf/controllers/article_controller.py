@@ -4,7 +4,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 
-from papershelf.parsers import HabrParser
+from papershelf.parsers.parser_factory import ParserFactory
 from papershelf.models import Article
 from papershelf.services import (
     ArticleExporter,
@@ -25,8 +25,6 @@ class ArticleController:
     def __init__(self) -> None:
 
         self._downloader = DownloaderService()
-
-        self._parser = HabrParser()
 
         self._asset_downloader = AssetDownloader(
             self._downloader,
@@ -145,7 +143,11 @@ class ArticleController:
             "Парсинг статьи..."
         )
         
-        return self._parser.parse(
+        parser = ParserFactory.create(
+            url,
+        )
+        
+        return parser.parse(
             html=html,
             url=url,
         )

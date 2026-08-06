@@ -19,7 +19,29 @@ class HabrParser(BaseParser):
     """
     Парсер статей Habr.
     """
+    # ------------------------------------------------------------------
 
+    @classmethod
+    def can_parse(
+        cls,
+        url: str,
+    ) -> bool:
+        """
+        Проверить поддержку URL.
+
+        Parameters
+        ----------
+        url:
+            Адрес страницы.
+
+        Returns
+        -------
+        bool
+        """
+
+        return "habr.com" in url.lower()
+
+    
     # ------------------------------------------------------------------
 
     def __init__(self) -> None:
@@ -156,8 +178,5 @@ class HabrParser(BaseParser):
             content = article
 
         content = self._clone_container(content)
-        
-        with open("/tmp/debug_article.html", "w", encoding="utf-8") as f:
-            f.write(str(content))
 
         return str(content)
