@@ -3,6 +3,7 @@ from __future__ import annotations
 from papershelf.core.exceptions import UnsupportedSiteError
 from papershelf.parsers.base_parser import BaseParser
 from papershelf.parsers.habr_parser import HabrParser
+from papershelf.parsers.metanit_parser import MetanitParser
 
 # ------------------------------------------------------------------
 # Registered parsers
@@ -10,6 +11,7 @@ from papershelf.parsers.habr_parser import HabrParser
 
 PARSERS: tuple[type[BaseParser], ...] = (
     HabrParser,
+    MetanitParser,
 )
 
 

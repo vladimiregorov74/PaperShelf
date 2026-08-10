@@ -19,7 +19,8 @@ from .constants import (
     POSITIVE_CLASSES,
     NEGATIVE_CLASSES,
     TABLE_WEIGHT,
-    TEXT_WEIGHT, LANGUAGE_ALIASES, LANGUAGE_PREFIXES,
+    TEXT_WEIGHT, LANGUAGE_ALIASES, LANGUAGE_PREFIXES, STRUCTURE_TEXT_BONUS, STRUCTURE_HEADING_BONUS,
+    STRUCTURE_CODE_BONUS, STRUCTURE_IMAGE_BONUS, STRUCTURE_TABLE_BONUS,
 )
 
 # ------------------------------------------------------------------
@@ -30,8 +31,6 @@ class ContainerAnalyzer:
     Выполняет подробный анализ HTML-контейнера.
     """
 
-    # ------------------------------------------------------------------
-    
     # ------------------------------------------------------------------
     
     def analyze(
@@ -120,71 +119,86 @@ class ContainerAnalyzer:
                 " ",
                 strip=True,
             )
-
+            
+            link_text_length = sum(
+                len(
+                    link.get_text(
+                        " ",
+                        strip=True,
+                    )
+                )
+                for link in child.find_all(
+                    "a",
+                )
+            )
+            
+            plain_text_length = max(
+                len(text) - link_text_length,
+                0,
+            )
+            
             info = ChildInfo(
                 tag=child.name,
-
+                
                 selector=self._selector(
                     child,
                 ),
-
+                
                 css_id=child.get(
                     "id",
                     "",
                 ),
-
+                
                 css_classes=child.get(
                     "class",
                     [],
                 ),
-
+                
                 text_length=len(text),
-
-                paragraphs=len(
-                    child.find_all(
-                        "p",
-                    )
+                
+                paragraphs=self._count_elements(
+                    child,
+                    "p",
                 ),
-
-                headings=len(
-                    child.find_all(
-                        [
-                            "h1",
-                            "h2",
-                            "h3",
-                            "h4",
-                            "h5",
-                            "h6",
-                        ]
-                    )
+                
+                headings=self._count_elements(
+                    child,
+                    [
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                    ],
                 ),
-
-                images=len(
-                    child.find_all(
-                        "img",
-                    )
+                
+                images=self._count_elements(
+                    child,
+                    "img",
                 ),
-
-                code_blocks=len(
-                    child.find_all(
-                        [
-                            "pre",
-                            "code",
-                        ]
-                    )
+                
+                code_blocks=self._count_elements(
+                    child,
+                    [
+                        "pre",
+                        "code",
+                    ],
                 ),
-
-                tables=len(
-                    child.find_all(
-                        "table",
-                    )
+                
+                tables=self._count_elements(
+                    child,
+                    "table",
                 ),
-
-                links=len(
-                    child.find_all(
-                        "a",
-                    )
+                
+                links=self._count_elements(
+                    child,
+                    "a",
                 ),
+                
+                link_text_length=link_text_length,
+                
+                plain_text_length=plain_text_length,
             )
             info.score = self._score_child(
                 info,
@@ -194,8 +208,6 @@ class ContainerAnalyzer:
             )
 
         return children
-
-    # ------------------------------------------------------------------
 
     # ------------------------------------------------------------------
 
@@ -338,8 +350,6 @@ class ContainerAnalyzer:
             )
 
         return tables
-
-    # ------------------------------------------------------------------
 
     # ------------------------------------------------------------------
 
@@ -580,6 +590,10 @@ class ContainerAnalyzer:
                 css_class,
                 0,
             )
+            
+            score += self._score_structure(
+                child,
+            )
 
         return score
 
@@ -655,3 +669,74 @@ class ContainerAnalyzer:
                 )
 
         return ""
+        
+    # ------------------------------------------------------------------
+    
+    @staticmethod
+    def _score_structure(
+            child: ChildInfo,
+    ) -> float:
+        """
+        Оценить структурное разнообразие элемента.
+
+        Бонус начисляется за наличие различных типов
+        содержимого, характерных для статьи.
+        """
+        
+        score = 0.0
+        
+        if child.paragraphs:
+            score += STRUCTURE_TEXT_BONUS
+        
+        if child.headings:
+            score += STRUCTURE_HEADING_BONUS
+        
+        if child.code_blocks:
+            score += STRUCTURE_CODE_BONUS
+        
+        if child.images:
+            score += STRUCTURE_IMAGE_BONUS
+        
+        if child.tables:
+            score += STRUCTURE_TABLE_BONUS
+        
+        return score
+    
+    # ------------------------------------------------------------------
+    
+    @staticmethod
+    def _count_elements(
+            element: Tag,
+            names: str | list[str],
+    ) -> int:
+        """
+        Посчитать элементы заданных типов, включая сам элемент.
+
+        Parameters
+        ----------
+        element:
+            HTML-элемент.
+
+        names:
+            Имя тега или список имён тегов.
+
+        Returns
+        -------
+        int
+            Количество найденных элементов.
+        """
+        
+        if isinstance(names, str):
+            names = [names]
+        
+        count = int(
+            element.name in names
+        )
+        
+        count += len(
+            element.find_all(
+                names,
+            )
+        )
+        
+        return count

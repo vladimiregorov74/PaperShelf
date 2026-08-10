@@ -6,6 +6,7 @@ from .models import (
     ContainerAnalysis,
     ContainerInfo,
     InspectionReport,
+    CleaningReport,
 )
 
 class ReportFormatter:
@@ -42,6 +43,10 @@ class ReportFormatter:
                 cls._analysis(
                     report.article_candidate.analysis,
                 )
+            )
+        if report.cleaning_report is not None:
+            sections.append(
+                cls._cleaning(report.cleaning_report),
             )
         sections.append(
                 cls._suggestion(report),
@@ -322,3 +327,83 @@ class ReportFormatter:
             f"{child.tables:>5}"
             f"{child.links:>6}"
         )
+    
+    # ------------------------------------------------------------------
+    
+    # ------------------------------------------------------------------
+    
+    @classmethod
+    def _cleaning(
+            cls,
+            report: CleaningReport,
+    ) -> str:
+        """
+        Построить раздел анализа очистки статьи.
+
+        Parameters
+        ----------
+        report:
+            Отчет анализатора очистки.
+
+        Returns
+        -------
+        str
+        """
+        
+        lines = [
+            cls._header(
+                "CLEANING ANALYSIS",
+            ),
+            "",
+            "KEEP",
+            "",
+            "-" * REPORT_WIDTH,
+            "",
+        ]
+        
+        if report.keep:
+            for decision in report.keep:
+                lines.extend(
+                    [
+                        f"Selector : {decision.selector}",
+                        f"Score    : {decision.score:.1f}",
+                        f"Reason   : {decision.reason}",
+                        "",
+                    ]
+                )
+        else:
+            lines.extend(
+                [
+                    "No elements.",
+                    "",
+                ]
+            )
+        
+        lines.extend(
+            [
+                "REMOVE",
+                "",
+                "-" * REPORT_WIDTH,
+                "",
+            ]
+        )
+        
+        if report.remove:
+            for decision in report.remove:
+                lines.extend(
+                    [
+                        f"Selector : {decision.selector}",
+                        f"Score    : {decision.score:.1f}",
+                        f"Reason   : {decision.reason}",
+                        "",
+                    ]
+                )
+        else:
+            lines.extend(
+                [
+                    "No elements.",
+                    "",
+                ]
+            )
+        
+        return "\n".join(lines)

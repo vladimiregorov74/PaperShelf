@@ -3,6 +3,14 @@ CSS-селекторы поддерживаемых сайтов.
 
 Если сайт изменит верстку, изменения потребуется
 внести только в этот файл.
+
+ARTICLE_SELECTORS отвечает на вопрос:
+
+«Где находится статья?»
+
+А CONTENT_SELECTORS:
+
+«Какая часть найденной статьи является собственно содержимым, которое нужно сохранить?»
 """
 
 from __future__ import annotations
@@ -28,4 +36,24 @@ HABR_CONTENT_SELECTORS = (
     "div.tm-article-body",
     "div.article-formatted-body",
     "div.tm-article-body__content",
+)
+
+# ----------------------------------------------------------------------
+
+# metanit.com
+
+# ----------------------------------------------------------------------
+
+METANIT_ARTICLE_SELECTORS = (
+    "div.item.center.menC",
+)
+
+METANIT_CONTENT_SELECTORS = (
+    "div.item.center.menC",
+)
+
+METANIT_REMOVE_SELECTORS = (
+    "div.date",
+    "div.nav",
+    "div.socBlock",
 )

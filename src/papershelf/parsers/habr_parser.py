@@ -77,7 +77,10 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> str:
-
+        """
+        Извлечь заголовок страницы.
+        """
+    
         title = soup.find("title")
 
         if title is None:
@@ -117,11 +120,16 @@ class HabrParser(BaseParser):
         root: BeautifulSoup | Tag,
         selectors: tuple[str, ...],
     ) -> Tag | None:
-
+        """
+        Найти первый элемент по списку CSS-селекторов.
+        """
+    
         for selector in selectors:
-
-            node = root.select_one(selector)
-
+    
+            node = root.select_one(
+                selector,
+            )
+    
             if node is not None:
                 return node
 
@@ -133,7 +141,10 @@ class HabrParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> Tag | None:
-
+        """
+        Найти контейнер статьи.
+        """
+    
         return self._find_first(
             soup,
             HABR_ARTICLE_SELECTORS,
@@ -145,7 +156,10 @@ class HabrParser(BaseParser):
         self,
         article: Tag,
     ) -> Tag | None:
-
+        """
+        Найти контейнер содержимого статьи.
+        """
+    
         return self._find_first(
             article,
             HABR_CONTENT_SELECTORS,
@@ -157,9 +171,14 @@ class HabrParser(BaseParser):
         self,
         container: Tag,
     ) -> Tag:
-
-        return copy.deepcopy(container)
-
+        """
+        Создать копию HTML-контейнера.
+        """
+    
+        return copy.deepcopy(
+            container,
+        )
+    
     # ------------------------------------------------------------------
 
     def _parse_article_html(

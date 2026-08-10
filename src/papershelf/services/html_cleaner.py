@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-# from pathlib import Path
-
 from bs4 import BeautifulSoup
 from bs4 import Tag
 
@@ -14,7 +12,7 @@ class HtmlCleaner:
     использоваться любым парсером.
     """
 
-    _REMOVE_SELECTORS = (
+    _DEFAULT_REMOVE_SELECTORS = (
         "script",
         "style",
         "noscript",
@@ -26,21 +24,42 @@ class HtmlCleaner:
     def clean(
         self,
         html: str,
+        remove_selectors: tuple[str, ...] = (),
     ) -> str:
         """
         Очистить HTML.
+
+        Parameters
+        ----------
+        html:
+            HTML статьи.
+
+        remove_selectors:
+            Дополнительные CSS-селекторы элементов,
+            которые необходимо удалить для конкретного сайта.
+
+        Returns
+        -------
+        str
+            Очищенный HTML.
         """
 
-        soup = BeautifulSoup(html, "lxml")
-        
-       
-        self._remove_elements(soup)
-        
-        self._normalize_figures(soup)
+        soup = BeautifulSoup(
+            html,
+            "lxml",
+        )
 
-        # return str(soup)
+        self._remove_elements(
+            soup,
+            remove_selectors,
+        )
+
+        self._normalize_figures(
+            soup,
+        )
+
         body = soup.body
-        
+
         if body is None:
             result = str(soup)
         else:
@@ -48,12 +67,12 @@ class HtmlCleaner:
                 str(child)
                 for child in body.children
             )
-        
+
         result = result.replace(
             ' xmlns="http://www.w3.org/1999/xhtml"',
             "",
         )
-        
+
         return result
 
     # ------------------------------------------------------------------
@@ -61,19 +80,29 @@ class HtmlCleaner:
     def _remove_elements(
         self,
         root: BeautifulSoup | Tag,
+        remove_selectors: tuple[str, ...],
     ) -> None:
         """
         Удалить ненужные элементы.
         """
 
-        for selector in self._REMOVE_SELECTORS:
+        selectors = (
+            *self._DEFAULT_REMOVE_SELECTORS,
+            *remove_selectors,
+        )
 
-            for node in root.select(selector):
+        for selector in selectors:
+
+            for node in root.select(
+                selector,
+            ):
                 node.decompose()
-    
+
+    # ------------------------------------------------------------------
+
     def _normalize_figures(
-            self,
-            root: BeautifulSoup | Tag,
+        self,
+        root: BeautifulSoup | Tag,
     ) -> None:
         """
         Заменить <figure> на обычный <div>.
@@ -81,14 +110,22 @@ class HtmlCleaner:
         QTextBrowser некорректно отображает figure,
         поэтому используем обычный блочный контейнер.
         """
-        
+
         for figure in root.find_all("figure"):
-            
-            wrapper = root.new_tag("div")
-            
+
+            wrapper = root.new_tag(
+                "div",
+            )
+
             wrapper["class"] = "figure"
-            
-            for child in list(figure.children):
-                wrapper.append(child.extract())
-            
-            figure.replace_with(wrapper)
+
+            for child in list(
+                figure.children,
+            ):
+                wrapper.append(
+                    child.extract(),
+                )
+
+            figure.replace_with(
+                wrapper,
+            )

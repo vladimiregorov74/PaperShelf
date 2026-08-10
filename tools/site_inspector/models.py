@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from bs4 import Tag
 
 
 # ------------------------------------------------------------------
@@ -201,6 +202,7 @@ class InspectionReport:
     
     article_candidate: ArticleCandidate | None = None
     
+    cleaning_report: CleaningReport | None = None
 
 # ------------------------------------------------------------------
 # Container analysis
@@ -260,6 +262,10 @@ class ChildInfo:
     tables: int
 
     links: int
+    
+    link_text_length: int
+    
+    plain_text_length: int
 
     score: float = 0.0
     
@@ -282,3 +288,74 @@ class ArticleCandidate:
     path: list[str]
 
     analysis: ContainerAnalysis
+
+    element: Tag
+    
+# ------------------------------------------------------------------
+# Cleaning Decision
+# ------------------------------------------------------------------
+
+@dataclass(slots=True)
+class CleaningDecision:
+    """
+    Решение по конкретному элементу.
+    """
+
+    selector: str
+
+    action: str
+
+    score: float
+
+    reason: str
+
+# ------------------------------------------------------------------
+# Cleaning Report
+# ------------------------------------------------------------------
+
+@dataclass(slots=True)
+class CleaningReport:
+    """
+    Результат анализа контейнера.
+    """
+
+    keep: list[CleaningDecision]
+
+    remove: list[CleaningDecision]
+
+# ------------------------------------------------------------------
+# Noise Info
+# ------------------------------------------------------------------
+
+@dataclass(slots=True)
+class NoiseInfo:
+    """
+    Информация о потенциально служебном HTML-элементе.
+    """
+
+    selector: str
+
+    score: float
+
+    reason: str
+
+    remove: bool
+
+# ------------------------------------------------------------------
+#
+# ------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

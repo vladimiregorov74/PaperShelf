@@ -19,8 +19,9 @@ class ArticleDetector:
     def __init__(
             self,
     ) -> None:
-
+        
         self._analyzer = ContainerAnalyzer()
+        self._element: Tag | None = None
 
     # ------------------------------------------------------------------
     
@@ -142,13 +143,14 @@ class ArticleDetector:
                 depth,
                 "No suitable child.",
             )
-            
+            self._element = element
             return ArticleCandidate(
                 selector=analysis.selector,
                 score=0.0,
                 depth=depth,
                 path=current_path,
                 analysis=analysis,
+                element=element,
             )
         
         self._debug(
@@ -171,12 +173,14 @@ class ArticleDetector:
         )
         
         if not should_descend:
+            self._element = element
             return ArticleCandidate(
                 selector=analysis.selector,
                 score=0.0,
                 depth=depth,
                 path=current_path,
                 analysis=analysis,
+                element=element,
             )
         
         child_element = self._find_child(
@@ -189,13 +193,14 @@ class ArticleDetector:
                 depth,
                 "Child element not found.",
             )
-            
+            self._element = element
             return ArticleCandidate(
                 selector=analysis.selector,
                 score=0.0,
                 depth=depth,
                 path=current_path,
                 analysis=analysis,
+                element=element,
             )
         
         return self._walk(
@@ -255,3 +260,17 @@ class ArticleDetector:
         print(
             f"{indent}{message}",
         )
+    
+    # ------------------------------------------------------------------
+    
+    def get_element(self) -> Tag | None:
+        """
+        Вернуть найденный HTML-контейнер статьи.
+
+        Returns
+        -------
+        Tag | None
+            HTML-элемент найденного контейнера.
+        """
+        
+        return self._element

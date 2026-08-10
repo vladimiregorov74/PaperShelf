@@ -3,8 +3,7 @@ from __future__ import annotations
 from bs4 import BeautifulSoup, Tag
 import requests
 from urllib.parse import urlparse
-from pathlib import PurePosixPath
-
+from pathlib import PurePosixPath, Path
 
 from .models import InspectionReport, PageInfo, HeadingInfo, ImageInfo, CodeBlockInfo, TableInfo, LinkInfo, \
     StatisticsInfo, ContainerInfo
@@ -12,7 +11,10 @@ from .constants import LANGUAGE_ALIASES, POSITIVE_CLASSES, NEGATIVE_CLASSES, LIN
     IMAGE_WEIGHT, HEADING_WEIGHT, PARAGRAPH_WEIGHT, TEXT_WEIGHT, LANGUAGE_PREFIXES, MIN_CONTAINER_TEXT
 from .container_analyzer import ContainerAnalyzer
 from .article_detector import ArticleDetector
-
+from .article_cleaner_analyzer import ArticleCleanerAnalyzer
+from .article_cleaner import ArticleCleaner
+from .article_resource_resolver import ArticleResourceResolver
+from .selector_generator import SelectorGenerator
 
 class SiteInspector:
     """
@@ -37,7 +39,14 @@ class SiteInspector:
         self._container_analyzer = ContainerAnalyzer()
         
         self._article_detector = ArticleDetector()
-
+        
+        self._article_cleaner_analyzer = (ArticleCleanerAnalyzer())
+        
+        self._article_cleaner = ArticleCleaner()
+        
+        self._article_resource_resolver = ArticleResourceResolver()
+        
+        self._selector_generator = SelectorGenerator()
     # ------------------------------------------------------------------
 
     def load(self, url: str, ) -> None:
@@ -77,7 +86,9 @@ class SiteInspector:
 
     # ------------------------------------------------------------------
     
-    def inspect(self, ) -> InspectionReport:
+    def inspect(
+            self,
+    ) -> InspectionReport:
         """
         Выполнить полный анализ страницы.
         """
@@ -110,6 +121,44 @@ class SiteInspector:
                         element,
                     )
                 )
+                
+                cleaning_report = (
+                    self._article_cleaner_analyzer.analyze(
+                        article_candidate.analysis,
+                    )
+                )
+                
+                self._article_cleaner.clean(
+                    article_candidate.element,
+                    cleaning_report,
+                )
+                self._article_resource_resolver.resolve(
+                    article_candidate.element,
+                    self._url,
+                )
+                self._selector_generator.generate(
+                    candidate=article_candidate,
+                    cleaning_report=cleaning_report,
+                    output_path=Path(
+                        "src/papershelf/parsers/selectors.py",
+                    ),
+                    site_name=urlparse(
+                        self._url,
+                    ).netloc,
+                )
+                print()
+                print("=== RESOLVED IMAGES ===")
+                
+                for image in article_candidate.element.find_all(
+                        "img",
+                ):
+                    print(
+                        image.get("src"),
+                    )
+                
+                print("=======================")
+                print()
+        
         statistics = self._create_statistics(
             headings=headings,
             images=images,
