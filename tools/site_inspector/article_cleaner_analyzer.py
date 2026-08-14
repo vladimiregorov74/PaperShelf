@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import re
+
+from bs4 import Tag
+
 from .constants import SELECTOR_BONUSES, SELECTOR_PENALTIES, TEXT_LENGTH_FACTOR, PARAGRAPH_SCORE, HEADING_SCORE, \
     LINK_PENALTY, LINK_DENSITY_THRESHOLD, LINK_DENSITY_PENALTY, CODE_BLOCK_SCORE, NOISE_NAV_SCORE, NOISE_SOCIAL_SCORE, \
-    NOISE_DATE_SCORE, NOISE_REMOVE_THRESHOLD, TABLE_SCORE, IMAGE_SCORE
+    NOISE_DATE_SCORE, NOISE_REMOVE_THRESHOLD, TABLE_SCORE, IMAGE_SCORE, NOISE_CLASS_KEYWORDS, \
+    AD_NETWORK_ID_PREFIXES, AD_NETWORK_CLASS_MARKERS
 from .models import (
     ChildInfo,
     CleaningDecision,
@@ -23,6 +28,7 @@ class ArticleCleanerAnalyzer:
     def analyze(
         self,
         analysis: ContainerAnalysis,
+        root_element: Tag | None = None,
     ) -> CleaningReport:
         """
         Выполнить анализ контейнера статьи.
@@ -31,6 +37,15 @@ class ArticleCleanerAnalyzer:
         ----------
         analysis:
             Анализ контейнера.
+
+        root_element:
+            Корневой HTML-элемент контейнера статьи (опционально).
+            Нужен ТОЛЬКО для поиска рекламных слотов известных сетей
+            (см. _find_ad_network_elements) — обычный скоринг работает
+            по analysis.children (прямые дети) и root_element не
+            требует, а рекламные слоты нужно искать РЕКУРСИВНО по
+            всему поддереву, поэтому им нужен сам Tag, а не только
+            ContainerAnalysis.
 
         Returns
         -------
@@ -68,10 +83,110 @@ class ArticleCleanerAnalyzer:
             key=lambda item: item.score,
         )
 
+        if root_element is not None:
+
+            remove.extend(
+                self._find_ad_network_elements(
+                    root_element,
+                )
+            )
+
         return CleaningReport(
             keep=keep,
             remove=remove,
         )
+
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _find_ad_network_elements(
+            root: Tag,
+    ) -> list[CleaningDecision]:
+        """
+        Найти рекламные слоты известных сетей рекурсивно по ВСЕМУ
+        поддереву (не только среди прямых детей — обычный скоринг
+        такие слоты часто пропускает, т.к. они лежат в безымянной
+        div-обёртке на 2+ уровня глубже прямых детей).
+
+        Селектор строится по НАЙДЕННОМУ ПРЕФИКСУ id/маркеру class,
+        а не по полному id элемента — так один селектор покрывает
+        все слоты сети сразу, независимо от случайного числового
+        суффикса в их id (yandex_rtb_R-A-201190-1, ...-3, ...).
+
+        Parameters
+        ----------
+        root:
+            Корневой HTML-элемент контейнера статьи.
+
+        Returns
+        -------
+        list[CleaningDecision]
+        """
+
+        found_selectors: set[str] = set()
+
+        decisions: list[CleaningDecision] = []
+
+        for tag in root.find_all(True):
+
+            tag_id = (
+                    tag.get("id", "")
+                    or ""
+            ).lower()
+
+            for prefix in AD_NETWORK_ID_PREFIXES:
+
+                if tag_id.startswith(prefix.lower()):
+
+                    selector = f'{tag.name}[id^="{prefix}"]'
+
+                    if selector not in found_selectors:
+                        found_selectors.add(
+                            selector,
+                        )
+
+                        decisions.append(
+                            CleaningDecision(
+                                selector=selector,
+                                action="remove",
+                                score=-100.0,
+                                reason="ad-network",
+                            )
+                        )
+
+                    break
+
+            classes = [
+                css_class.lower()
+                for css_class in tag.get("class", [])
+            ]
+
+            for marker in AD_NETWORK_CLASS_MARKERS:
+
+                if any(
+                        marker in css_class
+                        for css_class in classes
+                ):
+
+                    selector = f'{tag.name}[class*="{marker}"]'
+
+                    if selector not in found_selectors:
+                        found_selectors.add(
+                            selector,
+                        )
+
+                        decisions.append(
+                            CleaningDecision(
+                                selector=selector,
+                                action="remove",
+                                score=-100.0,
+                                reason="ad-network",
+                            )
+                        )
+
+                    break
+
+        return decisions
 
     # ------------------------------------------------------------------
     
@@ -365,25 +480,15 @@ class ArticleCleanerAnalyzer:
         score = 0.0
         reasons: list[str] = []
         
-        classes = {
-            css_class.lower()
-            for css_class in child.css_classes
-        }
+        tokens = self._class_tokens(
+            child,
+        )
         
-        if "nav" in classes:
-            score += NOISE_NAV_SCORE
-            reasons.append("navigation")
+        matched = tokens & set(NOISE_CLASS_KEYWORDS)
         
-        if (
-                "social" in classes
-                or "socblock" in classes
-        ):
+        if matched:
             score += NOISE_SOCIAL_SCORE
-            reasons.append("social")
-        
-        if "date" in classes:
-            score += NOISE_DATE_SCORE
-            reasons.append("date")
+            reasons.extend(sorted(matched))
         
         if child.links > 0 and child.plain_text_length == 0:
             score += NOISE_NAV_SCORE
@@ -398,3 +503,37 @@ class ArticleCleanerAnalyzer:
             reason=", ".join(reasons),
             remove=True,
         )
+    
+    # ------------------------------------------------------------------
+    
+    @staticmethod
+    def _class_tokens(
+            child: ChildInfo,
+    ) -> set[str]:
+        """
+        Разбить class/id элемента на отдельные слова: по разделителям
+        ("-", "_", пробел) и по границам camelCase ("socBlock" ->
+        "soc", "Block"). Так ключевые слова сравниваются по целым
+        словам, а не по случайной подстроке внутри более длинного
+        слова (например "meta" не поймает "estimated", а "tag" не
+        поймает "voltage" — токенизация режет по границам слов).
+        """
+        
+        raw = " ".join(child.css_classes) + " " + child.css_id
+        
+        raw = re.sub(
+            r"(?<=[a-zA-Zа-яА-Я0-9])(?=[A-ZА-Я][a-zа-я])",
+            " ",
+            raw,
+        )
+        
+        parts = re.split(
+            r"[^0-9a-zA-Zа-яА-Я]+",
+            raw,
+        )
+        
+        return {
+            part.lower()
+            for part in parts
+            if part
+        }

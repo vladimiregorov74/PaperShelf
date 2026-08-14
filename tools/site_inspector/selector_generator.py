@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from .models import (
@@ -24,6 +25,7 @@ class SelectorGenerator:
         cleaning_report: CleaningReport,
         output_path: Path,
         site_name: str,
+        author_selectors: list[str] | None = None,
     ) -> None:
         """
         Добавить или обновить секцию сайта в selectors.py.
@@ -41,6 +43,10 @@ class SelectorGenerator:
 
         site_name:
             Имя сайта.
+
+        author_selectors:
+            Селекторы-кандидаты блока автора. Может быть пустым,
+            если на странице автор не указан или не найден.
         """
 
         prefix = self._prefix(
@@ -52,6 +58,7 @@ class SelectorGenerator:
             selector=candidate.selector,
             cleaning_report=cleaning_report,
             site_name=site_name,
+            author_selectors=author_selectors or [],
         )
 
         existing_content = ""
@@ -90,12 +97,27 @@ class SelectorGenerator:
 
         metanit.com -> METANIT
         habr.com -> HABR
+        dan-it.com.ua -> DAN_IT
+
+        Любые символы, недопустимые в имени Python-переменной
+        (дефис — как в "dan-it.com.ua", двоеточие порта и т.п.),
+        заменяются на "_", иначе сгенерированный selectors.py не
+        импортируется (SyntaxError).
         """
 
         name = site_name.split(
             ".",
             1,
         )[0]
+
+        name = re.sub(
+            r"[^0-9a-zA-Z_]",
+            "_",
+            name,
+        )
+
+        if name and name[0].isdigit():
+            name = f"_{name}"
 
         return name.upper()
 
@@ -107,6 +129,7 @@ class SelectorGenerator:
         selector: str,
         cleaning_report: CleaningReport,
         site_name: str,
+        author_selectors: list[str],
     ) -> str:
         """
         Сформировать секцию конкретного сайта.
@@ -124,18 +147,27 @@ class SelectorGenerator:
             )
         )
 
+        author_block = (
+            SelectorGenerator._format_selectors(
+                author_selectors,
+            )
+        )
+
         return f'''# ----------------------------------------------------------------------
 
 # {site_name}
 
 # ----------------------------------------------------------------------
 
+{prefix}_AUTHOR_SELECTORS = (
+{author_block})
+
 {prefix}_ARTICLE_SELECTORS = (
-    "{selector}",
+    {selector!r},
 )
 
 {prefix}_CONTENT_SELECTORS = (
-    "{selector}",
+    {selector!r},
 )
 
 {prefix}_REMOVE_SELECTORS = (
@@ -276,9 +308,15 @@ from __future__ import annotations
         """
         Отформатировать CSS-селекторы
         для Python-кортежа.
+
+        Используем repr(), а не f'"{selector}"' — некоторые селекторы
+        сами содержат двойные кавычки (например 'meta[name="author"]'
+        из ArticleAuthorDetector), и наивная обёртка в "..." ломает
+        сгенерированный файл (SyntaxError при импорте selectors.py).
+        repr() сам выбирает безопасные кавычки и экранирование.
         """
 
         return "".join(
-            f'    "{selector}",\n'
+            f'    {selector!r},\n'
             for selector in selectors
         )

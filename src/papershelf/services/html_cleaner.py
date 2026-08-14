@@ -12,7 +12,7 @@ class HtmlCleaner:
     использоваться любым парсером.
     """
 
-    _DEFAULT_REMOVE_SELECTORS = (
+    _REMOVE_SELECTORS = (
         "script",
         "style",
         "noscript",
@@ -27,12 +27,12 @@ class HtmlCleaner:
         remove_selectors: tuple[str, ...] = (),
     ) -> str:
         """
-        Очистить HTML.
+        Очистить HTML статьи.
 
         Parameters
         ----------
         html:
-            HTML статьи.
+            HTML-код статьи.
 
         remove_selectors:
             Дополнительные CSS-селекторы элементов,
@@ -84,11 +84,14 @@ class HtmlCleaner:
     ) -> None:
         """
         Удалить ненужные элементы.
+
+        Сначала применяются общие правила очистки,
+        затем правила конкретного сайта.
         """
 
         selectors = (
-            *self._DEFAULT_REMOVE_SELECTORS,
-            *remove_selectors,
+            self._REMOVE_SELECTORS
+            + remove_selectors
         )
 
         for selector in selectors:
@@ -111,7 +114,9 @@ class HtmlCleaner:
         поэтому используем обычный блочный контейнер.
         """
 
-        for figure in root.find_all("figure"):
+        for figure in root.find_all(
+            "figure",
+        ):
 
             wrapper = root.new_tag(
                 "div",

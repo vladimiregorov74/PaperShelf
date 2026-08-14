@@ -2,17 +2,8 @@ from __future__ import annotations
 
 from papershelf.core.exceptions import UnsupportedSiteError
 from papershelf.parsers.base_parser import BaseParser
-from papershelf.parsers.habr_parser import HabrParser
-from papershelf.parsers.metanit_parser import MetanitParser
-
-# ------------------------------------------------------------------
-# Registered parsers
-# ------------------------------------------------------------------
-
-PARSERS: tuple[type[BaseParser], ...] = (
-    HabrParser,
-    MetanitParser,
-)
+from papershelf.parsers.generic_parser import GenericParser
+from papershelf.parsers.site_registry import SITE_CONFIGS
 
 
 class ParserFactory:
@@ -21,8 +12,8 @@ class ParserFactory:
 
     Назначение
     ----------
-    Создаёт парсер,
-    подходящий для указанного URL.
+    Создаёт GenericParser, настроенный под URL, вместо выбора между
+    заранее написанными классами-парсерами по одному на сайт.
     """
 
     # ------------------------------------------------------------------
@@ -33,9 +24,11 @@ class ParserFactory:
         url: str,
     ) -> BaseParser:
 
-        for parser_class in PARSERS:
+        for config in SITE_CONFIGS:
 
-            if parser_class.can_parse(url):
-                return parser_class()
+            parser = GenericParser(config)
+
+            if parser.can_parse(url):
+                return parser
 
         raise UnsupportedSiteError(url)

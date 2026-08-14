@@ -14,6 +14,7 @@ from .article_detector import ArticleDetector
 from .article_cleaner_analyzer import ArticleCleanerAnalyzer
 from .article_cleaner import ArticleCleaner
 from .article_resource_resolver import ArticleResourceResolver
+from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
 
 class SiteInspector:
@@ -45,6 +46,8 @@ class SiteInspector:
         self._article_cleaner = ArticleCleaner()
         
         self._article_resource_resolver = ArticleResourceResolver()
+        
+        self._article_author_detector = ArticleAuthorDetector()
         
         self._selector_generator = SelectorGenerator()
     # ------------------------------------------------------------------
@@ -108,6 +111,8 @@ class SiteInspector:
         containers = self._collect_containers()
         
         article_candidate = None
+        cleaning_report = None
+        author_selectors: list[str] = []
         
         if containers:
             
@@ -125,6 +130,13 @@ class SiteInspector:
                 cleaning_report = (
                     self._article_cleaner_analyzer.analyze(
                         article_candidate.analysis,
+                        article_candidate.element,
+                    )
+                )
+                
+                author_selectors = (
+                    self._article_author_detector.detect(
+                        self._soup,
                     )
                 )
                 
@@ -139,6 +151,7 @@ class SiteInspector:
                 self._selector_generator.generate(
                     candidate=article_candidate,
                     cleaning_report=cleaning_report,
+                    author_selectors=author_selectors,
                     output_path=Path(
                         "src/papershelf/parsers/selectors.py",
                     ),
@@ -182,6 +195,10 @@ class SiteInspector:
             containers=containers,
             
             article_candidate=article_candidate,
+            
+            cleaning_report=cleaning_report,
+            
+            author_selectors=author_selectors,
         )
 
     # ------------------------------------------------------------------

@@ -217,10 +217,36 @@ class ReportFormatter:
                 "Parser:",
                 "",
                 "ARTICLE_SELECTOR = (",
-                f'    "{selector}",',
+                f'    {selector!r},',
                 ")",
             ]
         )
+        
+        if report.author_selectors:
+            
+            lines.extend(
+                [
+                    "",
+                    "AUTHOR_SELECTORS = (",
+                ]
+            )
+            
+            for author_selector in report.author_selectors:
+                lines.append(
+                    f'    {author_selector!r},',
+                )
+            
+            lines.append(
+                ")",
+            )
+        else:
+            
+            lines.extend(
+                [
+                    "",
+                    "Author not found.",
+                ]
+            )
 
         return "\n".join(lines)
 

@@ -3,39 +3,29 @@ CSS-селекторы поддерживаемых сайтов.
 
 Если сайт изменит верстку, изменения потребуется
 внести только в этот файл.
-
-ARTICLE_SELECTORS отвечает на вопрос:
-
-«Где находится статья?»
-
-А CONTENT_SELECTORS:
-
-«Какая часть найденной статьи является собственно содержимым, которое нужно сохранить?»
 """
 
 from __future__ import annotations
 
 # ----------------------------------------------------------------------
-# Habr
+
+# habr.com
+
 # ----------------------------------------------------------------------
 
 HABR_AUTHOR_SELECTORS = (
-    "a.tm-user-info__username",
-    "span.tm-user-info__username",
-    "a[class*='user-info']",
-    "meta[name='author']",
+    'span.tm-user-info.author',
 )
 
 HABR_ARTICLE_SELECTORS = (
-    "article.tm-article-presenter__content",
-    "div.tm-article-presenter__content",
-    "article",
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
 )
 
 HABR_CONTENT_SELECTORS = (
-    "div.tm-article-body",
-    "div.article-formatted-body",
-    "div.tm-article-body__content",
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_REMOVE_SELECTORS = (
 )
 
 # ----------------------------------------------------------------------
@@ -44,16 +34,20 @@ HABR_CONTENT_SELECTORS = (
 
 # ----------------------------------------------------------------------
 
+METANIT_AUTHOR_SELECTORS = (
+)
+
 METANIT_ARTICLE_SELECTORS = (
-    "div.item.center.menC",
+    'div.item.center.menC',
 )
 
 METANIT_CONTENT_SELECTORS = (
-    "div.item.center.menC",
+    'div.item.center.menC',
 )
 
 METANIT_REMOVE_SELECTORS = (
-    "div.date",
-    "div.nav",
-    "div.socBlock",
+    'div.date',
+    'div.nav',
+    'div.socBlock',
+    'div[id^="yandex_rtb"]',
 )

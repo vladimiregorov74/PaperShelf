@@ -79,10 +79,10 @@ class MetanitParser(BaseParser):
         article_html = self._parse_article_html(
             soup,
         )
-        
+
         article_html = self._cleaner.clean(
-            article_html,
-            remove_selectors=METANIT_REMOVE_SELECTORS,
+	        article_html,
+	        remove_selectors=METANIT_REMOVE_SELECTORS,
         )
     
         return Article(

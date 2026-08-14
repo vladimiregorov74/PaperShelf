@@ -203,6 +203,10 @@ class InspectionReport:
     article_candidate: ArticleCandidate | None = None
     
     cleaning_report: CleaningReport | None = None
+    
+    author_selectors: list[str] = field(
+        default_factory=list,
+    )
 
 # ------------------------------------------------------------------
 # Container analysis
@@ -266,6 +270,16 @@ class ChildInfo:
     link_text_length: int
     
     plain_text_length: int
+
+    # Прямая ссылка на сам HTML-элемент. Критично: без неё переход
+    # к дочернему контейнеру в ArticleDetector делает повторный поиск
+    # по CSS-селектору (parent.select_one(selector)), а если у элемента
+    # нет id/class, селектор вырождается в голое имя тега ("div") —
+    # select_one находит ПЕРВЫЙ подходящий элемент в поддереве, а не
+    # тот самый, что был оценён. На сайтах с безымянными div-обёртками
+    # (React/Vue-приложения вроде Habr) это уводит детектор в случайную
+    # часть страницы. Храня сам Tag, переход становится однозначным.
+    element: Tag
 
     score: float = 0.0
     

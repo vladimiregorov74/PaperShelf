@@ -199,6 +199,8 @@ class ContainerAnalyzer:
                 link_text_length=link_text_length,
                 
                 plain_text_length=plain_text_length,
+                
+                element=child,
             )
             info.score = self._score_child(
                 info,
@@ -590,10 +592,10 @@ class ContainerAnalyzer:
                 css_class,
                 0,
             )
-            
-            score += self._score_structure(
-                child,
-            )
+
+        score += self._score_structure(
+            child,
+        )
 
         return score
 

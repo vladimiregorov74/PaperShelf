@@ -82,13 +82,25 @@ NEGATIVE_CLASSES = {
 # Article detector
 # ------------------------------------------------------------------
 
-ARTICLE_MIN_CHILD_SCORE = 100.0
+ARTICLE_MIN_CHILD_SCORE = 50.0
 
 ARTICLE_MIN_TEXT_LENGTH = 300
 
 ARTICLE_MAX_LINK_DENSITY = 0.35
 
 ARTICLE_MIN_PARAGRAPHS = 3
+
+# Порог для относительной проверки при спуске к дочернему контейнеру:
+# ребёнок должен содержать не меньше этой доли текста ТЕКУЩЕГО
+# контейнера, иначе это не "продолжение того же контейнера через
+# обёртку", а провал внутрь отдельного фрагмента статьи (например,
+# один <ul> с парой пунктов внутри огромной статьи может набрать
+# ARTICLE_MIN_CHILD_SCORE баллов за счёт кода в <li>, но составляет
+# лишь доли процента текста всей статьи). Без этой проверки
+# ARTICLE_MIN_CHILD_SCORE как абсолютное число откалибровано под ОДИН
+# масштаб страниц и ломается на сайтах с сильно другим объёмом
+# контента (маленькие страницы metanit vs огромные статьи habr).
+ARTICLE_CHILD_DOMINANCE_RATIO = 0.6
 
 # ------------------------------------------------------------------
 # Cleaner
@@ -230,4 +242,56 @@ NOISE_NAV_SCORE = 40.0
 NOISE_SOCIAL_SCORE = 30.0
 
 NOISE_DATE_SCORE = 20.0
+
+# ------------------------------------------------------------------
+# Расширенный словарь ключевых слов для классификации шума.
+# Сравнение — по целым словам/токенам класса (после разбиения по
+# "-", "_" и camelCase), а не по подстроке всего селектора — поэтому
+# "tm-article-meta" ловится по токену "meta", а не по случайному
+# совпадению внутри более длинного слова.
+# ------------------------------------------------------------------
+
+NOISE_CLASS_KEYWORDS = [
+    "nav", "navigation", "menu", "breadcrumb", "breadcrumbs",
+    "social", "soc", "share", "sharing", "socblock",
+    "related", "recommend", "recommended", "also",
+    "comment", "comments", "disqus",
+    "widget", "popup", "modal", "cookie", "paywall",
+    "teaser", "promo", "sponsor", "subscribe", "subscription", "newsletter",
+    "banner", "advert", "adverts", "ads", "adsbygoogle",
+    "pagination", "pager", "toolbar",
+    "meta", "date", "datetime", "publish", "published",
+    "hub", "hubs", "tag", "tags", "taglist", "rating",
+    "sidebar", "aside", "footer", "header",
+]
+
+# ------------------------------------------------------------------
+# Известные маркеры рекламных сетей — сверяются как ПРЕФИКС значения
+# id/class (не токен), рекурсивно по всему контейнеру статьи, а не
+# только среди прямых детей. Это отдельный механизм от обычного
+# скоринга/NOISE_CLASS_KEYWORDS: рекламный слот часто сам без класса
+# лежит в безымянной div-обёртке ("<div style=...><div id='yandex_rtb_
+# ...'></div></div>") — обёртка получает score=0 и попадает в decision
+# с reason="zero score", а такие decision намеренно исключаются из
+# генерации REMOVE_SELECTORS (иначе туда попал бы голый "div" без
+# класса/id, что вырезало бы вообще всё). Прямой поиск по маркеру
+# рекламной сети даёт точный, безопасный для генерации селектор вида
+# 'div[id^="yandex_rtb"]', не зависящий от места элемента в дереве.
+# ------------------------------------------------------------------
+
+AD_NETWORK_ID_PREFIXES = [
+    "yandex_rtb",
+    "yandex-rtb",
+    "adfox",
+    "google_ads",
+    "div-gpt-ad",
+]
+
+AD_NETWORK_CLASS_MARKERS = [
+    "adfox",
+    "adsbygoogle",
+    "smi2",
+    "recommby",
+    "mgid",
+]
 
