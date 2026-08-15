@@ -130,8 +130,8 @@ class ArticleCleanerAnalyzer:
         for tag in root.find_all(True):
 
             tag_id = (
-                    tag.get("id", "")
-                    or ""
+                tag.get("id", "")
+                or ""
             ).lower()
 
             for prefix in AD_NETWORK_ID_PREFIXES:
@@ -141,6 +141,7 @@ class ArticleCleanerAnalyzer:
                     selector = f'{tag.name}[id^="{prefix}"]'
 
                     if selector not in found_selectors:
+
                         found_selectors.add(
                             selector,
                         )
@@ -171,6 +172,7 @@ class ArticleCleanerAnalyzer:
                     selector = f'{tag.name}[class*="{marker}"]'
 
                     if selector not in found_selectors:
+
                         found_selectors.add(
                             selector,
                         )

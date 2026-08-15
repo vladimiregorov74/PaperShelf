@@ -9,6 +9,28 @@ from __future__ import annotations
 
 # ----------------------------------------------------------------------
 
+# wezom.academy
+
+# ----------------------------------------------------------------------
+
+WEZOM_AUTHOR_SELECTORS = (
+    'div.text-block__author._plr-def._mb-def',
+    'a.text-block__author-link',
+)
+
+WEZOM_ARTICLE_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_CONTENT_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_REMOVE_SELECTORS = (
+)
+
+# ----------------------------------------------------------------------
+
 # habr.com
 
 # ----------------------------------------------------------------------
@@ -30,24 +52,26 @@ HABR_REMOVE_SELECTORS = (
 
 # ----------------------------------------------------------------------
 
-# metanit.com
+# dan-it.com.ua
 
 # ----------------------------------------------------------------------
 
-METANIT_AUTHOR_SELECTORS = (
+DAN_IT_AUTHOR_SELECTORS = (
+    'meta[name="author"]',
+    'div.blog-author-name-block',
+    'span.blog-author-name-block__text',
+    'h3.blog-author-name',
+    'p.blog-author-title',
+    'a.blog-author-title__link',
 )
 
-METANIT_ARTICLE_SELECTORS = (
-    'div.item.center.menC',
+DAN_IT_ARTICLE_SELECTORS = (
+    '#blog-post-content',
 )
 
-METANIT_CONTENT_SELECTORS = (
-    'div.item.center.menC',
+DAN_IT_CONTENT_SELECTORS = (
+    '#blog-post-content',
 )
 
-METANIT_REMOVE_SELECTORS = (
-    'div.date',
-    'div.nav',
-    'div.socBlock',
-    'div[id^="yandex_rtb"]',
+DAN_IT_REMOVE_SELECTORS = (
 )

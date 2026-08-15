@@ -236,8 +236,21 @@ class ArticleDetector:
         ни class), а по пути был предок с id/class, который держит
         почти весь тот же текст (>= 97%, то есть между ними не было
         реальной фильтрации контента — просто транзитные обёртки),
-        используем этого предка: контент тот же, а селектор надёжнее.
+        репортим селектор и физический элемент этого предка: контент
+        тот же, а селектор надёжнее.
+
+        ВАЖНО: analysis (разбивка по прямым детям для CLEANING
+        ANALYSIS) НЕ пересчитывается по предку. У предка почти всегда
+        только один прямой ребёнок — сам исходный element (та самая
+        транзитная обёртка) — анализировать там нечего, реальные
+        p/pre/h2/ul и т.п. лежат ещё на уровень глубже, внутри
+        исходного element. analysis остаётся построенным по исходной,
+        более глубокой точке, где видны настоящие дети для решений
+        keep/remove.
         """
+        
+        selector = analysis.selector
+        result_element = element
         
         if (
                 named_ancestor is not None
@@ -261,20 +274,24 @@ class ArticleDetector:
                     ancestor_text > 0
                     and element_text / ancestor_text >= 0.97
             ):
-                element = named_ancestor
-                analysis = self._analyzer.analyze(
-                    element,
-                )
+                result_element = named_ancestor
+                
+                # Селектор предка нужен только как строка — полный
+                # анализ его самого (с разбивкой по одному-единственному
+                # прямому ребёнку) не нужен и был бы бессмысленным.
+                selector = self._analyzer.analyze(
+                    named_ancestor,
+                ).selector
         
-        self._element = element
+        self._element = result_element
         
         return ArticleCandidate(
-            selector=analysis.selector,
+            selector=selector,
             score=0.0,
             depth=depth,
             path=current_path,
             analysis=analysis,
-            element=element,
+            element=result_element,
         )
     
     # ------------------------------------------------------------------

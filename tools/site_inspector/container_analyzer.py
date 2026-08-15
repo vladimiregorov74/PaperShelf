@@ -10,6 +10,7 @@ from .models import (
     ContainerAnalysis,
     HeadingInfo, ImageInfo, TableInfo, CodeBlockInfo, LinkInfo,
 )
+from .css_utils import build_selector
 from .constants import (
     CODE_WEIGHT,
     HEADING_WEIGHT,
@@ -525,23 +526,10 @@ class ContainerAnalyzer:
         str
             CSS-селектор.
         """
-        
-        selector = element.name
-        
-        css_id = element.get("id")
-        
-        if css_id:
-            selector += f"#{css_id}"
-        
-        css_classes = element.get("class", [])
-        
-        if css_classes:
-            selector += "".join(
-                f".{css_class}"
-                for css_class in css_classes
-            )
-        
-        return selector
+
+        return build_selector(
+            element,
+        )
 
     # ------------------------------------------------------------------
 

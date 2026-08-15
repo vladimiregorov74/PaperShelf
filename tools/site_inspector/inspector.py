@@ -16,6 +16,7 @@ from .article_cleaner import ArticleCleaner
 from .article_resource_resolver import ArticleResourceResolver
 from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
+from .css_utils import build_selector
 
 class SiteInspector:
     """
@@ -850,19 +851,6 @@ class SiteInspector:
         Построить CSS-селектор элемента.
         """
 
-        selector = element.name
-
-        css_id = element.get("id")
-
-        if css_id:
-            selector += f"#{css_id}"
-
-        css_classes = element.get("class", [])
-
-        if css_classes:
-            selector += "".join(
-                f".{css_class}"
-                for css_class in css_classes
-            )
-
-        return selector
+        return build_selector(
+            element,
+        )

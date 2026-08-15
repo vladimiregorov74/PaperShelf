@@ -4,6 +4,8 @@ import re
 
 from bs4 import BeautifulSoup, Tag
 
+from .css_utils import build_selector
+
 # ------------------------------------------------------------------
 
 AUTHOR_CLASS_KEYWORDS = {
@@ -266,22 +268,9 @@ class ArticleAuthorDetector:
         str
         """
 
-        selector = tag.name
-
-        css_id = tag.get("id")
-
-        if css_id:
-            selector += f"#{css_id}"
-
-        css_classes = tag.get("class", [])
-
-        if css_classes:
-            selector += "".join(
-                f".{css_class}"
-                for css_class in css_classes
-            )
-
-        return selector
+        return build_selector(
+            tag,
+        )
 
     # ------------------------------------------------------------------
 
