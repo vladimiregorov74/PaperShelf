@@ -1,10 +1,6 @@
 """
 Сборка SiteConfig для GenericParser/ParserFactory.
 
-Этот файл — стабильный, его можно и нужно дорабатывать руками при
-необходимости (например, поменять правило сборки source/title_suffix).
-tools/inspect_site.py его НЕ переписывает — он пишет только чистые
-данные в site_registry_data.py (_SITES), которые этот файл импортирует.
 """
 
 from __future__ import annotations

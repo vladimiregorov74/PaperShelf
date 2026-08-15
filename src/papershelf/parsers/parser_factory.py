@@ -27,7 +27,6 @@ class ParserFactory:
         for config in SITE_CONFIGS:
 
             parser = GenericParser(config)
-            print(parser.can_parse(url), url)
 
             if parser.can_parse(url):
                 return parser

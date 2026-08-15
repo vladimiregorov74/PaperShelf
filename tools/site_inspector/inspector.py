@@ -16,6 +16,7 @@ from .article_cleaner import ArticleCleaner
 from .article_resource_resolver import ArticleResourceResolver
 from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
+from .site_registry_generator import SiteRegistryGenerator
 from .css_utils import build_selector
 
 class SiteInspector:
@@ -51,6 +52,8 @@ class SiteInspector:
         self._article_author_detector = ArticleAuthorDetector()
         
         self._selector_generator = SelectorGenerator()
+        
+        self._site_registry_generator = SiteRegistryGenerator()
     # ------------------------------------------------------------------
 
     def load(self, url: str, ) -> None:
@@ -92,9 +95,26 @@ class SiteInspector:
     
     def inspect(
             self,
+            source: str | None = None,
+            title_suffix: str = "",
     ) -> InspectionReport:
         """
         Выполнить полный анализ страницы.
+
+        Parameters
+        ----------
+        source:
+            Отображаемое имя источника для site_registry_data.py.
+            Если не передано — подбирается автоматически по домену
+            (guess_source_name); детектор не может достоверно угадать
+            желаемый брендинг сайта, поэтому при необходимости
+            передавайте явно (--source в inspect_site.py).
+
+        title_suffix:
+            Суффикс, отрезаемый от <title> страницы (например
+            " / Хабр"). Детектор НЕ может определить его сам — это
+            вопрос брендинга конкретного сайта, а не структуры DOM.
+            По умолчанию пустой (--title-suffix в inspect_site.py).
         """
         
         page = self._collect_page_info()
@@ -159,6 +179,17 @@ class SiteInspector:
                     site_name=urlparse(
                         self._url,
                     ).netloc,
+                )
+                
+                self._site_registry_generator.generate(
+                    domain=urlparse(
+                        self._url,
+                    ).netloc,
+                    output_path=Path(
+                        "src/papershelf/parsers/site_registry_data.py",
+                    ),
+                    source=source,
+                    title_suffix=title_suffix,
                 )
                 print()
                 print("=== RESOLVED IMAGES ===")

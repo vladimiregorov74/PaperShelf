@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 from .models import (
     ArticleCandidate,
     CleaningReport,
 )
+from .naming_utils import domain_prefix
 
 # ----------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ class SelectorGenerator:
         content = self._update_content(
             existing_content=existing_content,
             section=section,
-            prefix=prefix,
+            site_name=site_name,
         )
 
         output_path.parent.mkdir(
@@ -98,28 +98,11 @@ class SelectorGenerator:
         metanit.com -> METANIT
         habr.com -> HABR
         dan-it.com.ua -> DAN_IT
-
-        Любые символы, недопустимые в имени Python-переменной
-        (дефис — как в "dan-it.com.ua", двоеточие порта и т.п.),
-        заменяются на "_", иначе сгенерированный selectors.py не
-        импортируется (SyntaxError).
         """
 
-        name = site_name.split(
-            ".",
-            1,
-        )[0]
-
-        name = re.sub(
-            r"[^0-9a-zA-Z_]",
-            "_",
-            name,
+        return domain_prefix(
+            site_name,
         )
-
-        if name and name[0].isdigit():
-            name = f"_{name}"
-
-        return name.upper()
 
     # ------------------------------------------------------------------
 
@@ -180,7 +163,7 @@ class SelectorGenerator:
     def _update_content(
         existing_content: str,
         section: str,
-        prefix: str,
+        site_name: str,
     ) -> str:
         """
         Добавить или заменить секцию сайта.
@@ -194,8 +177,14 @@ class SelectorGenerator:
                 + section
             )
 
+        # Маркер строится из того же site_name, что и заголовок
+        # секции в _build_section (f"# {site_name}") — раньше здесь
+        # реконструировали "# {prefix.lower()}.com" с ЖЁСТКО
+        # зашитым ".com", из-за чего секция для любого не-.com домена
+        # (wezom.academy, dan-it.com.ua) никогда не находилась и
+        # дописывалась заново при каждом запуске вместо замены.
         start_marker = (
-            f"# {prefix.lower()}.com"
+            f"# {site_name.lower()}"
         )
 
         lines = existing_content.splitlines(
@@ -203,7 +192,6 @@ class SelectorGenerator:
         )
 
         section_start = None
-        section_end = None
 
         for index, line in enumerate(lines):
 
@@ -217,33 +205,41 @@ class SelectorGenerator:
 
         if section_start is not None:
 
+            # Заголовок КАЖДОЙ секции — фиксированный шаблон
+            # ровно из 5 строк (см. _build_section):
+            #   dash, пусто, "# site", пусто, dash
+            # Следующая секция (если есть) может начинаться только
+            # ПОСЛЕ этого фиксированного заголовка текущей секции —
+            # ищем следующую dash-строку начиная оттуда, а не сразу
+            # после section_start (где первой встретится ВТОРОЙ dash
+            # этой же секции, а не начало следующей).
+            search_from = section_start + 5
+
+            section_end = len(
+                lines,
+            )
+
+            dash_line = (
+                "# ----------------------------------------------------------------------\n"
+            )
+
             for index in range(
-                section_start + 1,
+                search_from,
                 len(lines),
             ):
-                line = lines[index]
 
-                if (
-                    line.startswith(
-                        "# ----------------------------------------------------------------------"
-                    )
-                    and index > section_start + 1
-                ):
-                    next_index = index + 1
-
-                    if next_index < len(lines):
-                        next_line = lines[next_index].strip()
-
-                        if next_line.startswith("# "):
-                            section_end = index
-                            break
-
-            if section_end is None:
-                section_end = len(lines)
+                if lines[index] == dash_line:
+                    section_end = index
+                    break
 
             new_lines = (
                 lines[:section_start]
                 + [section]
+                + (
+                    ["\n"]
+                    if section_end < len(lines)
+                    else []
+                )
                 + lines[section_end:]
             )
 
