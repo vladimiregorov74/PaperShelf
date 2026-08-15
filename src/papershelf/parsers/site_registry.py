@@ -1,22 +1,17 @@
+"""
+Сборка SiteConfig для GenericParser/ParserFactory.
+
+Этот файл — стабильный, его можно и нужно дорабатывать руками при
+необходимости (например, поменять правило сборки source/title_suffix).
+tools/inspect_site.py его НЕ переписывает — он пишет только чистые
+данные в site_registry_data.py (_SITES), которые этот файл импортирует.
+"""
+
 from __future__ import annotations
 
 from papershelf.parsers import selectors as _selectors
 from papershelf.parsers.generic_parser import SiteConfig
-
-# ------------------------------------------------------------------
-# Единственное, что реально нужно писать руками на новый сайт — вот
-# эти 4 поля на строку. Сами кортежи селекторов (ARTICLE/CONTENT/
-# REMOVE/AUTHOR) подтягиваются из selectors.py по префиксу автоматически
-# в _build_config — их отдельно перечислять здесь не нужно.
-#
-# (префикс_в_selectors.py, домен_для_can_parse, отображаемое_имя_source, суффикс_заголовка)
-# ------------------------------------------------------------------
-
-_SITES: tuple[tuple[str, str, str, str], ...] = (
-    ("METANIT", "metanit.com", "Metanit", ""),
-    ("HABR", "habr.com", "Habr", " / Хабр"),
-    ("DAN_IT", "dan-it.com.ua", "DAN IT Education", ""),
-)
+from papershelf.parsers.site_registry_data import _SITES
 
 
 def _build_config(
@@ -28,8 +23,8 @@ def _build_config(
     """
     Собрать SiteConfig, подставив кортежи селекторов из selectors.py
     по префиксу (METANIT_ARTICLE_SELECTORS, METANIT_CONTENT_SELECTORS
-    и т.д.). Если для сайта какой-то кортеж не определён (например
-    AUTHOR_SELECTORS у metanit.com пустой) — используется ().
+    и т.д.). Если для сайта какой-то кортеж не определён — используется
+    пустой кортеж.
     """
 
     def _get(suffix: str) -> tuple[str, ...]:

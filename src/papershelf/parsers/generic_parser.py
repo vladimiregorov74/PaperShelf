@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 from bs4 import Tag
@@ -106,6 +107,7 @@ class GenericParser(BaseParser):
 
         article_html = self._parse_article_html(
             soup,
+            url,
         )
 
         article_html = self._cleaner.clean(
@@ -250,6 +252,7 @@ class GenericParser(BaseParser):
     def _parse_article_html(
         self,
         soup: BeautifulSoup,
+        url: str,
     ) -> str:
         """
         Извлечь HTML статьи.
@@ -273,4 +276,94 @@ class GenericParser(BaseParser):
             content,
         )
 
+        self._resolve_images(
+            content,
+            url,
+        )
+
         return str(content)
+
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _resolve_images(
+        content: Tag,
+        base_url: str,
+    ) -> None:
+        """
+        Привести src картинок к абсолютным URL — с учётом ленивой
+        (lazy) загрузки.
+
+        Многие сайты кладут в src крошечную заглушку (прозрачный
+        gif / 1x1 base64-SVG), а настоящий адрес — в отдельном
+        data-*-атрибуте (data-src, data-original, data-lazy-src,
+        data-zzload-source-img и т.п. — имя отличается от сайта к
+        сайту, но почти всегда содержит "src" или "source"). Без
+        этого AssetDownloader получает на вход data:-заглушку,
+        честно её пропускает (data: специально не скачивается) — и
+        картинка просто не сохраняется, хотя реальный путь был
+        прямо рядом в разметке.
+
+        Parameters
+        ----------
+        content:
+            HTML-контейнер статьи (уже склонированный).
+
+        base_url:
+            URL исходной страницы — база для относительных путей.
+        """
+
+        for image in content.find_all(
+            "img",
+        ):
+            src = GenericParser._real_src(
+                image,
+            )
+
+            if not src:
+                continue
+
+            image["src"] = urljoin(
+                base_url,
+                src,
+            )
+
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _real_src(
+        image: Tag,
+    ) -> str | None:
+        """
+        Найти реальный URL картинки среди атрибутов тега.
+
+        Приоритет: любой атрибут (кроме самого src и *srcset — у
+        него другой, многозначный формат "url 1x, url 2x"), чьё имя
+        содержит "src" или "source" и чьё значение не выглядит
+        data:-заглушкой. Если такого нет — используется обычный src.
+        """
+
+        for attr_name, attr_value in image.attrs.items():
+
+            if attr_name == "src":
+                continue
+
+            if not isinstance(attr_value, str):
+                continue
+
+            lowered = attr_name.lower()
+
+            if "srcset" in lowered:
+                continue
+
+            if "src" not in lowered and "source" not in lowered:
+                continue
+
+            if not attr_value or attr_value.startswith("data:"):
+                continue
+
+            return attr_value
+
+        return image.get(
+            "src",
+        )
