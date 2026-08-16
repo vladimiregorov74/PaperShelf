@@ -150,6 +150,10 @@ class MainWindowBuilder:
         window.actions.sort_by_title.triggered.connect(
             window._sort_by_title
         )
+        
+        window.actions.settings.triggered.connect(
+            window._show_settings_dialog,
+        )
 
         window.library_widget.delete_requested.connect(
             window._on_delete_requested

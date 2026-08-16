@@ -33,7 +33,7 @@ class BaseDialog(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
-        self.layout = QVBoxLayout(self)
+        self.main_layout = QVBoxLayout(self)
 
         self._configure()
 
@@ -48,11 +48,11 @@ class BaseDialog(QDialog):
 
         self.setMinimumWidth(430)
 
-        self.layout.setContentsMargins(
+        self.main_layout.setContentsMargins(
             20,
             20,
             20,
             20,
         )
 
-        self.layout.setSpacing(16)
+        self.main_layout.setSpacing(16)

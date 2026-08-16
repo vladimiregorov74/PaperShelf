@@ -202,7 +202,7 @@ class ConfirmDialog(BaseDialog):
             1,
         )
         
-        self.layout.addLayout(
+        self.main_layout.addLayout(
             content_layout,
         )
         
@@ -218,7 +218,7 @@ class ConfirmDialog(BaseDialog):
             self.no_button,
         )
         
-        self.layout.addLayout(
+        self.main_layout.addLayout(
             buttons_layout,
         )
     

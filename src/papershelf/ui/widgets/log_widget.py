@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime
-
+from papershelf.core.log_writer import LogWriter
+from papershelf.core.paths import LOG_FILE
 from PySide6.QtWidgets import QPlainTextEdit
+
+from datetime import datetime
 
 
 class LogWidget(QPlainTextEdit):
@@ -10,21 +12,64 @@ class LogWidget(QPlainTextEdit):
     Журнал приложения.
     """
 
+    # ------------------------------------------------------------------
+    # Construction
+    # ------------------------------------------------------------------
+
     def __init__(self) -> None:
         super().__init__()
+
+        self._log_writer = LogWriter(LOG_FILE)
 
         self._configure()
 
     # ------------------------------------------------------------------
+    # Configuration
+    # ------------------------------------------------------------------
 
     def _configure(self) -> None:
+        """
+        Настроить виджет.
+        """
+
         self.setReadOnly(True)
 
+    # ------------------------------------------------------------------
+    # Public
+    # ------------------------------------------------------------------
+
+    def set_file_logging(
+        self,
+        enabled: bool,
+    ) -> None:
+        """
+        Включить или отключить запись журнала в файл.
+
+        Parameters
+        ----------
+        enabled:
+            Новое состояние логирования.
+        """
+
+        self._log_writer.set_enabled(enabled)
+
+    # ------------------------------------------------------------------
+
+    def clear_log(self) -> None:
+        """
+        Очистить журнал.
+        """
+
+        self.clear()
+        self._log_writer.clear()
+
+    # ------------------------------------------------------------------
+    # Private
     # ------------------------------------------------------------------
 
     def _timestamp(self) -> str:
         """
-        Текущее время.
+        Вернуть текущее время.
         """
 
         return datetime.now().strftime("%H:%M:%S")
@@ -38,19 +83,42 @@ class LogWidget(QPlainTextEdit):
     ) -> None:
         """
         Добавить запись в журнал.
+
+        Parameters
+        ----------
+        level:
+            Уровень сообщения.
+
+        message:
+            Текст сообщения.
         """
 
-        self.appendPlainText(
-            f"[{self._timestamp()}] {level:<7} {message}"
+        text = (
+            f"[{self._timestamp()}] "
+            f"{level:<7} "
+            f"{message}"
         )
 
+        self.appendPlainText(text)
+
+        self._log_writer.write(text)
+
+    # ------------------------------------------------------------------
+    # Logging
     # ------------------------------------------------------------------
 
     def info(
         self,
         message: str,
     ) -> None:
-        self._write("INFO", message)
+        """
+        Добавить информационное сообщение.
+        """
+
+        self._write(
+            "INFO",
+            message,
+        )
 
     # ------------------------------------------------------------------
 
@@ -58,7 +126,14 @@ class LogWidget(QPlainTextEdit):
         self,
         message: str,
     ) -> None:
-        self._write("SUCCESS", message)
+        """
+        Добавить сообщение об успешном выполнении.
+        """
+
+        self._write(
+            "SUCCESS",
+            message,
+        )
 
     # ------------------------------------------------------------------
 
@@ -66,7 +141,14 @@ class LogWidget(QPlainTextEdit):
         self,
         message: str,
     ) -> None:
-        self._write("WARNING", message)
+        """
+        Добавить предупреждение.
+        """
+
+        self._write(
+            "WARNING",
+            message,
+        )
 
     # ------------------------------------------------------------------
 
@@ -74,13 +156,11 @@ class LogWidget(QPlainTextEdit):
         self,
         message: str,
     ) -> None:
-        self._write("ERROR", message)
-
-    # ------------------------------------------------------------------
-
-    def clear_log(self) -> None:
         """
-        Очистить журнал.
+        Добавить сообщение об ошибке.
         """
 
-        self.clear()
+        self._write(
+            "ERROR",
+            message,
+        )

@@ -5,13 +5,14 @@ from pathlib import Path
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (
-    QMessageBox,
+    QMessageBox, QDialog,
 )
 
-
+from papershelf.config.constants import STATUS_MESSAGE_TIMEOUT, STATUS_MESSAGE_LONG_TIMEOUT
 from papershelf.controllers.article_controller import ArticleController
 from papershelf.controllers.library_controller import LibraryController
 from papershelf.controllers.save_controller import SaveController
+from papershelf.core.app_settings import AppSettings
 from papershelf.core.paths import SAVED_DIR
 from papershelf.models import LibraryItem
 from papershelf.services.article_service import ArticleService
@@ -19,6 +20,7 @@ from papershelf.services.library_scanner import LibraryScanner
 from papershelf.ui.base_window import BaseWindow
 from papershelf.ui.builders.main_window_builder import MainWindowBuilder
 from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
+from papershelf.ui.dialogs.settings_dialog import SettingsDialog
 
 
 class MainWindow(BaseWindow):
@@ -47,8 +49,16 @@ class MainWindow(BaseWindow):
         self._library_controller = LibraryController(
             self._library_scanner,
         )
-
+        
+        self._settings = AppSettings()
+        
+        # ------------------------------------------------------------------
+        # UI
+        # ------------------------------------------------------------------
+        
         MainWindowBuilder.build(self)
+        
+        self._apply_settings()
 
         articles = self._reload_library()
 
@@ -196,7 +206,7 @@ class MainWindow(BaseWindow):
 
         self.status_bar.showMessage(
             "Сортировка по дате.",
-            3000,
+            STATUS_MESSAGE_TIMEOUT,
         )
 
     # ------------------------------------------------------------------
@@ -214,7 +224,7 @@ class MainWindow(BaseWindow):
 
         self.status_bar.showMessage(
             "Сортировка по названию.",
-            3000,
+            STATUS_MESSAGE_TIMEOUT,
         )
 
     # ------------------------------------------------------------------
@@ -323,7 +333,7 @@ class MainWindow(BaseWindow):
 
         self.status_bar.showMessage(
             article.title,
-            3000,
+            STATUS_MESSAGE_TIMEOUT,
         )
 
     # ------------------------------------------------------------------
@@ -362,7 +372,42 @@ class MainWindow(BaseWindow):
 
         self.status_bar.showMessage(
             "Статья удалена.",
-            5000,
+            STATUS_MESSAGE_LONG_TIMEOUT,
         )
+    
+    # ------------------------------------------------------------------
+    # Dialogs
+    # ------------------------------------------------------------------
+    
+    def _show_settings_dialog(self) -> None:
+        """
+        Показать окно настроек.
+        """
+        
+        dialog = SettingsDialog(
+            file_logging=self._settings.file_logging_enabled(),
+            parent=self,
+        )
+        
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            enabled = dialog.file_logging_enabled()
+            
+            self._settings.set_file_logging(enabled)
+            
+            self._apply_settings()
+            
+            self.status_bar.showMessage(
+                "Настройки сохранены.",
+                STATUS_MESSAGE_TIMEOUT,
+            )
 
     # ------------------------------------------------------------------
+    
+    def _apply_settings(self) -> None:
+        """
+        Применить настройки приложения.
+        """
+        
+        self.log_widget.set_file_logging(
+            self._settings.file_logging_enabled(),
+        )

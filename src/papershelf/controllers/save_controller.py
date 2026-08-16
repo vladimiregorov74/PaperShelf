@@ -3,6 +3,7 @@ from __future__ import annotations
 from PySide6.QtCore import QThread
 from PySide6.QtWidgets import QMessageBox
 
+from papershelf.config.constants import STATUS_MESSAGE_LONG_TIMEOUT, STATUS_MESSAGE_TIMEOUT
 from papershelf.controllers.article_controller import ArticleController
 from papershelf.workers import SaveArticleWorker
 
@@ -143,7 +144,7 @@ class SaveController:
 
         self._window.status_bar.showMessage(
             "Статья сохранена.",
-            5000,
+            STATUS_MESSAGE_LONG_TIMEOUT,
         )
 
     # ------------------------------------------------------------
@@ -168,7 +169,7 @@ class SaveController:
 
         self._window.status_bar.showMessage(
             "Ошибка сохранения.",
-            5000,
+            STATUS_MESSAGE_LONG_TIMEOUT,
         )
 
     # ------------------------------------------------------------
@@ -186,7 +187,7 @@ class SaveController:
 
         self._window.status_bar.showMessage(
             "Готово.",
-            3000,
+            STATUS_MESSAGE_TIMEOUT,
         )
 
         self._worker = None
