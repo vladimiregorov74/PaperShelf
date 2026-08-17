@@ -18,4 +18,3 @@ _SITES: tuple[tuple[str, str, str, str], ...] = (
     ("PRODUCTSTAR", "productstar.ru", "Productstar", ""),
     ("METANIT", "metanit.com", "Metanit", ""),
 )
-# ("METANIT", "metanit.com", "Metanit", ""),
