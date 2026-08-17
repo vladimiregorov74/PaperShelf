@@ -4,6 +4,8 @@ import traceback
 
 from PySide6.QtCore import QObject, Signal, Slot
 
+from papershelf.core.exceptions import UnsupportedSiteError
+
 
 class BaseWorker(QObject):
     """
@@ -18,7 +20,7 @@ class BaseWorker(QObject):
         finished
 
     При возникновении исключения
-    генерируется сигнал error.
+    отправляет само исключение и traceback.
     """
 
     started = Signal()
@@ -26,7 +28,17 @@ class BaseWorker(QObject):
 
     log = Signal(str)
 
+    #
+    # Полный traceback.
+    #
     error = Signal(str)
+
+    #
+    # Сам объект исключения.
+    #
+    exception = Signal(object)
+    
+    unsupported_site = Signal(str)
 
     # ------------------------------------------------------------------
 
@@ -34,26 +46,23 @@ class BaseWorker(QObject):
         super().__init__()
 
     # ------------------------------------------------------------------
-
+    
     @Slot()
     def run(self) -> None:
         """
         Точка входа Worker.
-
-        Запускает execute() и гарантирует
-        отправку сигналов.
         """
-
+        
         self.started.emit()
-
+        
         try:
             self.execute()
-
+        
         except Exception:
             self.error.emit(
                 traceback.format_exc()
             )
-
+        
         finally:
             self.finished.emit()
 
@@ -62,9 +71,6 @@ class BaseWorker(QObject):
     def execute(self) -> None:
         """
         Основная работа Worker.
-
-        Должна быть реализована
-        в наследниках.
         """
 
         raise NotImplementedError

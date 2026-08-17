@@ -3,7 +3,7 @@ from __future__ import annotations
 from papershelf.core.exceptions import UnsupportedSiteError
 from papershelf.parsers.base_parser import BaseParser
 from papershelf.parsers.generic_parser import GenericParser
-from papershelf.parsers.site_registry import SITE_CONFIGS
+from papershelf.parsers.site_registry import get_site_configs
 
 
 class ParserFactory:
@@ -24,7 +24,7 @@ class ParserFactory:
         url: str,
     ) -> BaseParser:
 
-        for config in SITE_CONFIGS:
+        for config in get_site_configs():
 
             parser = GenericParser(config)
 

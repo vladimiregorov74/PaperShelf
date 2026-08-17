@@ -3,8 +3,9 @@ from __future__ import annotations
 from bs4 import BeautifulSoup, Tag
 import requests
 from urllib.parse import urlparse
-from pathlib import PurePosixPath, Path
+from pathlib import PurePosixPath
 
+from papershelf.core.paths import SELECTORS_FILE, SITE_REGISTRY_DATA_FILE
 from .models import InspectionReport, PageInfo, HeadingInfo, ImageInfo, CodeBlockInfo, TableInfo, LinkInfo, \
     StatisticsInfo, ContainerInfo
 from .constants import LANGUAGE_ALIASES, POSITIVE_CLASSES, NEGATIVE_CLASSES, LINK_WEIGHT, TABLE_WEIGHT, CODE_WEIGHT, \
@@ -171,21 +172,22 @@ class SiteInspector:
                     candidate=article_candidate,
                     cleaning_report=cleaning_report,
                     author_selectors=author_selectors,
-                    output_path=Path(
-                        "src/papershelf/parsers/selectors.py",
-                    ),
+                    output_path=SELECTORS_FILE,
                     site_name=urlparse(
                         self._url,
                     ).netloc,
                 )
                 
+                # path = Path("src/papershelf/parsers/site_registry_data.py")
+                #
+                # print("WRITE TO:", path.resolve())
+                # print("EXISTS:", path.exists())
+                
                 self._site_registry_generator.generate(
                     domain=urlparse(
                         self._url,
                     ).netloc,
-                    output_path=Path(
-                        "src/papershelf/parsers/site_registry_data.py",
-                    ),
+                    output_path=SITE_REGISTRY_DATA_FILE,
                     source=source,
                     title_suffix=title_suffix,
                 )

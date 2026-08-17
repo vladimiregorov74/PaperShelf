@@ -1,31 +1,33 @@
 """
 Сборка SiteConfig для GenericParser/ParserFactory.
-
 """
 
 from __future__ import annotations
 
-from papershelf.parsers import selectors as _selectors
+import importlib
+
 from papershelf.parsers.generic_parser import SiteConfig
-from papershelf.parsers.site_registry_data import _SITES
+
+
+# ----------------------------------------------------------------------
 
 
 def _build_config(
+    selectors_module,
     prefix: str,
     domain: str,
     source: str,
     title_suffix: str,
 ) -> SiteConfig:
     """
-    Собрать SiteConfig, подставив кортежи селекторов из selectors.py
-    по префиксу (METANIT_ARTICLE_SELECTORS, METANIT_CONTENT_SELECTORS
-    и т.д.). Если для сайта какой-то кортеж не определён — используется
-    пустой кортеж.
+    Собрать SiteConfig, подставив кортежи селекторов из selectors.py.
     """
 
-    def _get(suffix: str) -> tuple[str, ...]:
+    def _get(
+        suffix: str,
+    ) -> tuple[str, ...]:
         return getattr(
-            _selectors,
+            selectors_module,
             f"{prefix}_{suffix}",
             (),
         )
@@ -41,6 +43,39 @@ def _build_config(
     )
 
 
-SITE_CONFIGS: tuple[SiteConfig, ...] = tuple(
-    _build_config(*site) for site in _SITES
-)
+# ----------------------------------------------------------------------
+
+
+def get_site_configs() -> tuple[SiteConfig, ...]:
+    """
+    Получить актуальный список конфигураций сайтов.
+
+    Перед построением конфигураций выполняется повторная загрузка
+    modules selectors.py и site_registry_data.py, благодаря чему
+    приложение сразу видит новые сайты после работы SiteInspector
+    без необходимости перезапуска.
+    """
+
+    selectors = importlib.import_module(
+        "papershelf.parsers.selectors",
+    )
+
+    site_registry_data = importlib.import_module(
+        "papershelf.parsers.site_registry_data",
+    )
+
+    selectors = importlib.reload(
+        selectors,
+    )
+
+    site_registry_data = importlib.reload(
+        site_registry_data,
+    )
+
+    return tuple(
+        _build_config(
+            selectors,
+            *site,
+        )
+        for site in site_registry_data._SITES
+    )

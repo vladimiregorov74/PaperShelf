@@ -1,19 +1,24 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QThread
+from PySide6.QtCore import QObject, QThread, Signal
 from PySide6.QtWidgets import QMessageBox
 
-from papershelf.config.constants import STATUS_MESSAGE_LONG_TIMEOUT, STATUS_MESSAGE_TIMEOUT
+from papershelf.config.constants import (
+    STATUS_MESSAGE_LONG_TIMEOUT,
+    STATUS_MESSAGE_TIMEOUT,
+)
 from papershelf.controllers.article_controller import ArticleController
 from papershelf.workers import SaveArticleWorker
 
 
-class SaveController:
+class SaveController(QObject):
     """
     Контроллер сохранения статьи.
 
     Полностью управляет Worker и QThread.
     """
+
+    unsupported_site = Signal(str)
 
     # ------------------------------------------------------------
 
@@ -22,12 +27,15 @@ class SaveController:
         window,
         controller: ArticleController,
     ) -> None:
+        super().__init__()
 
         self._window = window
         self._controller = controller
 
         self._worker: SaveArticleWorker | None = None
         self._thread: QThread | None = None
+
+        self._current_url: str | None = None
 
     # ------------------------------------------------------------
 
@@ -40,6 +48,7 @@ class SaveController:
         """
 
         url = url.strip()
+        self._current_url = url
 
         if not url:
             QMessageBox.warning(
@@ -59,9 +68,7 @@ class SaveController:
             "Сохранение статьи..."
         )
 
-        self._thread = QThread(
-            self._window
-        )
+        self._thread = QThread(self._window)
 
         self._worker = SaveArticleWorker(
             controller=self._controller,
@@ -81,19 +88,19 @@ class SaveController:
         )
 
         #
-        # лог
+        # сигналы Worker
         #
 
         self._worker.log.connect(
             self._window.log_widget.info
         )
 
-        #
-        # события
-        #
-
         self._worker.success.connect(
             self._on_success
+        )
+
+        self._worker.unsupported_site.connect(
+            self.unsupported_site.emit
         )
 
         self._worker.error.connect(
@@ -105,7 +112,7 @@ class SaveController:
         )
 
         #
-        # закрытие
+        # очистка
         #
 
         self._worker.finished.connect(
@@ -121,6 +128,20 @@ class SaveController:
         )
 
         self._thread.start()
+
+    # ------------------------------------------------------------
+
+    def retry(self) -> None:
+        """
+        Повторить сохранение последнего URL.
+        """
+
+        if self._current_url is None:
+            return
+
+        self.save(
+            self._current_url,
+        )
 
     # ------------------------------------------------------------
 
@@ -154,11 +175,11 @@ class SaveController:
         traceback_text: str,
     ) -> None:
         """
-        Ошибка.
+        Обработка критических ошибок Worker.
         """
 
         self._window.log_widget.error(
-            traceback_text
+            traceback_text,
         )
 
         QMessageBox.critical(
@@ -168,7 +189,7 @@ class SaveController:
         )
 
         self._window.status_bar.showMessage(
-            "Ошибка сохранения.",
+            "Произошла ошибка.",
             STATUS_MESSAGE_LONG_TIMEOUT,
         )
 
@@ -182,7 +203,7 @@ class SaveController:
         """
 
         self._window.top_panel.set_busy(
-            False
+            False,
         )
 
         self._window.status_bar.showMessage(

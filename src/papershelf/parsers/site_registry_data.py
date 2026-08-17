@@ -11,9 +11,11 @@ SiteConfig из этих данных — в site_registry.py, который
 from __future__ import annotations
 
 _SITES: tuple[tuple[str, str, str, str], ...] = (
-    ("METANIT", "metanit.com", "Metanit", ""),
+    
     ("HABR", "habr.com", "Habr", " / Хабр"),
     ("DAN_IT", "dan-it.com.ua", "DAN IT Education", ""),
     ("WEZOM", "wezom.academy", "Wezom", ""),
     ("PRODUCTSTAR", "productstar.ru", "Productstar", ""),
+    ("METANIT", "metanit.com", "Metanit", ""),
 )
+# ("METANIT", "metanit.com", "Metanit", ""),

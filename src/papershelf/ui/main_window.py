@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
 )
 
 from papershelf.config.constants import STATUS_MESSAGE_TIMEOUT, STATUS_MESSAGE_LONG_TIMEOUT
+from papershelf.controllers import SiteSupportController
 from papershelf.controllers.article_controller import ArticleController
 from papershelf.controllers.library_controller import LibraryController
 from papershelf.controllers.save_controller import SaveController
@@ -21,6 +22,9 @@ from papershelf.ui.base_window import BaseWindow
 from papershelf.ui.builders.main_window_builder import MainWindowBuilder
 from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
 from papershelf.ui.dialogs.settings_dialog import SettingsDialog
+from papershelf.controllers import SiteSupportController
+from papershelf.services.site_support_service import SiteSupportService
+
 
 
 class MainWindow(BaseWindow):
@@ -52,6 +56,8 @@ class MainWindow(BaseWindow):
         
         self._settings = AppSettings()
         
+        
+        
         # ------------------------------------------------------------------
         # UI
         # ------------------------------------------------------------------
@@ -72,6 +78,23 @@ class MainWindow(BaseWindow):
             self.library_widget.select_article(
                 first_article.directory,
             )
+        
+        self._site_support_controller = SiteSupportController(
+            service=SiteSupportService(),
+            parent=self,
+        )
+        
+        self._save_controller.unsupported_site.connect(
+            self._on_unsupported_site,
+        )
+        
+        self._site_support_controller.completed.connect(
+            self._save_controller.retry,
+        )
+        
+        self._site_support_controller.failed.connect(
+            self._on_site_support_error,
+        )
 
     # ------------------------------------------------------------------
     # Dialogs
@@ -411,3 +434,57 @@ class MainWindow(BaseWindow):
         self.log_widget.set_file_logging(
             self._settings.file_logging_enabled(),
         )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_unsupported_site(
+            self,
+            url: str,
+    ) -> None:
+        """
+        Сайт пока не поддерживается.
+        """
+        
+        accepted = ConfirmDialog.ask(
+            parent=self,
+            title="Новый сайт",
+            text=(
+                "Для данного сайта отсутствуют селекторы.\n\n"
+                "Выполнить автоматический анализ сайта?"
+            ),
+        )
+        
+        if not accepted:
+            self.log_widget.info(
+                "Добавление поддержки сайта отменено."
+            )
+            
+            return
+        
+        self._site_support_controller.register(
+            url=url,
+            logger=self.log_widget.info,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def _on_site_support_error(
+            self,
+            traceback_text: str,
+    ) -> None:
+        """
+        Ошибка анализа сайта.
+        """
+        
+        self.log_widget.error(
+            traceback_text,
+        )
+        
+        self.status_bar.showMessage(
+            "Ошибка анализа сайта.",
+            STATUS_MESSAGE_LONG_TIMEOUT,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    

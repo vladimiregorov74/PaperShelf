@@ -17,6 +17,7 @@ from __future__ import annotations
 
 HABR_AUTHOR_SELECTORS = (
     'span.tm-user-info.author',
+    ("METANIT", "metanit.com", "Metanit", ""),
 )
 
 HABR_ARTICLE_SELECTORS = (

@@ -6,26 +6,16 @@ from PySide6.QtCore import Signal
 
 from papershelf.controllers import ArticleController
 from papershelf.workers.base_worker import BaseWorker
+from papershelf.core.exceptions import UnsupportedSiteError
+
 
 class SaveArticleWorker(BaseWorker):
     """
     Worker сохранения статьи.
-
-    Выполняет полный цикл:
-
-        Загрузка страницы
-            ↓
-        Парсинг
-            ↓
-        Экспорт
-            ↓
-        Сохранение
-
-    После успешного завершения
-    отправляет путь к созданной папке.
     """
 
     success = Signal(Path)
+    unsupported_site = Signal(str)
 
     # ------------------------------------------------------------------
 
@@ -40,15 +30,27 @@ class SaveArticleWorker(BaseWorker):
         self._url = url
 
     # ------------------------------------------------------------------
-
+    
     def execute(self) -> None:
         """
         Выполнить сохранение статьи.
         """
         
-        directory = self._controller.save_article(
-            url=self._url,
-            logger=self._log,
-        )
+        try:
+            
+            directory = self._controller.save_article(
+                url=self._url,
+                logger=self._log,
+            )
         
-        self.success.emit(directory)
+        except UnsupportedSiteError as exc:
+            
+            self.unsupported_site.emit(
+                exc.url,
+            )
+            
+            return
+        
+        self.success.emit(
+            directory,
+        )
