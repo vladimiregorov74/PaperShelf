@@ -1,10 +1,15 @@
 from __future__ import annotations
 
-from papershelf.ui.dialogs.base_dialog import BaseDialog
-
 from PySide6.QtWidgets import (
     QCheckBox,
-    QDialogButtonBox,
+    QLabel,
+    QPushButton,
+)
+
+from papershelf.ui.dialogs.base_dialog import BaseDialog
+from papershelf.ui.styles.button_styles import (
+    SECONDARY_BUTTON_STYLE,
+    SUCCESS_BUTTON_STYLE,
 )
 
 
@@ -46,17 +51,30 @@ class SettingsDialog(BaseDialog):
         Создать элементы интерфейса.
         """
 
+        self._title_label = self.create_section_title(
+            "Настройки журнала"
+        )
+
         self._file_logging = QCheckBox(
-            "Логирование в файл",
+            "Логирование в файл"
         )
 
         self._file_logging.setChecked(
             file_logging,
         )
 
-        self._buttons = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Ok
-            | QDialogButtonBox.StandardButton.Cancel
+        self._ok_button = QPushButton("OK")
+        self._cancel_button = QPushButton("Отмена")
+
+        self._ok_button.setFixedWidth(110)
+        self._cancel_button.setFixedWidth(110)
+
+        self._ok_button.setStyleSheet(
+            SUCCESS_BUTTON_STYLE,
+        )
+
+        self._cancel_button.setStyleSheet(
+            SECONDARY_BUTTON_STYLE,
         )
 
     # ------------------------------------------------------------------
@@ -69,13 +87,18 @@ class SettingsDialog(BaseDialog):
         """
 
         self.main_layout.addWidget(
+            self._title_label,
+        )
+
+        self.main_layout.addWidget(
             self._file_logging,
         )
 
         self.main_layout.addStretch()
 
-        self.main_layout.addWidget(
-            self._buttons,
+        self.add_buttons(
+            self._cancel_button,
+            self._ok_button,
         )
 
     # ------------------------------------------------------------------
@@ -87,11 +110,11 @@ class SettingsDialog(BaseDialog):
         Подключить сигналы.
         """
 
-        self._buttons.accepted.connect(
+        self._ok_button.clicked.connect(
             self.accept,
         )
 
-        self._buttons.rejected.connect(
+        self._cancel_button.clicked.connect(
             self.reject,
         )
 

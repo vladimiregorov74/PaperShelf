@@ -58,8 +58,12 @@ NOISE_KEYWORDS = [
 AUTHOR_KEYWORDS = ["author", "byline", "writer", "journalist", "columnist"]
 
 STRUCTURAL_SKIP_TAGS = {"header", "footer", "nav", "aside", "form", "iframe",
-                         "script", "style", "noscript", "template"}
-STRUCTURAL_SKIP_ROLES = {"banner", "navigation", "contentinfo", "complementary"}
+                        "script", "style", "noscript", "template"}
+STRUCTURAL_SKIP_ROLES = {
+    "banner",
+    "navigation",
+    "contentinfo",
+    "complementary"}
 
 CONTAINER_TAGS = ["article", "main", "div", "section"]
 
@@ -179,13 +183,15 @@ def score_container(tag: Tag) -> float:
     """Скор в духе Readability: чем больше содержательного текста в
     прямых/вложенных <p> и чем ниже плотность ссылок — тем выше скор."""
     paragraphs = tag.find_all("p")
-    good_paragraphs = [p for p in paragraphs if text_len(p) >= MIN_PARAGRAPH_LEN]
+    good_paragraphs = [
+        p for p in paragraphs if text_len(p) >= MIN_PARAGRAPH_LEN]
     if not good_paragraphs:
         return 0.0
 
     text_score = sum(text_len(p) for p in good_paragraphs)
     density = link_density(tag)
-    penalty = 1.0 - min(density * 1.5, 0.9)  # высокая плотность ссылок душит скор
+    # высокая плотность ссылок душит скор
+    penalty = 1.0 - min(density * 1.5, 0.9)
     # бонус за семантический тег <article>
     tag_bonus = 1.25 if tag.name == "article" else 1.0
     return text_score * penalty * tag_bonus
@@ -196,7 +202,8 @@ def find_article_container(soup: BeautifulSoup) -> Tag | None:
     for tag in soup.find_all(CONTAINER_TAGS):
         if is_structural_chrome(tag):
             continue
-        if any(is_structural_chrome(p) for p in tag.parents if isinstance(p, Tag)):
+        if any(is_structural_chrome(p)
+               for p in tag.parents if isinstance(p, Tag)):
             continue
         s = score_container(tag)
         if s > 0:
@@ -260,7 +267,8 @@ def find_author_selectors(soup: BeautifulSoup, article: Tag) -> list[str]:
 # 3. Контент (реальные текстовые узлы) и мусор (реклама/шеринг/related)
 # --------------------------------------------------------------------------
 
-def find_remove_selectors(article: Tag, extra_keywords: list[str] | None = None) -> list[str]:
+def find_remove_selectors(
+        article: Tag, extra_keywords: list[str] | None = None) -> list[str]:
     keywords = NOISE_KEYWORDS + (extra_keywords or [])
     remove_selectors: set[str] = set()
 
@@ -299,7 +307,8 @@ class PageAnalysis:
     remove_selectors: list[str] = field(default_factory=list)
 
 
-def analyze_html(html: str, extra_remove_keywords: list[str] | None = None) -> PageAnalysis:
+def analyze_html(
+        html: str, extra_remove_keywords: list[str] | None = None) -> PageAnalysis:
     soup = BeautifulSoup(html, "lxml")
     clean_soup(soup)
 
@@ -331,7 +340,8 @@ def aggregate(pages: list[PageAnalysis], min_vote_ratio: float = 0.34) -> dict:
     n = len(pages)
     min_votes = max(1, round(n * min_vote_ratio))
 
-    article_votes = Counter(p.article_selector for p in pages if p.article_selector)
+    article_votes = Counter(
+        p.article_selector for p in pages if p.article_selector)
     article_selectors = [sel for sel, _ in article_votes.most_common()]
 
     def vote_list(getter) -> list[str]:
@@ -368,13 +378,21 @@ def write_selectors_module(site: str, result: dict, out_path: str) -> None:
     lines = [
         f'# Автоматически сгенерировано detector.py для сайта "{site}"',
         "",
-        f"{prefix}_AUTHOR_SELECTORS = {_fmt_tuple(result['AUTHOR_SELECTORS'])}",
+        f"{prefix}_AUTHOR_SELECTORS = {
+            _fmt_tuple(
+                result['AUTHOR_SELECTORS'])}",
         "",
-        f"{prefix}_ARTICLE_SELECTORS = {_fmt_tuple(result['ARTICLE_SELECTORS'])}",
+        f"{prefix}_ARTICLE_SELECTORS = {
+            _fmt_tuple(
+                result['ARTICLE_SELECTORS'])}",
         "",
-        f"{prefix}_CONTENT_SELECTORS = {_fmt_tuple(result['CONTENT_SELECTORS'])}",
+        f"{prefix}_CONTENT_SELECTORS = {
+            _fmt_tuple(
+                result['CONTENT_SELECTORS'])}",
         "",
-        f"{prefix}_REMOVE_SELECTORS = {_fmt_tuple(result['REMOVE_SELECTORS'])}",
+        f"{prefix}_REMOVE_SELECTORS = {
+            _fmt_tuple(
+                result['REMOVE_SELECTORS'])}",
         "",
     ]
     with open(out_path, "w", encoding="utf-8") as f:
@@ -404,7 +422,11 @@ def load_html(source: str, is_url: bool) -> str:
     if is_url:
         try:
             import requests
-            resp = requests.get(source, headers=BROWSER_HEADERS, timeout=20, allow_redirects=True)
+            resp = requests.get(
+                source,
+                headers=BROWSER_HEADERS,
+                timeout=20,
+                allow_redirects=True)
             resp.raise_for_status()
             resp.encoding = resp.encoding or resp.apparent_encoding
             return resp.text
@@ -412,30 +434,48 @@ def load_html(source: str, is_url: bool) -> str:
             import urllib.request
             req = urllib.request.Request(source, headers=BROWSER_HEADERS)
             with urllib.request.urlopen(req, timeout=20) as resp:
-                return resp.read().decode(resp.headers.get_content_charset() or "utf-8", errors="replace")
+                return resp.read().decode(resp.headers.get_content_charset()
+                                          or "utf-8", errors="replace")
     with open(source, "r", encoding="utf-8", errors="replace") as f:
         return f.read()
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("sources", nargs="+", help="Пути к html-файлам (или URL с флагом --url)")
-    ap.add_argument("--site", required=True, help="Имя сайта — используется как префикс переменных")
-    ap.add_argument("--out", default="selectors.py", help="Путь для выходного файла (по умолчанию selectors.py)")
-    ap.add_argument("--url", action="store_true", help="Трактовать sources как URL, а не пути к файлам")
+    ap = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument(
+        "sources",
+        nargs="+",
+        help="Пути к html-файлам (или URL с флагом --url)")
+    ap.add_argument(
+        "--site",
+        required=True,
+        help="Имя сайта — используется как префикс переменных")
+    ap.add_argument(
+        "--out",
+        default="selectors.py",
+        help="Путь для выходного файла (по умолчанию selectors.py)")
+    ap.add_argument(
+        "--url",
+        action="store_true",
+        help="Трактовать sources как URL, а не пути к файлам")
     ap.add_argument("--extra-remove-keywords", default="",
-                     help="Доп. ключевые слова для REMOVE_SELECTORS через запятую "
-                          "(например для специфичных классов конкретного сайта): "
-                          "--extra-remove-keywords socblock,rubric")
+                    help="Доп. ключевые слова для REMOVE_SELECTORS через запятую "
+                    "(например для специфичных классов конкретного сайта): "
+                    "--extra-remove-keywords socblock,rubric")
     args = ap.parse_args()
-    extra_kw = [w.strip().lower() for w in args.extra_remove_keywords.split(",") if w.strip()]
+    extra_kw = [w.strip().lower()
+                for w in args.extra_remove_keywords.split(",") if w.strip()]
 
     analyses = []
     for src in args.sources:
         html = load_html(src, args.url)
         analysis = analyze_html(html, extra_kw)
         if analysis.article_selector is None:
-            print(f"[!] {src}: не удалось найти тело статьи (пропускаю)", file=sys.stderr)
+            print(
+                f"[!] {src}: не удалось найти тело статьи (пропускаю)",
+                file=sys.stderr)
             continue
         analyses.append(analysis)
         print(f"[ok] {src}: article={analysis.article_selector!r}, "

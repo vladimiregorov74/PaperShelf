@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtWidgets import QStyle
 from papershelf.ui.dialogs.base_dialog import BaseDialog
+from papershelf.ui.styles.button_styles import SUCCESS_BUTTON_STYLE, SECONDARY_BUTTON_STYLE
 
 
 class ConfirmDialog(BaseDialog):
@@ -69,103 +70,52 @@ class ConfirmDialog(BaseDialog):
         Создать элементы интерфейса.
         """
         
-        self.title_label = QLabel(title)
+        self._title_label = QLabel(title)
         
-        # self.title_label.setStyleSheet(
+        # self._title_label.setStyleSheet(
         #     "font-size:16px;font-weight:bold;"
         # )
-        self.title_label.setStyleSheet("""
+        self._title_label.setStyleSheet("""
         font-size:18px;
         font-weight:bold;
         color:#202020;
         """)
         
-        self.text_label = QLabel(text)
-        # self.text_label.setStyleSheet("""
+        self._text_label = QLabel(text)
+        # self._text_label.setStyleSheet("""
         # font-size:14px;
         # color:#404040;
         # """)
         
-        self.text_label.setWordWrap(True)
+        self._text_label.setWordWrap(True)
         
-        self.icon_label = QLabel()
+        self._icon_label = QLabel()
         
         # Иконка предупреждения
         icon = self.style().standardIcon(
             QStyle.StandardPixmap.SP_MessageBoxWarning
         )
         
-        self.icon_label.setPixmap(
+        self._icon_label.setPixmap(
             icon.pixmap(48, 48)
         )
         
-        self.icon_label.setFixedSize(48, 48)
+        self._icon_label.setFixedSize(48, 48)
         
-        self.icon_label.setAlignment(
+        self._icon_label.setAlignment(
             Qt.AlignmentFlag.AlignTop
         )
         
-        self.yes_button = QPushButton("✔ Да")
+        self._yes_button = QPushButton("✔ Да")
         
-        self.no_button = QPushButton("Нет")
+        self._no_button = QPushButton("Нет")
         
-        self.yes_button.setFixedWidth(110)
+        self._yes_button.setFixedWidth(110)
         
-        self.no_button.setFixedWidth(110)
+        self._no_button.setFixedWidth(110)
         
-        self.yes_button.setStyleSheet("""
-        QPushButton {
-            background-color: #4CAF50;
-            color: white;
-            border: 1px solid #3d8b40;
-            border-radius: 6px;
-            padding: 6px 18px;
-            font-weight: bold;
-        }
-
-        QPushButton:hover {
-            background-color: #5DBB63;
-        }
-
-        QPushButton:pressed {
-            background-color: #3F9142;
-        }
-        """)
-        self.yes_button.setStyleSheet("""
-        QPushButton {
-            background-color: #43A047;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 18px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        QPushButton:hover {
-            background-color: #4CAF50;
-        }
-
-        QPushButton:pressed {
-            background-color: #2E7D32;
-        }
-        """)
-        self.no_button.setStyleSheet("""
-        QPushButton {
-            background-color: #DCDCDC;
-            color: #DC143C;
-            padding: 6px 18px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 6px;
-            border: 1px solid black;
-            
-        }
-        
-         QPushButton:hover {
-            background-color: #D3D3D3;
-        }
-        """)
+        self._yes_button.setStyleSheet(SUCCESS_BUTTON_STYLE)
+        self._no_button.setStyleSheet(SECONDARY_BUTTON_STYLE)
     
     # ------------------------------------------------------------------
     
@@ -179,7 +129,7 @@ class ConfirmDialog(BaseDialog):
         content_layout.setSpacing(16)
         
         content_layout.addWidget(
-            self.icon_label,
+            self._icon_label,
             alignment=Qt.AlignmentFlag.AlignTop,
         )
         
@@ -188,11 +138,11 @@ class ConfirmDialog(BaseDialog):
         text_layout.setSpacing(8)
         
         text_layout.addWidget(
-            self.title_label,
+            self._title_label,
         )
         
         text_layout.addWidget(
-            self.text_label,
+            self._text_label,
         )
         
         text_layout.addStretch()
@@ -211,11 +161,11 @@ class ConfirmDialog(BaseDialog):
         buttons_layout.addStretch()
         
         buttons_layout.addWidget(
-            self.yes_button,
+            self._yes_button,
         )
         
         buttons_layout.addWidget(
-            self.no_button,
+            self._no_button,
         )
         
         self.main_layout.addLayout(
@@ -229,11 +179,11 @@ class ConfirmDialog(BaseDialog):
         Подключить сигналы.
         """
         
-        self.yes_button.clicked.connect(
+        self._yes_button.clicked.connect(
             self._accept
         )
         
-        self.no_button.clicked.connect(
+        self._no_button.clicked.connect(
             self.reject
         )
     
