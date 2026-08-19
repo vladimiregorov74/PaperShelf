@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QPushButton,
     QVBoxLayout,
+    QWidget,
 )
 
 
@@ -110,3 +111,62 @@ class BaseDialog(QDialog):
             layout.addWidget(button)
 
         self.main_layout.addLayout(layout)
+    
+    # ------------------------------------------------------------------
+    
+    def create_description(
+            self,
+            text: str,
+    ) -> QLabel:
+        """
+        Создать поясняющий текст.
+
+        Parameters
+        ----------
+        text:
+            Текст описания.
+
+        Returns
+        -------
+        QLabel
+            Настроенная подпись.
+        """
+        
+        label = QLabel(text)
+        
+        label.setWordWrap(True)
+        
+        label.setStyleSheet(
+            """
+            color: #606060;
+            """
+        )
+        
+        return label
+    
+    # ------------------------------------------------------------------
+    
+    def add_field(
+            self,
+            title: str,
+            widget: QWidget,
+    ) -> None:
+        """
+        Добавить поле с заголовком.
+
+        Parameters
+        ----------
+        title:
+            Название поля.
+
+        widget:
+            Виджет ввода.
+        """
+        
+        self.main_layout.addWidget(
+            self.create_section_title(title)
+        )
+        
+        self.main_layout.addWidget(
+            widget
+        )

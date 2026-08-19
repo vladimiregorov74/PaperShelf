@@ -1,39 +1,19 @@
 #!/bin/bash
 
-# =========================================================
-# 1. АВТОМАТИЧЕСКОЕ ОПРЕДЕЛЕНИЕ ПУТЕЙ
-# =========================================================
-
-# Получаем полный путь к директории, где лежит bat.sh
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-
-# Путь к папке .venv (она находится прямо в SCRIPT_DIR)
 VENV_PATH="$SCRIPT_DIR/.venv"
-
-# Полный путь к основному файлу Python
+PYTHON_BIN="$VENV_PATH/bin/python"
 MAIN_PY_PATH="$SCRIPT_DIR/src/papershelf/app.py"
 
-
-
-# =========================================================
-# 2. НАСТРОЙКА ОКРУЖЕНИЯ И ЗАПУСК НОВОГО СЕРВЕРА
-# =========================================================
-
-# Сначала переходим в директорию, где лежат все файлы
-cd "$SCRIPT_DIR"
-
-# Активация виртуального окружения
-if [ -d "$VENV_PATH" ]; then
-    echo "Активация VENV: $VENV_PATH/bin/activate"
-    source "$VENV_PATH/bin/activate"
-else
-    echo "Критическая ошибка: Виртуальное окружение не найдено по пути: $VENV_PATH"
+if [ ! -x "$PYTHON_BIN" ]; then
+    echo "Python не найден: $PYTHON_BIN"
     exit 1
 fi
 
-# Запуск приложения в фоновом режиме (&)
+# Добавляем корень проекта в PYTHONPATH
+export PYTHONPATH="$SCRIPT_DIR:$SCRIPT_DIR/src"
+
+cd "$SCRIPT_DIR" || exit 1
+
 echo "Запуск приложения: $MAIN_PY_PATH"
-# Используем просто 'python3 ./src/papershelf/app.py', так как мы уже в этой директории
-python3 ./src/papershelf/app.py &
-
-
+nohup "$PYTHON_BIN" "$MAIN_PY_PATH" > server.log 2>&1 &
