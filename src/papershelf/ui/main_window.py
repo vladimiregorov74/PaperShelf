@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from urllib.parse import urlparse
 
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QDesktopServices
@@ -21,10 +22,11 @@ from papershelf.services.library_scanner import LibraryScanner
 from papershelf.ui.base_window import BaseWindow
 from papershelf.ui.builders.main_window_builder import MainWindowBuilder
 from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
+from papershelf.ui.dialogs.new_site_dialog import NewSiteDialog
 from papershelf.ui.dialogs.settings_dialog import SettingsDialog
 from papershelf.controllers import SiteSupportController
 from papershelf.services.site_support_service import SiteSupportService
-
+from tools.site_inspector.naming_utils import guess_source_name
 
 
 class MainWindow(BaseWindow):
@@ -434,9 +436,9 @@ class MainWindow(BaseWindow):
         self.log_widget.set_file_logging(
             self._settings.file_logging_enabled(),
         )
-    
+
     # ------------------------------------------------------------------
-    
+
     def _on_unsupported_site(
             self,
             url: str,
@@ -444,26 +446,26 @@ class MainWindow(BaseWindow):
         """
         Сайт пока не поддерживается.
         """
-        
-        accepted = ConfirmDialog.ask(
+
+        domain = urlparse(url).netloc
+
+        data = NewSiteDialog.ask(
             parent=self,
-            title="Новый сайт",
-            text=(
-                "Для данного сайта отсутствуют селекторы.\n\n"
-                "Выполнить автоматический анализ сайта?"
-            ),
+            source=guess_source_name(domain),
+            title_suffix="",
         )
-        
-        if not accepted:
+
+        if data is None:
             self.log_widget.info(
                 "Добавление поддержки сайта отменено."
             )
-            
             return
-        
+
         self._site_support_controller.register(
             url=url,
             logger=self.log_widget.info,
+            source=data.source,
+            title_suffix=data.title_suffix,
         )
     
     # ------------------------------------------------------------------

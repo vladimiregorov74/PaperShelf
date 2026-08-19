@@ -5,7 +5,6 @@ import requests
 from urllib.parse import urlparse
 from pathlib import PurePosixPath
 
-from papershelf.core.paths import SELECTORS_FILE, SITE_REGISTRY_DATA_FILE
 from .models import InspectionReport, PageInfo, HeadingInfo, ImageInfo, CodeBlockInfo, TableInfo, LinkInfo, \
     StatisticsInfo, ContainerInfo
 from .constants import LANGUAGE_ALIASES, POSITIVE_CLASSES, NEGATIVE_CLASSES, LINK_WEIGHT, TABLE_WEIGHT, CODE_WEIGHT, \
@@ -129,6 +128,7 @@ class SiteInspector:
         links = self._collect_links()
         
         containers = self._collect_containers()
+        print(f"In inspector.inspect {source=}, {containers=}")
         
         article_candidate = None
         cleaning_report = None
@@ -168,29 +168,22 @@ class SiteInspector:
                     article_candidate.element,
                     self._url,
                 )
-                self._selector_generator.generate(
-                    candidate=article_candidate,
-                    cleaning_report=cleaning_report,
-                    author_selectors=author_selectors,
-                    output_path=SELECTORS_FILE,
-                    site_name=urlparse(
-                        self._url,
-                    ).netloc,
-                )
-                
-                # path = Path("src/papershelf/parsers/site_registry_data.py")
+                print("SITE NAME =", urlparse(self._url).netloc)
+                # self._selector_generator.generate(
+                #     candidate=article_candidate,
+                #     cleaning_report=cleaning_report,
+                #     author_selectors=author_selectors,
+                #     output_path=SELECTORS_FILE,
+                #     site_name=urlparse(self._url,).netloc,
+                # )
                 #
-                # print("WRITE TO:", path.resolve())
-                # print("EXISTS:", path.exists())
-                
-                self._site_registry_generator.generate(
-                    domain=urlparse(
-                        self._url,
-                    ).netloc,
-                    output_path=SITE_REGISTRY_DATA_FILE,
-                    source=source,
-                    title_suffix=title_suffix,
-                )
+                #
+                # self._site_registry_generator.generate(
+                #     domain=urlparse(self._url,).netloc,
+                #     output_path=SITE_REGISTRY_DATA_FILE,
+                #     source=source,
+                #     title_suffix=title_suffix,
+                # )
                 print()
                 print("=== RESOLVED IMAGES ===")
                 
@@ -215,21 +208,15 @@ class SiteInspector:
         
         return InspectionReport(
             page=page,
-            
             statistics=statistics,
-            
             headings=headings,
             images=images,
             code_blocks=code_blocks,
             tables=tables,
             links=links,
-            
             containers=containers,
-            
             article_candidate=article_candidate,
-            
             cleaning_report=cleaning_report,
-            
             author_selectors=author_selectors,
         )
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from urllib.parse import urlparse
 
 from site_inspector.inspector import SiteInspector
 from site_inspector.report_formatter import ReportFormatter
@@ -58,7 +59,7 @@ def main() -> None:
     inspector.load(
         args.url,
     )
-
+    
     report = inspector.inspect(
         source=args.source,
         title_suffix=args.title_suffix,

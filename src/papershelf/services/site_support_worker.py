@@ -16,14 +16,18 @@ class SiteSupportWorker(BaseWorker):
     # ------------------------------------------------------------------
 
     def __init__(
-        self,
-        service: SiteSupportService,
-        url: str,
+            self,
+            service: SiteSupportService,
+            url: str,
+            source: str,
+            title_suffix: str,
     ) -> None:
         super().__init__()
 
         self._service = service
         self._url = url
+        self._source = source
+        self._title_suffix = title_suffix
 
     # ------------------------------------------------------------------
 
@@ -37,6 +41,8 @@ class SiteSupportWorker(BaseWorker):
         self._service.register(
             url=self._url,
             logger=self._log,
+            source=self._source,
+            title_suffix=self._title_suffix,
         )
 
         self.success.emit()

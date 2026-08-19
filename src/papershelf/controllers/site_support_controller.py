@@ -31,21 +31,24 @@ class SiteSupportController(QObject):
     # ------------------------------------------------------------------
 
     def register(
-        self,
-        url: str,
-        logger,
+		    self,
+		    url: str,
+		    logger,
+		    source: str,
+		    title_suffix: str,
     ) -> None:
         """
         Начать регистрацию нового сайта.
         """
 
         self._thread = QThread()
-
+        
         self._worker = SiteSupportWorker(
-            service=self._service,
-            url=url,
+	        service=self._service,
+	        url=url,
+	        source=source,
+	        title_suffix=title_suffix,
         )
-
         self._worker.moveToThread(
             self._thread,
         )

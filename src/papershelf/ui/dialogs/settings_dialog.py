@@ -43,10 +43,7 @@ class SettingsDialog(BaseDialog):
     # Widgets
     # ------------------------------------------------------------------
 
-    def _create_widgets(
-        self,
-        file_logging: bool,
-    ) -> None:
+    def _create_widgets(self, file_logging: bool,) -> None:
         """
         Создать элементы интерфейса.
         """

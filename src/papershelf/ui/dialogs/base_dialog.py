@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from PySide6.QtWidgets import (
-    QDialog,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
+	QDialog,
+	QHBoxLayout,
+	QLabel,
+	QPushButton,
+	QVBoxLayout,
+	QWidget, QLineEdit,
 )
+
+from papershelf.ui.styles.button_styles import SUCCESS_BUTTON_STYLE, SECONDARY_BUTTON_STYLE
 
 
 class BaseDialog(QDialog):
@@ -170,3 +172,44 @@ class BaseDialog(QDialog):
         self.main_layout.addWidget(
             widget
         )
+
+    def _create_widgets(
+            self,
+            source: str,
+            title_suffix: str,
+    ) -> None:
+        """
+        Создать элементы интерфейса.
+        """
+
+        self._source_edit = QLineEdit()
+        self._source_edit.setText(source)
+
+        self._title_suffix_edit = QLineEdit()
+        self._title_suffix_edit.setText(title_suffix)
+
+        self._description = self.create_description(
+            "Если заголовок страницы содержит название сайта, "
+            "укажите суффикс, который нужно удалить.\n\n"
+            "Например:\n"
+            "    | Metanit\n"
+            "    / Хабр"
+        )
+
+        self._ok_button = QPushButton(
+            "Зарегистрировать"
+        )
+
+        self._cancel_button = QPushButton(
+            "Отмена"
+        )
+
+        self._ok_button.setStyleSheet(
+            SUCCESS_BUTTON_STYLE
+        )
+
+        self._cancel_button.setStyleSheet(
+            SECONDARY_BUTTON_STYLE
+        )
+
+    

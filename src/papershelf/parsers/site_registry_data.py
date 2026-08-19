@@ -12,9 +12,11 @@ from __future__ import annotations
 
 _SITES: tuple[tuple[str, str, str, str], ...] = (
     
-    ("HABR", "habr.com", "Habr", " / Хабр"),
-    ("DAN_IT", "dan-it.com.ua", "DAN IT Education", ""),
+
+    ("DAN_IT", "dan-it.com.ua", "Dan It", ""),
     ("WEZOM", "wezom.academy", "Wezom", ""),
-    ("PRODUCTSTAR", "productstar.ru", "Productstar", ""),
     ("METANIT", "metanit.com", "Metanit", ""),
+    ("GITHUB", "github.com", "Github", ""),
+    ("PRODUCTSTAR", "productstar.ru", "Productstar", ""),
+    ("HABR", "habr.com", "Habr", ""),
 )
