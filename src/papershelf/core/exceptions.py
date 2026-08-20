@@ -33,3 +33,24 @@ class UnsupportedSiteError(PaperShelfError):
         super().__init__(
             f"Сайт не поддерживается: {url}"
         )
+        
+# ------------------------------------------------------------------
+
+
+class SiteAnalysisError(PaperShelfError):
+    """
+    Не удалось автоматически определить структуру сайта.
+    """
+
+    # ------------------------------------------------------------------
+
+    def __init__(
+        self,
+        url: str,
+        reason: str,
+    ) -> None:
+
+        self.url = url
+        self.reason = reason
+
+        super().__init__(reason)

@@ -9,8 +9,11 @@ from PySide6.QtWidgets import (
     QMessageBox, QDialog,
 )
 
+from papershelf.core.exceptions import (
+    SiteAnalysisError,
+)
 from papershelf.config.constants import STATUS_MESSAGE_TIMEOUT, STATUS_MESSAGE_LONG_TIMEOUT
-from papershelf.controllers import SiteSupportController
+
 from papershelf.controllers.article_controller import ArticleController
 from papershelf.controllers.library_controller import LibraryController
 from papershelf.controllers.save_controller import SaveController
@@ -94,9 +97,14 @@ class MainWindow(BaseWindow):
             self._save_controller.retry,
         )
         
-        self._site_support_controller.failed.connect(
+        self._site_support_controller.exception.connect(
+            self._on_site_support_exception,
+        )
+        
+        self._site_support_controller.error.connect(
             self._on_site_support_error,
         )
+        
 
     # ------------------------------------------------------------------
     # Dialogs
@@ -475,18 +483,43 @@ class MainWindow(BaseWindow):
             traceback_text: str,
     ) -> None:
         """
-        Ошибка анализа сайта.
+        Обработка неожиданных ошибок.
         """
         
         self.log_widget.error(
             traceback_text,
         )
         
-        self.status_bar.showMessage(
-            "Ошибка анализа сайта.",
-            STATUS_MESSAGE_LONG_TIMEOUT,
+        QMessageBox.critical(
+            self,
+            "Ошибка",
+            traceback_text,
         )
     
     # ------------------------------------------------------------------
     
+    def _on_site_support_exception(
+            self,
+            exception: Exception,
+    ) -> None:
+        """
+        Обработка специальных ошибок
+        регистрации сайта.
+        """
+        
+        if isinstance(
+                exception,
+                SiteAnalysisError,
+        ):
+            QMessageBox.warning(
+                self,
+                "Не удалось зарегистрировать сайт",
+                exception.reason,
+            )
+            
+            self.log_widget.warning(
+                exception.reason,
+            )
+            
+            return
     

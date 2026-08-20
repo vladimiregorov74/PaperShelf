@@ -6,6 +6,7 @@ from PySide6.QtCore import QObject, Signal, Slot
 
 from papershelf.core.exceptions import UnsupportedSiteError
 
+from papershelf.core.exceptions import PaperShelfError
 
 class BaseWorker(QObject):
     """
@@ -37,8 +38,6 @@ class BaseWorker(QObject):
     # Сам объект исключения.
     #
     exception = Signal(object)
-    
-    unsupported_site = Signal(str)
 
     # ------------------------------------------------------------------
 
@@ -58,9 +57,16 @@ class BaseWorker(QObject):
         try:
             self.execute()
         
+        except PaperShelfError as exception:
+            
+            self.exception.emit(
+                exception,
+            )
+        
         except Exception:
+            
             self.error.emit(
-                traceback.format_exc()
+                traceback.format_exc(),
             )
         
         finally:

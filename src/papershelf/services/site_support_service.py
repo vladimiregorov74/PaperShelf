@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 from urllib.parse import urlparse
 
+from papershelf.core.exceptions import SiteAnalysisError
 from papershelf.core.paths import SELECTORS_FILE, SITE_REGISTRY_DATA_FILE
 from papershelf.parsers import (
     selectors,
@@ -57,8 +58,12 @@ class SiteSupportService:
         )
         
         if report.article_candidate is None:
-            raise RuntimeError(
-                "Не удалось определить контейнер статьи."
+            raise SiteAnalysisError(
+                url=url,
+                reason=(
+                    "Не удалось автоматически определить "
+                    "контейнер статьи."
+                ),
             )
         
         logger("Запись selectors.py...")

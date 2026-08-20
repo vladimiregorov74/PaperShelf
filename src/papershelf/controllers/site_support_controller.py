@@ -12,8 +12,9 @@ class SiteSupportController(QObject):
     """
 
     completed = Signal()
-    failed = Signal(str)
-
+    error = Signal(str)
+    exception = Signal(Exception)
+    
     # ------------------------------------------------------------------
     
     def __init__(
@@ -76,9 +77,13 @@ class SiteSupportController(QObject):
         self._worker.success.connect(
             self.completed.emit,
         )
-
+        
+        self._worker.exception.connect(
+            self._on_exception,
+        )
+        
         self._worker.error.connect(
-            self.failed.emit,
+            self.error.emit,
         )
 
         #
@@ -100,7 +105,7 @@ class SiteSupportController(QObject):
         self._thread.finished.connect(
             self._cleanup,
         )
-
+        
         self._thread.start()
 
     # ------------------------------------------------------------------
@@ -111,3 +116,18 @@ class SiteSupportController(QObject):
 
         self._worker = None
         self._thread = None
+    
+    # ------------------------------------------------------------------
+    
+    def _on_exception(
+            self,
+            exception: Exception,
+    ) -> None:
+        """
+        Передать специальное исключение
+        в интерфейс.
+        """
+        
+        self.exception.emit(
+            exception,
+        )
