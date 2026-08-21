@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 )
 
 from papershelf.core.exceptions import (
-    SiteAnalysisError,
+    SiteAnalysisError, DynamicSiteError,
 )
 from papershelf.config.constants import STATUS_MESSAGE_TIMEOUT, STATUS_MESSAGE_LONG_TIMEOUT
 
@@ -509,15 +509,35 @@ class MainWindow(BaseWindow):
         
         if isinstance(
                 exception,
-                SiteAnalysisError,
+                DynamicSiteError,
         ):
+            message = (
+                "Сайт использует динамическую загрузку содержимого "
+                "(JavaScript).\n\n"
+                "Автоматический анализ пока не поддерживает такие сайты."
+            )
+            
+            self.log_widget.warning(message)
+            
             QMessageBox.warning(
                 self,
-                "Не удалось зарегистрировать сайт",
+                "Динамический сайт",
+                message,
+            )
+            
+            return
+        
+        if isinstance(
+                exception,
+                SiteAnalysisError,
+        ):
+            self.log_widget.warning(
                 exception.reason,
             )
             
-            self.log_widget.warning(
+            QMessageBox.warning(
+                self,
+                "Не удалось зарегистрировать сайт",
                 exception.reason,
             )
             

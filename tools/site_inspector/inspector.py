@@ -5,6 +5,7 @@ import requests
 from urllib.parse import urlparse
 from pathlib import PurePosixPath
 
+from papershelf.core.exceptions import DynamicSiteError, EmptyPageError
 from .models import InspectionReport, PageInfo, HeadingInfo, ImageInfo, CodeBlockInfo, TableInfo, LinkInfo, \
     StatisticsInfo, ContainerInfo
 from .constants import LANGUAGE_ALIASES, POSITIVE_CLASSES, NEGATIVE_CLASSES, LINK_WEIGHT, TABLE_WEIGHT, CODE_WEIGHT, \
@@ -63,7 +64,7 @@ class SiteInspector:
         url:
             Адрес страницы.
         """
-
+        print("1. requests.get")
         response = requests.get(
             url,
             timeout=30,
@@ -77,17 +78,26 @@ class SiteInspector:
                 )
             },
         )
+        print("2. response получен")
 
         response.raise_for_status()
-
+        print("3. status ok")
         self._url = url
 
         self._html = response.text
-
+        print("4. html length =", len(self._html))
+        
         self._soup = BeautifulSoup(
             self._html,
             "lxml",
         )
+        print("5. soup создан")
+        
+        self._check_empty_page()
+        print("6. empty ok")
+        
+        self._check_dynamic_site()
+        print("7. dynamic ok")
 
     # ------------------------------------------------------------------
     
@@ -872,3 +882,132 @@ class SiteInspector:
         return build_selector(
             element,
         )
+    
+    from papershelf.core.exceptions import DynamicSiteError
+    
+  
+    
+    # ------------------------------------------------------------------
+    
+    def _check_empty_page(
+            self,
+    ) -> None:
+        """
+        Проверить, что страница содержит
+        корректный HTML.
+        """
+        
+        #
+        # Пустой HTML.
+        #
+        
+        if not self._html.strip():
+            raise EmptyPageError(
+                self._url,
+            )
+        
+        #
+        # Нет тега body.
+        #
+        
+        if self._soup.body is None:
+            raise EmptyPageError(
+                self._url,
+            )
+        
+        #
+        # Нет текста.
+        #
+        
+        text = self._soup.get_text(
+            " ",
+            strip=True,
+        )
+        
+        if not text:
+            raise EmptyPageError(
+                self._url,
+            )
+    
+    # ------------------------------------------------------------------
+    
+    def _check_dynamic_site(
+            self,
+    ) -> None:
+        """
+        Проверить, не является ли страница
+        JavaScript-приложением.
+        """
+        print("dynamic start")
+        html = self._html.lower()
+        
+        #
+        # Известные признаки SPA.
+        #
+        
+        markers = (
+            
+            "__next",
+            
+            "__nuxt",
+            
+            "__remix",
+            
+            "__vite",
+            
+            "data-reactroot",
+            
+            "webpack",
+            
+            "react",
+            
+            "notion",
+        
+        )
+        
+        if any(
+                marker in html
+                for marker in markers
+        ):
+            print("DynamicSiteError")
+            raise DynamicSiteError(
+                self._url,
+            )
+        
+        text = self._soup.get_text(
+            " ",
+            strip=True,
+        )
+        
+        paragraphs = self._soup.find_all(
+            "p",
+        )
+        
+        articles = self._soup.find_all(
+            "article",
+        )
+        
+        mains = self._soup.find_all(
+            "main",
+        )
+        
+        scripts = self._soup.find_all(
+            "script",
+        )
+        
+        #
+        # Эвристика.
+        #
+        
+        if (
+                len(text) < 300
+                and len(paragraphs) == 0
+                and len(articles) == 0
+                and len(mains) == 0
+                and len(scripts) > 10
+        ):
+            print("dynamic detected")
+            raise DynamicSiteError(
+                self._url,
+            )
+        print("dynamic finish")

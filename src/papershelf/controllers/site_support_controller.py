@@ -127,7 +127,7 @@ class SiteSupportController(QObject):
         Передать специальное исключение
         в интерфейс.
         """
-        
+        print("Controller:", type(exception).__name__)
         self.exception.emit(
             exception,
         )

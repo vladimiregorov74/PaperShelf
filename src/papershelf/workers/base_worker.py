@@ -58,18 +58,27 @@ class BaseWorker(QObject):
             self.execute()
         
         except PaperShelfError as exception:
-            
+            print("run except", type(exception).__name__)
             self.exception.emit(
                 exception,
             )
+            #
+            # Traceback только для неожиданных ошибок.
+            #
+            if not isinstance(exception, PaperShelfError):
+                self.error.emit(
+                    traceback.format_exc(),
+                )
         
-        except Exception:
+        except Exception as exception:
+            print("BaseWorker поймал:", type(exception).__name__)
             
             self.error.emit(
                 traceback.format_exc(),
             )
         
         finally:
+            print("run finally")
             self.finished.emit()
 
     # ------------------------------------------------------------------
