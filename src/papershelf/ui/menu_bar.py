@@ -34,7 +34,9 @@ class MainMenuBar(QMenuBar):
         )
 
         settings_menu = self.addMenu("Настройки")
-        settings_menu.addAction(actions.settings)
+        settings_menu.addAction(
+            actions.supported_sites,
+        )
 
         help_menu = self.addMenu("Справка")
         help_menu.addAction(actions.about)

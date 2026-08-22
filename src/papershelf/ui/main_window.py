@@ -29,6 +29,7 @@ from papershelf.ui.dialogs.new_site_dialog import NewSiteDialog
 from papershelf.ui.dialogs.settings_dialog import SettingsDialog
 from papershelf.controllers import SiteSupportController
 from papershelf.services.site_support_service import SiteSupportService
+from papershelf.ui.dialogs.supported_sites_dialog import SupportedSitesDialog
 from tools.site_inspector.naming_utils import guess_source_name
 
 
@@ -542,4 +543,16 @@ class MainWindow(BaseWindow):
             )
             
             return
+    
+    def _show_supported_sites(self) -> None:
+        """
+        Открыть окно управления
+        поддерживаемыми сайтами.
+        """
+        
+        dialog = SupportedSitesDialog(
+            self,
+        )
+        
+        dialog.exec()
     

@@ -158,3 +158,7 @@ class MainWindowBuilder:
         window.library_widget.delete_requested.connect(
             window._on_delete_requested
         )
+        
+        window.actions.supported_sites.triggered.connect(
+            window._show_supported_sites,
+        )

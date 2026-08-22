@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from .models import (
@@ -9,6 +10,17 @@ from .models import (
 from .naming_utils import domain_prefix
 
 # ----------------------------------------------------------------------
+
+# Голый селектор без класса/id/атрибута (например просто "p" или
+# "div") слишком неспецифичен для REMOVE_SELECTORS: боевой HtmlCleaner
+# делает root.select(selector) РЕКУРСИВНО по всей статье, и такой
+# селектор снесёт КАЖДЫЙ элемент этого тега во всей статье, а не тот
+# один конкретный элемент, для которого изначально считался score.
+# Раньше фильтровалось только decision.reason == "zero score" — но
+# ровно так же можно словить голый селектор и через reason
+# "link-only" (или любой другой), поэтому проверяем сам селектор,
+# а не полагаемся на конкретную причину его появления.
+_BARE_TAG_SELECTOR = re.compile(r"^[a-zA-Z][a-zA-Z0-9]*$")
 
 
 class SelectorGenerator:
@@ -283,12 +295,17 @@ from __future__ import annotations
         """
         Получить селекторы элементов,
         которые классифицированы как шум.
+
+        Голые тег-селекторы (без class/id/атрибута) исключаются
+        независимо от reason — см. комментарий у _BARE_TAG_SELECTOR
+        в начале файла.
         """
 
         selectors = {
             decision.selector
             for decision in cleaning_report.remove
             if decision.reason != "zero score"
+            and not _BARE_TAG_SELECTOR.match(decision.selector)
         }
 
         return sorted(

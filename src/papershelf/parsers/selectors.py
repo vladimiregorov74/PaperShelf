@@ -7,55 +7,24 @@ CSS-селекторы поддерживаемых сайтов.
 
 from __future__ import annotations
 
+# ----------------------------------------------------------------------
 
-
+# productstar.ru
 
 # ----------------------------------------------------------------------
 
-# dan-it.com.ua
-
-# ----------------------------------------------------------------------
-
-DAN_IT_AUTHOR_SELECTORS = (
-    'meta[name="author"]',
-    'div.blog-author-name-block',
-    'span.blog-author-name-block__text',
-    'h3.blog-author-name',
-    'p.blog-author-title',
-    'a.blog-author-title__link',
+PRODUCTSTAR_AUTHOR_SELECTORS = (
 )
 
-DAN_IT_ARTICLE_SELECTORS = (
-    '#blog-post-content',
+PRODUCTSTAR_ARTICLE_SELECTORS = (
+    'div.blog-post-page__content',
 )
 
-DAN_IT_CONTENT_SELECTORS = (
-    '#blog-post-content',
+PRODUCTSTAR_CONTENT_SELECTORS = (
+    'div.blog-post-page__content',
 )
 
-DAN_IT_REMOVE_SELECTORS = (
-)
-
-# ----------------------------------------------------------------------
-
-# wezom.academy
-
-# ----------------------------------------------------------------------
-
-WEZOM_AUTHOR_SELECTORS = (
-    'div.text-block__author._plr-def._mb-def',
-    'a.text-block__author-link',
-)
-
-WEZOM_ARTICLE_SELECTORS = (
-    'div.wysiwyg._mt-lg',
-)
-
-WEZOM_CONTENT_SELECTORS = (
-    'div.wysiwyg._mt-lg',
-)
-
-WEZOM_REMOVE_SELECTORS = (
+PRODUCTSTAR_REMOVE_SELECTORS = (
 )
 
 # ----------------------------------------------------------------------
@@ -84,26 +53,6 @@ METANIT_REMOVE_SELECTORS = (
 
 # ----------------------------------------------------------------------
 
-# productstar.ru
-
-# ----------------------------------------------------------------------
-
-PRODUCTSTAR_AUTHOR_SELECTORS = (
-)
-
-PRODUCTSTAR_ARTICLE_SELECTORS = (
-    'div.blog-post-page__content',
-)
-
-PRODUCTSTAR_CONTENT_SELECTORS = (
-    'div.blog-post-page__content',
-)
-
-PRODUCTSTAR_REMOVE_SELECTORS = (
-)
-
-# ----------------------------------------------------------------------
-
 # habr.com
 
 # ----------------------------------------------------------------------
@@ -122,5 +71,26 @@ HABR_CONTENT_SELECTORS = (
 )
 
 HABR_REMOVE_SELECTORS = (
-    'a',
+)
+
+# ----------------------------------------------------------------------
+
+# wezom.academy
+
+# ----------------------------------------------------------------------
+
+WEZOM_AUTHOR_SELECTORS = (
+    'div.text-block__author._plr-def._mb-def',
+    'a.text-block__author-link',
+)
+
+WEZOM_ARTICLE_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_CONTENT_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_REMOVE_SELECTORS = (
 )
