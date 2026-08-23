@@ -65,9 +65,9 @@ class SupportedSitesDialog(BaseDialog):
 
         self._model = QStandardItemModel()
         
-        self._refresh_button = QPushButton(
-            "Обновить",
-        )
+        # self._refresh_button = QPushButton(
+        #     "Обновить",
+        # )
 
         self._delete_button = QPushButton(
             "Удалить",
@@ -151,8 +151,8 @@ class SupportedSitesDialog(BaseDialog):
         )
 
         self.add_buttons(
-            
-            self._refresh_button,
+
+            # self._refresh_button,
             self._delete_button,
             self._close_button,
 
@@ -167,9 +167,9 @@ class SupportedSitesDialog(BaseDialog):
         Подключить сигналы.
         """
         
-        self._refresh_button.clicked.connect(
-            self._load_sites,
-        )
+        # self._refresh_button.clicked.connect(
+        #     self._load_sites,
+        # )
         self._close_button.clicked.connect(
             self.close,
         )

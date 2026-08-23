@@ -19,6 +19,7 @@ from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
 from .site_registry_generator import SiteRegistryGenerator
 from .css_utils import build_selector
+from papershelf.loaders.smart_loader import SmartLoader
 
 class SiteInspector:
     """
@@ -38,6 +39,8 @@ class SiteInspector:
 
         self._soup: BeautifulSoup | None = None
 
+        self._loader = SmartLoader()
+
         self._container_analyzer = ContainerAnalyzer()
         
         self._article_detector = ArticleDetector()
@@ -53,6 +56,8 @@ class SiteInspector:
         self._selector_generator = SelectorGenerator()
         
         self._site_registry_generator = SiteRegistryGenerator()
+
+
     # ------------------------------------------------------------------
 
     def load(self, url: str, ) -> None:
@@ -65,39 +70,24 @@ class SiteInspector:
             Адрес страницы.
         """
         print("1. requests.get")
-        response = requests.get(
-            url,
-            timeout=30,
-            headers={
-                "User-Agent": (
-                    "Mozilla/5.0 "
-                    "(X11; Linux x86_64) "
-                    "AppleWebKit/537.36 "
-                    "(KHTML, like Gecko) "
-                    "Chrome/138.0 Safari/537.36"
-                )
-            },
-        )
-        print("2. response получен")
-
-        response.raise_for_status()
-        print("3. status ok")
         self._url = url
 
-        self._html = response.text
-        print("4. html length =", len(self._html))
+        self._html = self._loader.load(
+	        url,
+        )
+        print("2. html length =", len(self._html))
         
         self._soup = BeautifulSoup(
             self._html,
             "lxml",
         )
-        print("5. soup создан")
+        print("3. soup создан")
         
         self._check_empty_page()
-        print("6. empty ok")
+        print("4. empty ok")
         
-        self._check_dynamic_site()
-        print("7. dynamic ok")
+        # self._check_dynamic_site()
+        # print("5. dynamic ok")
 
     # ------------------------------------------------------------------
     
@@ -179,21 +169,6 @@ class SiteInspector:
                     self._url,
                 )
                 print("SITE NAME =", urlparse(self._url).netloc)
-                # self._selector_generator.generate(
-                #     candidate=article_candidate,
-                #     cleaning_report=cleaning_report,
-                #     author_selectors=author_selectors,
-                #     output_path=SELECTORS_FILE,
-                #     site_name=urlparse(self._url,).netloc,
-                # )
-                #
-                #
-                # self._site_registry_generator.generate(
-                #     domain=urlparse(self._url,).netloc,
-                #     output_path=SITE_REGISTRY_DATA_FILE,
-                #     source=source,
-                #     title_suffix=title_suffix,
-                # )
                 print()
                 print("=== RESOLVED IMAGES ===")
                 
@@ -276,9 +251,7 @@ class SiteInspector:
 
     # ------------------------------------------------------------------
     
-    def _collect_headings(
-            self,
-    ) -> list[HeadingInfo]:
+    def _collect_headings(self, ) -> list[HeadingInfo]:
         """
         Собрать заголовки страницы.
 
@@ -321,9 +294,7 @@ class SiteInspector:
 
     # ------------------------------------------------------------------
 
-    def _collect_images(
-            self,
-    ) -> list[ImageInfo]:
+    def _collect_images(self, ) -> list[ImageInfo]:
         """
         Собрать изображения страницы.
 
@@ -359,9 +330,7 @@ class SiteInspector:
 
     # ------------------------------------------------------------------# ------------------------------------------------------------------
     
-    def _collect_code_blocks(
-            self,
-    ) -> list[CodeBlockInfo]:
+    def _collect_code_blocks(self, ) -> list[CodeBlockInfo]:
         """
         Собрать блоки исходного кода.
 
@@ -414,9 +383,7 @@ class SiteInspector:
 
     # ------------------------------------------------------------------ # ------------------------------------------------------------------
     
-    def _collect_tables(
-            self,
-    ) -> list[TableInfo]:
+    def _collect_tables(self, ) -> list[TableInfo]:
         """
         Собрать HTML-таблицы страницы.
 
@@ -465,9 +432,7 @@ class SiteInspector:
     
     # ------------------------------------------------------------------
     
-    def _collect_links(
-            self,
-    ) -> list[LinkInfo]:
+    def _collect_links(self, ) -> list[LinkInfo]:
         """
         Собрать ссылки страницы.
 
@@ -931,83 +896,83 @@ class SiteInspector:
     
     # ------------------------------------------------------------------
     
-    def _check_dynamic_site(
-            self,
-    ) -> None:
-        """
-        Проверить, не является ли страница
-        JavaScript-приложением.
-        """
-        print("dynamic start")
-        html = self._html.lower()
-        
-        #
-        # Известные признаки SPA.
-        #
-        
-        markers = (
-            
-            "__next",
-            
-            "__nuxt",
-            
-            "__remix",
-            
-            "__vite",
-            
-            "data-reactroot",
-            
-            "webpack",
-            
-            "react",
-            
-            "notion",
-        
-        )
-        
-        if any(
-                marker in html
-                for marker in markers
-        ):
-            print("DynamicSiteError")
-            raise DynamicSiteError(
-                self._url,
-            )
-        
-        text = self._soup.get_text(
-            " ",
-            strip=True,
-        )
-        
-        paragraphs = self._soup.find_all(
-            "p",
-        )
-        
-        articles = self._soup.find_all(
-            "article",
-        )
-        
-        mains = self._soup.find_all(
-            "main",
-        )
-        
-        scripts = self._soup.find_all(
-            "script",
-        )
-        
-        #
-        # Эвристика.
-        #
-        
-        if (
-                len(text) < 300
-                and len(paragraphs) == 0
-                and len(articles) == 0
-                and len(mains) == 0
-                and len(scripts) > 10
-        ):
-            print("dynamic detected")
-            raise DynamicSiteError(
-                self._url,
-            )
-        print("dynamic finish")
+    # def _check_dynamic_site(
+    #         self,
+    # ) -> None:
+    #     """
+    #     Проверить, не является ли страница
+    #     JavaScript-приложением.
+    #     """
+    #     print("dynamic start")
+    #     html = self._html.lower()
+    #
+    #     #
+    #     # Известные признаки SPA.
+    #     #
+    #
+    #     markers = (
+    #
+    #         "__next",
+    #
+    #         "__nuxt",
+    #
+    #         "__remix",
+    #
+    #         "__vite",
+    #
+    #         "data-reactroot",
+    #
+    #         "webpack",
+    #
+    #         "react",
+    #
+    #         "notion",
+    #
+    #     )
+    #
+    #     if any(
+    #             marker in html
+    #             for marker in markers
+    #     ):
+    #         print("DynamicSiteError")
+    #         raise DynamicSiteError(
+    #             self._url,
+    #         )
+    #
+    #     text = self._soup.get_text(
+    #         " ",
+    #         strip=True,
+    #     )
+    #
+    #     paragraphs = self._soup.find_all(
+    #         "p",
+    #     )
+    #
+    #     articles = self._soup.find_all(
+    #         "article",
+    #     )
+    #
+    #     mains = self._soup.find_all(
+    #         "main",
+    #     )
+    #
+    #     scripts = self._soup.find_all(
+    #         "script",
+    #     )
+    #
+    #     #
+    #     # Эвристика.
+    #     #
+    #
+    #     if (
+    #             len(text) < 300
+    #             and len(paragraphs) == 0
+    #             and len(articles) == 0
+    #             and len(mains) == 0
+    #             and len(scripts) > 10
+    #     ):
+    #         print("dynamic detected")
+    #         raise DynamicSiteError(
+    #             self._url,
+    #         )
+    #     print("dynamic finish")

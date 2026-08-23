@@ -50,29 +50,6 @@ METANIT_REMOVE_SELECTORS = (
     'div.socBlock',
     'div[id^="yandex_rtb"]',
 )
-
-# ----------------------------------------------------------------------
-
-# habr.com
-
-# ----------------------------------------------------------------------
-
-HABR_AUTHOR_SELECTORS = (
-    'span.tm-user-info.author',
-    'div.article-author',
-)
-
-HABR_ARTICLE_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-1',
-)
-
-HABR_CONTENT_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-1',
-)
-
-HABR_REMOVE_SELECTORS = (
-)
-
 # ----------------------------------------------------------------------
 
 # wezom.academy
@@ -93,4 +70,26 @@ WEZOM_CONTENT_SELECTORS = (
 )
 
 WEZOM_REMOVE_SELECTORS = (
+)
+
+# ----------------------------------------------------------------------
+
+# habr.com
+
+# ----------------------------------------------------------------------
+
+HABR_AUTHOR_SELECTORS = (
+    'span.tm-user-info.author',
+    'div.author-contacts',
+)
+
+HABR_ARTICLE_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_CONTENT_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_REMOVE_SELECTORS = (
 )
