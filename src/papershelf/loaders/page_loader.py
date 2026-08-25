@@ -1,21 +1,19 @@
 from __future__ import annotations
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
+from papershelf.models.loaded_page import LoadedPage
 
 class PageLoader(ABC):
     """
-    Базовый загрузчик HTML-страниц.
+    Базовый загрузчик веб-страниц.
     """
-
-    # ------------------------------------------------------------------
 
     @abstractmethod
     def load(
         self,
         url: str,
-    ) -> str:
+    ) -> LoadedPage:
         """
-        Загрузить HTML страницы.
+        Загрузить страницу.
         """

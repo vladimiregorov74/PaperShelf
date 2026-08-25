@@ -56,6 +56,19 @@ class SiteInspector:
         self._selector_generator = SelectorGenerator()
         
         self._site_registry_generator = SiteRegistryGenerator()
+        
+        # Прямые ссылки на Tag для контейнеров, собранных в
+        # _collect_containers, ключ — id(info). Без этого
+        # _find_container вынужден пересобирать CSS-селектор из
+        # ContainerInfo и заново искать его через soup.select_one() —
+        # а для контейнера без class/id (обычное дело — просто
+        # структурная обёртка) селектор вырождается в голое имя тега
+        # ("div"), и select_one находит ПЕРВЫЙ такой тег во всём
+        # документе, а не тот конкретный, что был оценён скорингом.
+        # Именно так на Notion контейнер с реальным контентом
+        # (div.notion-page-content, score 50.74) подменялся случайной
+        # обёрткой div.main в другом месте дерева.
+        self._container_elements: dict[int, Tag] = {}
 
 
     # ------------------------------------------------------------------
@@ -69,26 +82,41 @@ class SiteInspector:
         url:
             Адрес страницы.
         """
-        print("1. requests.get")
-        self._url = url
-
-        self._html = self._loader.load(
-	        url,
+        page = self._loader.load(url)
+        
+        self.load_html(
+            page.html,
+            page.url,
         )
-        print("2. html length =", len(self._html))
+
+    # ------------------------------------------------------------------
+    
+    def load_html(
+            self,
+            html: str,
+            url: str,
+    ) -> None:
+        """
+        Загрузить уже готовый HTML.
+
+        Parameters
+        ----------
+        html:
+            HTML-код страницы.
+
+        url:
+            Исходный адрес.
+        """
+        
+        self._url = url
+        
+        self._html = html
         
         self._soup = BeautifulSoup(
-            self._html,
+            html,
             "lxml",
         )
-        print("3. soup создан")
         
-        self._check_empty_page()
-        print("4. empty ok")
-        
-        # self._check_dynamic_site()
-        # print("5. dynamic ok")
-
     # ------------------------------------------------------------------
     
     def inspect(
@@ -575,6 +603,8 @@ class SiteInspector:
                 info,
             )
             
+            self._container_elements[id(info)] = element
+            
             containers.append(
                 info,
             )
@@ -772,7 +802,10 @@ class SiteInspector:
             info: ContainerInfo,
     ) -> Tag | None:
         """
-        Найти контейнер по CSS-селектору.
+        Вернуть Tag, сохранённый для этого контейнера в
+        _collect_containers — напрямую, без пересборки CSS-селектора
+        и повторного поиска (см. комментарий у self._container_elements
+        в __init__ о том, почему повторный поиск ненадёжен).
 
         Parameters
         ----------
@@ -784,14 +817,8 @@ class SiteInspector:
         Tag | None
         """
 
-        soup = self._require_soup()
-
-        selector = self._build_selector(
-            info,
-        )
-
-        element = soup.select_one(
-            selector,
+        element = self._container_elements.get(
+            id(info),
         )
 
         if isinstance(

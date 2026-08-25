@@ -3,6 +3,7 @@ from __future__ import annotations
 import requests
 
 from papershelf.loaders.page_loader import PageLoader
+from papershelf.models.loaded_page import LoadedPage
 
 
 class HttpLoader(PageLoader):
@@ -15,7 +16,7 @@ class HttpLoader(PageLoader):
     def load(
         self,
         url: str,
-    ) -> str:
+    ) -> LoadedPage:
 
         response = requests.get(
             url,
@@ -31,7 +32,10 @@ class HttpLoader(PageLoader):
                     )
             },
         )
-
+        print("httploader.load response = ", response.text)
         response.raise_for_status()
 
-        return response.text
+        return LoadedPage(
+                            url=url,
+                            html=response.text,
+                        )

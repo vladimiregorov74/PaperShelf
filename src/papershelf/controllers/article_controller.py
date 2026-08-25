@@ -3,7 +3,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-
+from papershelf.loaders.smart_loader import SmartLoader
+from papershelf.models.loaded_page import LoadedPage
 from papershelf.parsers.parser_factory import ParserFactory
 from papershelf.models import Article
 from papershelf.services import (
@@ -23,9 +24,11 @@ class ArticleController:
     # ------------------------------------------------------------------
 
     def __init__(self) -> None:
-
+        
+        self._loader = SmartLoader()
+        
         self._downloader = DownloaderService()
-
+        
         self._asset_downloader = AssetDownloader(
             self._downloader,
         )
@@ -47,14 +50,13 @@ class ArticleController:
             if logger:
                 logger(message)
         
-        html = self._download_html(
+        page = self._download_html(
             url,
             log,
         )
         
         article = self._parse_article(
-            html,
-            url,
+            page,
             log,
         )
         
@@ -85,7 +87,7 @@ class ArticleController:
             self,
             url: str,
             logger: Logger,
-    ) -> str:
+    ) -> LoadedPage:
         """
         Скачать HTML-код страницы.
 
@@ -107,16 +109,15 @@ class ArticleController:
             "Загрузка страницы..."
         )
         
-        return self._downloader.download(
-            url
+        return self._loader.load(
+            url,
         )
     
     # ------------------------------------------------------------------
     
     def _parse_article(
             self,
-            html: str,
-            url: str,
+            page: LoadedPage,
             logger: Logger,
     ) -> Article:
         """
@@ -144,12 +145,12 @@ class ArticleController:
         )
         
         parser = ParserFactory.create(
-            url,
+            page.url,
         )
         
         return parser.parse(
-            html=html,
-            url=url,
+            html=page.html,
+            url=page.url,
         )
     
     # ------------------------------------------------------------------

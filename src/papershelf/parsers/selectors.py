@@ -26,7 +26,27 @@ PRODUCTSTAR_CONTENT_SELECTORS = (
 
 PRODUCTSTAR_REMOVE_SELECTORS = (
 )
+# ----------------------------------------------------------------------
 
+# wezom.academy
+
+# ----------------------------------------------------------------------
+
+WEZOM_AUTHOR_SELECTORS = (
+    'div.text-block__author._plr-def._mb-def',
+    'a.text-block__author-link',
+)
+
+WEZOM_ARTICLE_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_CONTENT_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_REMOVE_SELECTORS = (
+)
 # ----------------------------------------------------------------------
 
 # metanit.com
@@ -50,26 +70,26 @@ METANIT_REMOVE_SELECTORS = (
     'div.socBlock',
     'div[id^="yandex_rtb"]',
 )
-# ----------------------------------------------------------------------
-
-# wezom.academy
 
 # ----------------------------------------------------------------------
 
-WEZOM_AUTHOR_SELECTORS = (
-    'div.text-block__author._plr-def._mb-def',
-    'a.text-block__author-link',
+# massonnn.notion.site
+
+# ----------------------------------------------------------------------
+
+MASSONNN_AUTHOR_SELECTORS = (
 )
 
-WEZOM_ARTICLE_SELECTORS = (
-    'div.wysiwyg._mt-lg',
+MASSONNN_ARTICLE_SELECTORS = (
+    'div.notion-page-content',
 )
 
-WEZOM_CONTENT_SELECTORS = (
-    'div.wysiwyg._mt-lg',
+MASSONNN_CONTENT_SELECTORS = (
+    'div.notion-page-content',
 )
 
-WEZOM_REMOVE_SELECTORS = (
+MASSONNN_REMOVE_SELECTORS = (
+    'div.notion-selectable.notion-page-block',
 )
 
 # ----------------------------------------------------------------------
@@ -80,7 +100,6 @@ WEZOM_REMOVE_SELECTORS = (
 
 HABR_AUTHOR_SELECTORS = (
     'span.tm-user-info.author',
-    'div.author-contacts',
 )
 
 HABR_ARTICLE_SELECTORS = (
@@ -92,4 +111,30 @@ HABR_CONTENT_SELECTORS = (
 )
 
 HABR_REMOVE_SELECTORS = (
+)
+
+# ----------------------------------------------------------------------
+
+# dan-it.com.ua
+
+# ----------------------------------------------------------------------
+
+DAN_IT_AUTHOR_SELECTORS = (
+    'meta[name="author"]',
+    'div.blog-author-name-block',
+    'span.blog-author-name-block__text',
+    'h3.blog-author-name',
+    'p.blog-author-title',
+    'a.blog-author-title__link',
+)
+
+DAN_IT_ARTICLE_SELECTORS = (
+    '#blog-post-content',
+)
+
+DAN_IT_CONTENT_SELECTORS = (
+    '#blog-post-content',
+)
+
+DAN_IT_REMOVE_SELECTORS = (
 )

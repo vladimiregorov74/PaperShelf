@@ -15,7 +15,8 @@ dependencies = [
     "lxml (>=6.1.1,<7.0.0)",
     "pillow (>=12.3.0,<13.0.0)",
     "python-slugify (>=8.0.4,<9.0.0)",
-    "pyside6-addons (>=6.11.1,<7.0.0)"
+    "pyside6-addons (>=6.11.1,<7.0.0)",
+    "playwright (>=1.62.0,<2.0.0)"
 ]
 
 
