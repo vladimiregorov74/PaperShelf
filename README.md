@@ -556,6 +556,7 @@ PaperShelf содержит встроенный журнал работы пр�
 * операции с библиотекой.
 
 Также предусмотрена возможность включения записи журнала в файл через настройки приложения.
+По умолчанию режим записи выбран - перезапись (LOG_RECORD_FLAG = "w" в papershelf/config/constants.py)
 
 ---
 
@@ -660,7 +661,7 @@ poetry run python tools/inspect_site.py https://example.com/article
 ## Клонирование
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/vladimiregorov74/PaperShelf.git
 cd PaperShelf
 ```
 
