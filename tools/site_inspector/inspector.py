@@ -19,7 +19,7 @@ from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
 from .site_registry_generator import SiteRegistryGenerator
 from .css_utils import build_selector
-from papershelf.loaders.smart_loader import SmartLoader
+# from papershelf.loaders.smart_loader import SmartLoader
 
 class SiteInspector:
     """
@@ -39,7 +39,7 @@ class SiteInspector:
 
         self._soup: BeautifulSoup | None = None
 
-        self._loader = SmartLoader()
+        # self._loader = SmartLoader()
 
         self._container_analyzer = ContainerAnalyzer()
         
@@ -73,21 +73,21 @@ class SiteInspector:
 
     # ------------------------------------------------------------------
 
-    def load(self, url: str, ) -> None:
-        """
-        Загрузить страницу.
-
-        Parameters
-        ----------
-        url:
-            Адрес страницы.
-        """
-        page = self._loader.load(url)
-        
-        self.load_html(
-            page.html,
-            page.url,
-        )
+    # def load(self, url: str, ) -> None:
+    #     """
+    #     Загрузить страницу.
+    #
+    #     Parameters
+    #     ----------
+    #     url:
+    #         Адрес страницы.
+    #     """
+    #     page = self._loader.load(url)
+    #
+    #     self.load_html(
+    #         page.html,
+    #         page.url,
+    #     )
 
     # ------------------------------------------------------------------
     

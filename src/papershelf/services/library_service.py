@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from papershelf.models import LibraryItem
 from papershelf.services.library_scanner import LibraryScanner
-
+from papershelf.services.library_metadata_service import (
+    LibraryMetadataService,
+)
 
 class LibraryService:
     """
@@ -33,17 +35,12 @@ class LibraryService:
     # ------------------------------------------------------------------
 
     def __init__(
-        self,
-        scanner: LibraryScanner,
+            self,
+            scanner: LibraryScanner,
+            metadata_service: LibraryMetadataService,
     ) -> None:
-        """
-        Parameters
-        ----------
-        scanner:
-            Сканер библиотеки.
-        """
-
         self._scanner = scanner
+        self._metadata_service = metadata_service
         self._sort_mode: str = "date"
 
     # ------------------------------------------------------------------
@@ -132,3 +129,21 @@ class LibraryService:
         """
 
         self._sort_mode = mode
+
+        # ------------------------------------------------------------------
+
+    # ------------------------------------------------------------------
+
+    def rename(
+            self,
+            item: LibraryItem,
+            title: str,
+    ) -> None:
+        """
+        Изменить название статьи.
+        """
+
+        self._metadata_service.rename(
+            directory=item.directory,
+            title=title,
+        )

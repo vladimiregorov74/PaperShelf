@@ -150,15 +150,19 @@ class MainWindowBuilder:
         window.actions.sort_by_title.triggered.connect(
             window._sort_by_title
         )
-        
+
         window.actions.settings.triggered.connect(
-            window._show_settings_dialog,
+	        window._show_settings_dialog,
         )
 
         window.library_widget.delete_requested.connect(
-            window._on_delete_requested
+	        window._on_delete_requested
         )
-        
+
+        window.library_widget.rename_requested.connect(
+	        window._on_rename_requested
+        )
+
         window.actions.supported_sites.triggered.connect(
-            window._show_supported_sites,
+	        window._show_supported_sites,
         )

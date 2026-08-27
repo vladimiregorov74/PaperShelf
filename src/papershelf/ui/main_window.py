@@ -4,9 +4,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QDesktopServices
+from PySide6.QtGui import QDesktopServices, QCloseEvent
 from PySide6.QtWidgets import (
-    QMessageBox, QDialog,
+    QDialog,
+    QInputDialog,
+    QMessageBox,
 )
 
 from papershelf.core.exceptions import (
@@ -14,7 +16,7 @@ from papershelf.core.exceptions import (
 )
 from papershelf.config.constants import STATUS_MESSAGE_TIMEOUT, STATUS_MESSAGE_LONG_TIMEOUT
 
-from papershelf.controllers.article_controller import ArticleController
+
 from papershelf.controllers.library_controller import LibraryController
 from papershelf.controllers.save_controller import SaveController
 from papershelf.core.app_settings import AppSettings
@@ -28,7 +30,6 @@ from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
 from papershelf.ui.dialogs.new_site_dialog import NewSiteDialog
 from papershelf.ui.dialogs.settings_dialog import SettingsDialog
 from papershelf.controllers import SiteSupportController
-from papershelf.services.site_support_service import SiteSupportService
 from papershelf.ui.dialogs.supported_sites_dialog import SupportedSitesDialog
 from tools.site_inspector.naming_utils import guess_source_name
 
@@ -44,18 +45,15 @@ class MainWindow(BaseWindow):
 
     def __init__(self) -> None:
         super().__init__()
-
-        self._controller = ArticleController()
-
+        
         self._save_controller = SaveController(
             window=self,
-            controller=self._controller,
         )
-
+        
         self._library_scanner = LibraryScanner(
             SAVED_DIR,
         )
-
+        
         self._library_controller = LibraryController(
             self._library_scanner,
         )
@@ -69,6 +67,8 @@ class MainWindow(BaseWindow):
         # ------------------------------------------------------------------
         
         MainWindowBuilder.build(self)
+        
+        self._save_controller.start()
         
         self._apply_settings()
 
@@ -86,7 +86,6 @@ class MainWindow(BaseWindow):
             )
         
         self._site_support_controller = SiteSupportController(
-            service=SiteSupportService(),
             parent=self,
         )
         
@@ -370,6 +369,72 @@ class MainWindow(BaseWindow):
             STATUS_MESSAGE_TIMEOUT,
         )
 
+
+
+    # ------------------------------------------------------------------
+
+    def _on_rename_requested(
+            self,
+            article: LibraryItem,
+    ) -> None:
+        """
+        Изменить название статьи.
+        """
+
+        title, accepted = QInputDialog.getText(
+            self,
+            "Переименовать статью",
+            "Название:",
+            text=article.title,
+        )
+
+        if not accepted:
+            return
+
+        title = title.strip()
+
+        if not title:
+            QMessageBox.warning(
+                self,
+                "Некорректное название",
+                "Название статьи не может быть пустым.",
+            )
+
+            return
+
+        if title == article.title:
+            return
+
+        try:
+            self._library_controller.rename(
+                item=article,
+                title=title,
+            )
+
+        except Exception as exception:
+            self.log_widget.error(
+                f"Не удалось переименовать статью: {exception}"
+            )
+
+            QMessageBox.critical(
+                self,
+                "Ошибка",
+                str(exception),
+            )
+
+            return
+
+        self.log_widget.success(
+            f"Статья переименована:\n{title}",
+        )
+
+        self._reload_library()
+
+        self.status_bar.showMessage(
+            "Название статьи изменено.",
+            STATUS_MESSAGE_LONG_TIMEOUT,
+        )
+
     # ------------------------------------------------------------------
 
     def _on_delete_requested(
@@ -447,29 +512,30 @@ class MainWindow(BaseWindow):
         )
 
     # ------------------------------------------------------------------
-
+    
     def _on_unsupported_site(
             self,
             url: str,
+            page,
     ) -> None:
         """
         Сайт пока не поддерживается.
         """
-
+        
         domain = urlparse(url).netloc
-
+        
         data = NewSiteDialog.ask(
             parent=self,
             source=guess_source_name(domain),
             title_suffix="",
         )
-
+        
         if data is None:
             self.log_widget.info(
-                "Добавление поддержки сайта отменено."
+                "Добавление поддержки сайта отменено.",
             )
             return
-
+        
         self._site_support_controller.register(
             url=url,
             logger=self.log_widget.info,
@@ -556,3 +622,14 @@ class MainWindow(BaseWindow):
         
         dialog.exec()
     
+    def closeEvent(
+            self,
+            event: QCloseEvent,
+    ) -> None:
+        """
+        Корректно завершить приложение.
+        """
+    
+        self._save_controller.close()
+    
+        event.accept()

@@ -4,24 +4,12 @@ import traceback
 
 from PySide6.QtCore import QObject, Signal, Slot
 
-from papershelf.core.exceptions import UnsupportedSiteError
-
 from papershelf.core.exceptions import PaperShelfError
+
 
 class BaseWorker(QObject):
     """
-    Базовый класс для всех фоновых задач.
-
-    Жизненный цикл:
-
-        started
-            ↓
-        execute()
-            ↓
-        finished
-
-    При возникновении исключения
-    отправляет само исключение и traceback.
+    Базовый класс для фоновых задач.
     """
 
     started = Signal()
@@ -29,15 +17,10 @@ class BaseWorker(QObject):
 
     log = Signal(str)
 
-    #
-    # Полный traceback.
-    #
     error = Signal(str)
-
-    #
-    # Сам объект исключения.
-    #
     exception = Signal(object)
+    
+    close_requested = Signal()
 
     # ------------------------------------------------------------------
 
@@ -51,35 +34,55 @@ class BaseWorker(QObject):
         """
         Точка входа Worker.
         """
+
+        self._log(
+            f"{self.__class__.__name__}: run() START"
+        )
         
         self.started.emit()
         
         try:
+            self._log(
+                f"{self.__class__.__name__}: execute() START"
+            )
+            
             self.execute()
+            
+            self._log(
+                f"{self.__class__.__name__}: execute() END"
+            )
         
         except PaperShelfError as exception:
-            print("run except", type(exception).__name__)
+            self._log(
+                f"{self.__class__.__name__}: "
+                f"PaperShelfError: {exception!r}"
+            )
+            
             self.exception.emit(
                 exception,
             )
-            #
-            # Traceback только для неожиданных ошибок.
-            #
-            if not isinstance(exception, PaperShelfError):
-                self.error.emit(
-                    traceback.format_exc(),
-                )
         
-        except Exception as exception:
-            print("BaseWorker поймал:", type(exception).__name__)
+        except Exception:
+            self._log(
+                f"{self.__class__.__name__}: "
+                "UNHANDLED EXCEPTION"
+            )
             
             self.error.emit(
                 traceback.format_exc(),
             )
         
         finally:
-            print("run finally")
+            self._log(
+                f"{self.__class__.__name__}: "
+                "finished.emit()"
+            )
+
             self.finished.emit()
+            
+            self._log(
+                f"{self.__class__.__name__}: run() END"
+            )
 
     # ------------------------------------------------------------------
 

@@ -15,12 +15,11 @@ class SmartLoader(PageLoader):
 
     # ------------------------------------------------------------------
 
-    def __init__(self, ) -> None:
-        
+    def __init__(self) -> None:
         self._http = HttpLoader()
-        
+
         self._browser = BrowserLoader()
-        
+
         self._detector = DynamicSiteDetector()
 
     # ------------------------------------------------------------------
@@ -29,16 +28,66 @@ class SmartLoader(PageLoader):
             self,
             url: str,
     ) -> LoadedPage:
+        """
+        Загрузить страницу подходящим способом.
+        """
+        
+        print(
+            f"SmartLoader.load(): START "
+            f"id={id(self)} url={url}"
+        )
+        
+        print(
+            "SmartLoader: HTTP load START"
+        )
         
         page = self._http.load(
             url,
         )
         
-        if self._detector.is_dynamic(
-                page.html,
-        ):
-            return self._browser.load(
+        print(
+            "SmartLoader: HTTP load END "
+            f"html={len(page.html)}"
+        )
+        
+        print(
+            "SmartLoader: проверяем dynamic"
+        )
+        
+        dynamic = self._detector.is_dynamic(
+            page.html,
+        )
+        
+        print(
+            f"SmartLoader: dynamic={dynamic}"
+        )
+        
+        if dynamic:
+            print(
+                "SmartLoader: "
+                f"BrowserLoader id={id(self._browser)}"
+            )
+            
+            page = self._browser.load(
                 url,
             )
+            
+            print(
+                "SmartLoader: BrowserLoader.load() END"
+            )
+        
+        print(
+            f"SmartLoader.load(): END "
+            f"page id={id(page)}"
+        )
         
         return page
+
+    # ------------------------------------------------------------------
+
+    def close(self) -> None:
+        """
+        Освободить ресурсы загрузчиков.
+        """
+
+        self._browser.close()

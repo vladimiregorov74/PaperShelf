@@ -24,6 +24,8 @@ class LibraryPanel(QWidget):
     
     delete_requested = Signal(LibraryItem)
 
+    rename_requested = Signal(LibraryItem)
+
     # ------------------------------------------------------------------
 
     def __init__(self) -> None:
@@ -75,19 +77,25 @@ class LibraryPanel(QWidget):
         self.library.article_selected.connect(
             self.article_selected
         )
+
         self.search.textChanged.connect(
             self._filter_articles
         )
+
         self.library.open_folder_requested.connect(
             self.open_folder_requested
         )
-        
+
         self.library.open_original_requested.connect(
             self.open_original_requested
         )
-        
+
         self.library.delete_requested.connect(
             self.delete_requested
+        )
+
+        self.library.rename_requested.connect(
+            self.rename_requested
         )
 
     # ------------------------------------------------------------------

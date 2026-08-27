@@ -5,9 +5,7 @@ from PySide6.QtWidgets import QMessageBox
 
 from papershelf.config.constants import (
     STATUS_MESSAGE_LONG_TIMEOUT,
-    STATUS_MESSAGE_TIMEOUT,
 )
-from papershelf.controllers.article_controller import ArticleController
 from papershelf.workers import SaveArticleWorker
 
 
@@ -15,29 +13,125 @@ class SaveController(QObject):
     """
     Контроллер сохранения статьи.
 
-    Полностью управляет Worker и QThread.
+    Управляет Worker и QThread.
     """
 
-    unsupported_site = Signal(str)
+    save_requested = Signal(str)
 
-    # ------------------------------------------------------------
+    unsupported_site = Signal(
+        str,
+        object,
+    )
+
+    # ------------------------------------------------------------------
 
     def __init__(
         self,
         window,
-        controller: ArticleController,
     ) -> None:
         super().__init__()
 
         self._window = window
-        self._controller = controller
 
         self._worker: SaveArticleWorker | None = None
         self._thread: QThread | None = None
 
         self._current_url: str | None = None
 
-    # ------------------------------------------------------------
+    # ------------------------------------------------------------------
+
+    def start(self) -> None:
+        """
+        Создать Worker и рабочий поток.
+        """
+
+        if self._thread is not None:
+            return
+
+        self._create_worker()
+
+    # ------------------------------------------------------------------
+
+    def _create_worker(self) -> None:
+        """
+        Создать Worker и его рабочий поток.
+        """
+
+        self._thread = QThread(
+            self,
+        )
+
+        self._worker = SaveArticleWorker()
+
+        self._worker.moveToThread(
+            self._thread,
+        )
+
+        self._worker.log.connect(
+            self._window.log_widget.info,
+        )
+
+        self._worker.success.connect(
+            self._on_success,
+        )
+
+        self._worker.unsupported_site.connect(
+            self._on_unsupported_site,
+        )
+
+        self._worker.error.connect(
+            self._on_error,
+        )
+
+        self.save_requested.connect(
+            self._worker.save,
+        )
+
+        # --------------------------------------------------------------
+        # Закрытие Worker
+        # --------------------------------------------------------------
+
+        self._worker.close_requested.connect(
+            self._worker.close,
+        )
+
+        # --------------------------------------------------------------
+        # Завершение Worker → завершение потока
+        # --------------------------------------------------------------
+
+        self._worker.finished.connect(
+            self._thread.quit,
+        )
+
+        # --------------------------------------------------------------
+        # Удаление Worker
+        # --------------------------------------------------------------
+
+        self._worker.finished.connect(
+            self._worker.deleteLater,
+        )
+
+        # --------------------------------------------------------------
+        # Завершение потока
+        # --------------------------------------------------------------
+
+        self._thread.finished.connect(
+            self._on_thread_finished,
+        )
+
+        self._thread.start()
+
+    # ------------------------------------------------------------------
+
+    def _on_thread_finished(self) -> None:
+        """
+        Освободить ссылки после завершения потока.
+        """
+
+        self._worker = None
+        self._thread = None
+
+    # ------------------------------------------------------------------
 
     def save(
         self,
@@ -48,7 +142,6 @@ class SaveController(QObject):
         """
 
         url = url.strip()
-        self._current_url = url
 
         if not url:
             QMessageBox.warning(
@@ -56,80 +149,31 @@ class SaveController(QObject):
                 "Пустой URL",
                 "Введите адрес статьи.",
             )
+
             return
 
-        self._window.top_panel.set_busy(True)
+        self._current_url = url
+
+        self._window.top_panel.set_busy(
+            True,
+        )
 
         self._window.log_widget.info(
-            f"Получен URL: {url}"
+            f"Получен URL: {url}",
         )
 
         self._window.status_bar.showMessage(
-            "Сохранение статьи..."
+            "Сохранение статьи...",
         )
 
-        self._thread = QThread(self._window)
+        if self._thread is None:
+            self.start()
 
-        self._worker = SaveArticleWorker(
-            controller=self._controller,
-            url=url,
+        self.save_requested.emit(
+            url,
         )
 
-        self._worker.moveToThread(
-            self._thread
-        )
-
-        #
-        # запуск
-        #
-
-        self._thread.started.connect(
-            self._worker.run
-        )
-
-        #
-        # сигналы Worker
-        #
-
-        self._worker.log.connect(
-            self._window.log_widget.info
-        )
-
-        self._worker.success.connect(
-            self._on_success
-        )
-
-        self._worker.unsupported_site.connect(
-            self.unsupported_site.emit
-        )
-
-        self._worker.error.connect(
-            self._on_error
-        )
-
-        self._worker.finished.connect(
-            self._on_finished
-        )
-
-        #
-        # очистка
-        #
-
-        self._worker.finished.connect(
-            self._thread.quit
-        )
-
-        self._worker.finished.connect(
-            self._worker.deleteLater
-        )
-
-        self._thread.finished.connect(
-            self._thread.deleteLater
-        )
-
-        self._thread.start()
-
-    # ------------------------------------------------------------
+    # ------------------------------------------------------------------
 
     def retry(self) -> None:
         """
@@ -143,24 +187,44 @@ class SaveController(QObject):
             self._current_url,
         )
 
-    # ------------------------------------------------------------
+    # ------------------------------------------------------------------
+
+    def _on_unsupported_site(
+        self,
+        url: str,
+        page,
+    ) -> None:
+        """
+        Передать неподдерживаемый сайт интерфейсу.
+        """
+
+        self._window.top_panel.set_busy(
+            False,
+        )
+
+        self.unsupported_site.emit(
+            url,
+            page,
+        )
+
+    # ------------------------------------------------------------------
 
     def _on_success(
         self,
         directory,
     ) -> None:
         """
-        Статья успешно сохранена.
+        Обработать успешное сохранение.
         """
 
         self._window.log_widget.success(
-            f"Статья успешно сохранена:\n{directory}"
+            f"Статья успешно сохранена:\n{directory}",
         )
 
         self._window._reload_library()
 
         self._window.library_widget.select_article(
-            directory
+            directory,
         )
 
         self._window.status_bar.showMessage(
@@ -168,14 +232,18 @@ class SaveController(QObject):
             STATUS_MESSAGE_LONG_TIMEOUT,
         )
 
-    # ------------------------------------------------------------
+        self._window.top_panel.set_busy(
+            False,
+        )
+
+    # ------------------------------------------------------------------
 
     def _on_error(
         self,
         traceback_text: str,
     ) -> None:
         """
-        Обработка критических ошибок Worker.
+        Обработать критическую ошибку Worker.
         """
 
         self._window.log_widget.error(
@@ -193,23 +261,28 @@ class SaveController(QObject):
             STATUS_MESSAGE_LONG_TIMEOUT,
         )
 
-    # ------------------------------------------------------------
-
-    def _on_finished(
-        self,
-    ) -> None:
-        """
-        Завершение Worker.
-        """
-
         self._window.top_panel.set_busy(
             False,
         )
 
-        self._window.status_bar.showMessage(
-            "Готово.",
-            STATUS_MESSAGE_TIMEOUT,
-        )
+    # ------------------------------------------------------------------
+
+    def close(self) -> None:
+        """
+        Завершить Worker и рабочий поток.
+        """
+
+        if self._worker is None:
+            return
+
+        if self._thread is None:
+            return
+
+        self._worker.close_requested.emit()
+
+        self._thread.quit()
+
+        self._thread.wait()
 
         self._worker = None
         self._thread = None

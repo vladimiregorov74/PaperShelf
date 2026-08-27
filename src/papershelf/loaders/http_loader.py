@@ -17,7 +17,15 @@ class HttpLoader(PageLoader):
         self,
         url: str,
     ) -> LoadedPage:
-
+        # import traceback
+        
+        # print()
+        # print("=" * 80)
+        # print("HttpLoader.load()")
+        # traceback.print_stack(limit=8)
+        # print("=" * 80)
+        
+        
         response = requests.get(
             url,
             timeout=30,
@@ -32,7 +40,7 @@ class HttpLoader(PageLoader):
                     )
             },
         )
-        print("httploader.load response = ", response.text)
+        # print("httploader.load response = ", response.text)
         response.raise_for_status()
 
         return LoadedPage(

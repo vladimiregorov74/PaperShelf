@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from papershelf.models.loaded_page import LoadedPage
+
 
 class PaperShelfError(Exception):
     """
@@ -20,20 +22,26 @@ class UnsupportedSiteError(PaperShelfError):
     def __init__(
         self,
         url: str,
+        page: LoadedPage | None = None,
     ) -> None:
         """
         Parameters
         ----------
         url:
             URL неподдерживаемого сайта.
+
+        page:
+            Уже загруженная страница, если она доступна.
         """
 
         self.url = url
+        self.page = page
 
         super().__init__(
             f"Сайт не поддерживается: {url}"
         )
-        
+
+
 # ------------------------------------------------------------------
 
 
@@ -53,8 +61,11 @@ class SiteAnalysisError(PaperShelfError):
         self.url = url
         self.reason = reason
 
-        super().__init__(reason)
-        
+        super().__init__(
+            reason,
+        )
+
+
 # ------------------------------------------------------------------
 
 
@@ -77,7 +88,8 @@ class DynamicSiteError(PaperShelfError):
             "Сайт использует динамическую загрузку содержимого (JavaScript). "
             "Автоматический анализ невозможен."
         )
-        
+
+
 # ------------------------------------------------------------------
 
 

@@ -21,12 +21,14 @@ class LibraryWidget(QListWidget):
     """
 
     article_selected = Signal(LibraryItem)
-    
+
     open_folder_requested = Signal(LibraryItem)
-    
+
     open_original_requested = Signal(LibraryItem)
-    
+
     delete_requested = Signal(LibraryItem)
+
+    rename_requested = Signal(LibraryItem)
 
     # ------------------------------------------------------------------
 
@@ -187,8 +189,12 @@ class LibraryWidget(QListWidget):
         open_original_action = menu.addAction(
             "🌍 Открыть оригинал"
         )
-        
+
         menu.addSeparator()
+
+        rename_action = menu.addAction(
+            "✏️ Переименовать"
+        )
         
         delete_action = menu.addAction(
             "🗑 Удалить статью"
@@ -197,15 +203,18 @@ class LibraryWidget(QListWidget):
         action = menu.exec(
             self.mapToGlobal(position)
         )
-        
+
         if action == open_action:
             self.article_selected.emit(article)
-        
+
         elif action == open_folder_action:
             self.open_folder_requested.emit(article)
-        
+
         elif action == open_original_action:
             self.open_original_requested.emit(article)
-        
+
+        elif action == rename_action:
+            self.rename_requested.emit(article)
+
         elif action == delete_action:
             self.delete_requested.emit(article)

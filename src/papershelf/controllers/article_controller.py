@@ -3,15 +3,17 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
+from papershelf.core.exceptions import UnsupportedSiteError
 from papershelf.loaders.smart_loader import SmartLoader
+from papershelf.models import Article
 from papershelf.models.loaded_page import LoadedPage
 from papershelf.parsers.parser_factory import ParserFactory
-from papershelf.models import Article
 from papershelf.services import (
     ArticleExporter,
     AssetDownloader,
     DownloaderService,
 )
+
 
 Logger = Callable[[str], None]
 
@@ -24,11 +26,10 @@ class ArticleController:
     # ------------------------------------------------------------------
 
     def __init__(self) -> None:
-        
         self._loader = SmartLoader()
-        
+
         self._downloader = DownloaderService()
-        
+
         self._asset_downloader = AssetDownloader(
             self._downloader,
         )
@@ -46,13 +47,27 @@ class ArticleController:
         Скачать, обработать и сохранить статью.
         """
         
-        def log(message: str) -> None:
-            if logger:
-                logger(message)
+        log = logger or (lambda message: None)
+        
+        log(
+            "ArticleController.save_article(): START"
+        )
+        
+        log(
+            f"ArticleController: url={url}"
+        )
+        
+        log(
+            f"ArticleController: loader id={id(self._loader)}"
+        )
         
         page = self._download_html(
             url,
             log,
+        )
+        
+        log(
+            "ArticleController: HTML получен"
         )
         
         article = self._parse_article(
@@ -60,9 +75,17 @@ class ArticleController:
             log,
         )
         
+        log(
+            "ArticleController: Article создан"
+        )
+        
         directory = self._create_directory(
             article,
             log,
+        )
+        
+        log(
+            f"ArticleController: directory={directory}"
         )
         
         self._download_assets(
@@ -71,16 +94,26 @@ class ArticleController:
             log,
         )
         
+        log(
+            "ArticleController: assets загружены"
+        )
+        
         self._export_article(
             article,
             directory,
             log,
         )
         
-        log("Готово.")
+        log(
+            "ArticleController: article экспортирован"
+        )
+        
+        log(
+            "ArticleController.save_article(): END"
+        )
         
         return directory
-    
+
     # ------------------------------------------------------------------
     
     def _download_html(
@@ -90,162 +123,144 @@ class ArticleController:
     ) -> LoadedPage:
         """
         Скачать HTML-код страницы.
-
-        Parameters
-        ----------
-        url:
-            Адрес статьи.
-
-        logger:
-            Функция вывода сообщений.
-
-        Returns
-        -------
-        str
-            HTML-код страницы.
         """
         
         logger(
-            "Загрузка страницы..."
+            "ArticleController._download_html(): START"
         )
         
-        return self._loader.load(
+        logger(
+            f"loader id={id(self._loader)}"
+        )
+        
+        logger(
+            "Вызываем SmartLoader.load()"
+        )
+        
+        page = self._loader.load(
             url,
         )
-    
+        
+        logger(
+            "SmartLoader.load() завершён"
+        )
+        
+        logger(
+            f"page id={id(page)}"
+        )
+        
+        logger(
+            f"page.url={page.url}"
+        )
+        
+        logger(
+            f"HTML length={len(page.html)}"
+        )
+        
+        logger(
+            "ArticleController._download_html(): END"
+        )
+        
+        return page
+
     # ------------------------------------------------------------------
-    
+
     def _parse_article(
-            self,
-            page: LoadedPage,
-            logger: Logger,
+        self,
+        page: LoadedPage,
+        logger: Logger,
     ) -> Article:
         """
         Преобразовать HTML страницы в объект статьи.
-
-        Parameters
-        ----------
-        html:
-            HTML-код страницы.
-
-        url:
-            Исходный адрес статьи.
-
-        logger:
-            Функция вывода сообщений.
-
-        Returns
-        -------
-        Article
-            Распарсенная статья.
         """
-        
+
         logger(
             "Парсинг статьи..."
         )
-        
-        parser = ParserFactory.create(
-            page.url,
-        )
-        
+
+        try:
+            parser = ParserFactory.create(
+                page.url,
+            )
+
+        except UnsupportedSiteError as exception:
+            raise UnsupportedSiteError(
+                url=exception.url,
+                page=page,
+            ) from exception
+
         return parser.parse(
             html=page.html,
             url=page.url,
         )
-    
+
     # ------------------------------------------------------------------
-    
+
     def _create_directory(
-            self,
-            article: Article,
-            logger: Logger,
+        self,
+        article: Article,
+        logger: Logger,
     ) -> Path:
         """
         Создать каталог для сохранения статьи.
-
-        Parameters
-        ----------
-        article:
-            Объект статьи.
-
-        logger:
-            Функция вывода сообщений.
-
-        Returns
-        -------
-        Path
-            Каталог статьи.
         """
-        
+
         logger(
             "Создание каталога..."
         )
-        
+
         return self._exporter.create_directory(
-            article
+            article,
         )
-    
+
     # ------------------------------------------------------------------
-    
+
     def _download_assets(
-            self,
-            article: Article,
-            directory: Path,
-            logger: Logger,
+        self,
+        article: Article,
+        directory: Path,
+        logger: Logger,
     ) -> None:
         """
         Скачать все изображения статьи.
-
-        Parameters
-        ----------
-        article:
-            Объект статьи.
-
-        directory:
-            Каталог сохранения статьи.
-
-        logger:
-            Функция вывода сообщений.
         """
-        
+
         logger(
             "Загрузка изображений..."
         )
-        
+
         self._asset_downloader.process(
             article=article,
             directory=directory,
             logger=logger,
         )
-    
+
     # ------------------------------------------------------------------
-    
+
     def _export_article(
-            self,
-            article: Article,
-            directory: Path,
-            logger: Logger,
+        self,
+        article: Article,
+        directory: Path,
+        logger: Logger,
     ) -> None:
         """
         Сохранить статью на диск.
-
-        Parameters
-        ----------
-        article:
-            Объект статьи.
-
-        directory:
-            Каталог сохранения.
-
-        logger:
-            Функция вывода сообщений.
         """
-        
+
         logger(
             "Сохранение статьи..."
         )
-        
+
         self._exporter.save(
             article=article,
             directory=directory,
         )
+
+    # ------------------------------------------------------------------
+
+    def close(self) -> None:
+        """
+        Освободить ресурсы контроллера.
+        """
+
+        self._loader.close()

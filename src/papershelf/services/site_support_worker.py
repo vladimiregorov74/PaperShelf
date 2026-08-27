@@ -13,18 +13,20 @@ class SiteSupportWorker(BaseWorker):
 
     success = Signal()
 
+    closed = Signal()
+
     # ------------------------------------------------------------------
 
     def __init__(
-            self,
-            service: SiteSupportService,
-            url: str,
-            source: str,
-            title_suffix: str,
+        self,
+        url: str,
+        source: str,
+        title_suffix: str,
     ) -> None:
         super().__init__()
 
-        self._service = service
+        self._service: SiteSupportService | None = None
+
         self._url = url
         self._source = source
         self._title_suffix = title_suffix
@@ -38,6 +40,9 @@ class SiteSupportWorker(BaseWorker):
         Выполнить анализ сайта.
         """
 
+        if self._service is None:
+            self._service = SiteSupportService()
+
         self._service.register(
             url=self._url,
             logger=self._log,
@@ -46,3 +51,22 @@ class SiteSupportWorker(BaseWorker):
         )
 
         self.success.emit()
+
+    # ------------------------------------------------------------------
+
+    def close(
+        self,
+    ) -> None:
+        """
+        Освободить ресурсы Worker.
+        """
+
+        if self._service is None:
+            self.closed.emit()
+            return
+
+        self._service.close()
+
+        self._service = None
+
+        self.closed.emit()

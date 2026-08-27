@@ -37,7 +37,15 @@ class DownloaderService:
         """
         Скачать HTML страницы.
         """
-
+        
+        import traceback
+        
+        print()
+        print("=" * 80)
+        print("DownloaderService.download()")
+        traceback.print_stack(limit=8)
+        print("=" * 80)
+        
         response = self._get(url)
 
         return response.text

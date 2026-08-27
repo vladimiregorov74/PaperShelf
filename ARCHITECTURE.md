@@ -96,3 +96,69 @@ MainWindow должен оставаться максимально "тонки�
 Это даст PaperShelf гораздо более зрелую архитектуру: приложение сможет само расширять список 
 поддерживаемых сайтов и поддерживать его в актуальном состоянии без ручного редактирования selectors.py 
 и site_registry_data.py.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Теперь первопричина выглядит так:
+
+                 СЕЙЧАС
+
+ArticleController
+       │
+       │ создан в GUI
+       ▼
+SaveArticleWorker #1 ── QThread #1
+       │
+       X
+SaveArticleWorker #2 ── QThread #2
+       │
+       X
+SaveArticleWorker #3 ── QThread #3
+
+А для persistent Chromium нам нужно:
+
+                 БУДЕТ
+
+SaveController
+       │
+       ▼
+   QThread
+       │
+       ▼
+SaveArticleWorker
+       │
+       ▼
+ArticleController
+       │
+       ▼
+BrowserLoader
+       │
+       ▼
+BrowserSession
+       │
+       ▼
+  Chromium
+
+и вся нижняя часть остаётся в одном потоке на протяжении всей работы приложения.
+
+Это уже не костыль под Notion — это нормальная архитектура жизненного цикла браузерного ресурса.
+
+Следующий шаг
+
+Я предлагаю не трогать пока BrowserLoader.
+
+Сначала переделать только SaveController + SaveArticleWorker на постоянный worker thread. После этого добавим BrowserSession.
+
+Так мы сможем после каждого шага запускать PaperShelf и проверять, что ничего не сломалось.
