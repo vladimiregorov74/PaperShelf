@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 from bs4 import BeautifulSoup, Tag
-import requests
 from urllib.parse import urlparse
 from pathlib import PurePosixPath
 
-from papershelf.core.exceptions import DynamicSiteError, EmptyPageError
+from papershelf.core.exceptions import EmptyPageError
 from .models import InspectionReport, PageInfo, HeadingInfo, ImageInfo, CodeBlockInfo, TableInfo, LinkInfo, \
     StatisticsInfo, ContainerInfo
 from .constants import LANGUAGE_ALIASES, POSITIVE_CLASSES, NEGATIVE_CLASSES, LINK_WEIGHT, TABLE_WEIGHT, CODE_WEIGHT, \
@@ -19,7 +18,6 @@ from .article_author_detector import ArticleAuthorDetector
 from .selector_generator import SelectorGenerator
 from .site_registry_generator import SiteRegistryGenerator
 from .css_utils import build_selector
-# from papershelf.loaders.smart_loader import SmartLoader
 
 class SiteInspector:
     """
@@ -70,24 +68,6 @@ class SiteInspector:
         # обёрткой div.main в другом месте дерева.
         self._container_elements: dict[int, Tag] = {}
 
-
-    # ------------------------------------------------------------------
-
-    # def load(self, url: str, ) -> None:
-    #     """
-    #     Загрузить страницу.
-    #
-    #     Parameters
-    #     ----------
-    #     url:
-    #         Адрес страницы.
-    #     """
-    #     page = self._loader.load(url)
-    #
-    #     self.load_html(
-    #         page.html,
-    #         page.url,
-    #     )
 
     # ------------------------------------------------------------------
     
@@ -875,9 +855,6 @@ class SiteInspector:
             element,
         )
     
-    from papershelf.core.exceptions import DynamicSiteError
-    
-  
     
     # ------------------------------------------------------------------
     
@@ -923,83 +900,4 @@ class SiteInspector:
     
     # ------------------------------------------------------------------
     
-    # def _check_dynamic_site(
-    #         self,
-    # ) -> None:
-    #     """
-    #     Проверить, не является ли страница
-    #     JavaScript-приложением.
-    #     """
-    #     print("dynamic start")
-    #     html = self._html.lower()
-    #
-    #     #
-    #     # Известные признаки SPA.
-    #     #
-    #
-    #     markers = (
-    #
-    #         "__next",
-    #
-    #         "__nuxt",
-    #
-    #         "__remix",
-    #
-    #         "__vite",
-    #
-    #         "data-reactroot",
-    #
-    #         "webpack",
-    #
-    #         "react",
-    #
-    #         "notion",
-    #
-    #     )
-    #
-    #     if any(
-    #             marker in html
-    #             for marker in markers
-    #     ):
-    #         print("DynamicSiteError")
-    #         raise DynamicSiteError(
-    #             self._url,
-    #         )
-    #
-    #     text = self._soup.get_text(
-    #         " ",
-    #         strip=True,
-    #     )
-    #
-    #     paragraphs = self._soup.find_all(
-    #         "p",
-    #     )
-    #
-    #     articles = self._soup.find_all(
-    #         "article",
-    #     )
-    #
-    #     mains = self._soup.find_all(
-    #         "main",
-    #     )
-    #
-    #     scripts = self._soup.find_all(
-    #         "script",
-    #     )
-    #
-    #     #
-    #     # Эвристика.
-    #     #
-    #
-    #     if (
-    #             len(text) < 300
-    #             and len(paragraphs) == 0
-    #             and len(articles) == 0
-    #             and len(mains) == 0
-    #             and len(scripts) > 10
-    #     ):
-    #         print("dynamic detected")
-    #         raise DynamicSiteError(
-    #             self._url,
-    #         )
-    #     print("dynamic finish")
+    

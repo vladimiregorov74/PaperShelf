@@ -9,7 +9,7 @@ from bs4 import Tag
 
 from papershelf.models import Article
 from papershelf.parsers.base_parser import BaseParser
-from papershelf.services import HtmlCleaner
+from papershelf.services.html_cleaner import HtmlCleaner
 
 
 # ------------------------------------------------------------------

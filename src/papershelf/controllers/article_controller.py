@@ -8,12 +8,9 @@ from papershelf.loaders.smart_loader import SmartLoader
 from papershelf.models import Article
 from papershelf.models.loaded_page import LoadedPage
 from papershelf.parsers.parser_factory import ParserFactory
-from papershelf.services import (
-    ArticleExporter,
-    AssetDownloader,
-    DownloaderService,
-)
-
+from papershelf.services.article_exporter import ArticleExporter
+from papershelf.services.asset_downloader import AssetDownloader
+from papershelf.services.downloader import DownloaderService
 
 Logger = Callable[[str], None]
 StageCallback = Callable[[str], None]

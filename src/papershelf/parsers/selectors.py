@@ -48,3 +48,25 @@ WEZOM_CONTENT_SELECTORS = (
 
 WEZOM_REMOVE_SELECTORS = (
 )
+
+# ----------------------------------------------------------------------
+
+# massonnn.notion.site
+
+# ----------------------------------------------------------------------
+
+MASSONNN_AUTHOR_SELECTORS = (
+    'meta[property="article:author"]',
+)
+
+MASSONNN_ARTICLE_SELECTORS = (
+    'div.notion-page-content',
+)
+
+MASSONNN_CONTENT_SELECTORS = (
+    'div.notion-page-content',
+)
+
+MASSONNN_REMOVE_SELECTORS = (
+    'div.notion-selectable.notion-page-block',
+)

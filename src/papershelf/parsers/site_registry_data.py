@@ -4,4 +4,5 @@ _SITES: tuple[tuple[str, str, str, str], ...] = (
 
     ("HABR", "habr.com", "Habr", ""),
     ("WEZOM", "wezom.academy", "Wezom", ""),
+    ("MASSONNN", "massonnn.notion.site", "Massonnn", ""),
 )

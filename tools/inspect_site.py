@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-from urllib.parse import urlparse
 
 from site_inspector.inspector import SiteInspector
 from site_inspector.report_formatter import ReportFormatter

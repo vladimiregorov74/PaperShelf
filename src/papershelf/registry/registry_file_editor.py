@@ -3,8 +3,6 @@ from __future__ import annotations
 import importlib
 from pathlib import Path
 
-from papershelf.parsers import site_registry_data
-
 
 class RegistryFileEditor:
     """

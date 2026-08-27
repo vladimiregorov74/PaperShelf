@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from papershelf.models import LibraryStatistics
+from papershelf.models.library_statistics import LibraryStatistics
 
 
 class LibraryStatisticsService:
