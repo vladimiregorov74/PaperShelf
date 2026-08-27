@@ -156,7 +156,7 @@ class SiteInspector:
         links = self._collect_links()
         
         containers = self._collect_containers()
-        print(f"In inspector.inspect {source=}, {containers=}")
+        # print(f"In inspector.inspect {source=}, {containers=}")
         
         article_candidate = None
         cleaning_report = None

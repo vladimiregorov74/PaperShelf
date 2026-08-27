@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 )
 
 from papershelf.ui.widgets.url_widget import UrlWidget
-
+from papershelf.ui.styles.progress_bar_styles import PROGRESS_BAR_STYLE
 
 class TopPanel(QWidget):
     """
@@ -49,17 +49,7 @@ class TopPanel(QWidget):
         self.progress_bar.setFixedHeight(10)
         self.progress_bar.setMinimumWidth(300)
         self.progress_bar.setVisible(False)
-        self.progress_bar.setStyleSheet(
-            "QProgressBar {"
-            "    border: none;"
-            "    border-radius: 5px;"
-            "    background-color: #e0e0e0;"
-            "}"
-            "QProgressBar::chunk {"
-            "    background-color: #2ecc71;"
-            "    border-radius: 5px;"
-            "}"
-        )
+        self.progress_bar.setStyleSheet(PROGRESS_BAR_STYLE)
 
     # ------------------------------------------------------------------
 

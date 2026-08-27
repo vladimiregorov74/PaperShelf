@@ -3,8 +3,12 @@ from __future__ import annotations
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QHeaderView,
+    QLabel,
+    QMessageBox,
     QPushButton,
-    QTableView, QHeaderView, QAbstractItemView, QMessageBox,
+    QTableView,
 )
 
 from papershelf.services.site_registry_editor import SiteRegistryEditor
@@ -124,6 +128,19 @@ class SupportedSitesDialog(BaseDialog):
         )
 
         self._delete_button.setEnabled(False)
+        
+        self._help_label = QLabel(
+            (
+                "<b>💡 Статья скачивается неправильно?</b><br><br>"
+                
+                "Возможно, структура сайта изменилась. "
+                "Удалите поддержку сайта из списка и повторите скачивание.. "
+                "PaperShelf автоматически заново определит "
+                "структуру страницы и создаст новые селекторы."
+            )
+        )
+        
+        self._help_label.setWordWrap(True)
     
     # ------------------------------------------------------------------
 
@@ -146,6 +163,11 @@ class SupportedSitesDialog(BaseDialog):
                 "Список сайтов, поддерживаемых PaperShelf."
             )
         )
+        
+        self.main_layout.addWidget(
+            self._help_label,
+        )
+        
         self.main_layout.addWidget(
             self._table,
         )

@@ -26,3 +26,25 @@ HABR_CONTENT_SELECTORS = (
 
 HABR_REMOVE_SELECTORS = (
 )
+
+# ----------------------------------------------------------------------
+
+# wezom.academy
+
+# ----------------------------------------------------------------------
+
+WEZOM_AUTHOR_SELECTORS = (
+    'div.text-block__author._plr-def._mb-def',
+    'a.text-block__author-link',
+)
+
+WEZOM_ARTICLE_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_CONTENT_SELECTORS = (
+    'div.wysiwyg._mt-lg',
+)
+
+WEZOM_REMOVE_SELECTORS = (
+)
