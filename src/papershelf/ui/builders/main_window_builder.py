@@ -154,6 +154,10 @@ class MainWindowBuilder:
         window.actions.settings.triggered.connect(
 	        window._show_settings_dialog,
         )
+        
+        window.actions.about.triggered.connect(
+            window.show_about_dialog,
+        )
 
         window.library_widget.delete_requested.connect(
 	        window._on_delete_requested

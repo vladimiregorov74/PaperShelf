@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from papershelf.config.constants import LOG_RECORD_FLAG
+
 
 class LogWriter:
     """
@@ -71,7 +73,7 @@ class LogWriter:
         self._ensure_directory()
 
         with self._log_file.open(
-            mode="a",
+            mode=LOG_RECORD_FLAG,
             encoding="utf-8",
         ) as file:
             file.write(message)

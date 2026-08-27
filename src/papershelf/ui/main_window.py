@@ -26,6 +26,7 @@ from papershelf.services.article_service import ArticleService
 from papershelf.services.library_scanner import LibraryScanner
 from papershelf.ui.base_window import BaseWindow
 from papershelf.ui.builders.main_window_builder import MainWindowBuilder
+from papershelf.ui.dialogs.about_dialog import AboutDialog
 from papershelf.ui.dialogs.confirm_dialog import ConfirmDialog
 from papershelf.ui.dialogs.new_site_dialog import NewSiteDialog
 from papershelf.ui.dialogs.settings_dialog import SettingsDialog
@@ -109,22 +110,17 @@ class MainWindow(BaseWindow):
     # ------------------------------------------------------------------
     # Dialogs
     # ------------------------------------------------------------------
-
+    
     def show_about_dialog(self) -> None:
         """
         Показать окно "О программе".
         """
-
-        QMessageBox.about(
+        
+        dialog = AboutDialog(
             self,
-            "О программе",
-            (
-                "<h2>PaperShelf</h2>"
-                "<p>Версия 0.1.0</p>"
-                "<p>Настольное приложение "
-                "для хранения технических статей.</p>"
-            ),
         )
+        
+        dialog.exec()
 
     # ------------------------------------------------------------------
     # Save

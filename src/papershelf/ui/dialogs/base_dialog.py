@@ -197,7 +197,7 @@ class BaseDialog(QDialog):
         )
 
         self._ok_button = QPushButton(
-            "Зарегистрировать"
+            f"Сохранить разметку\n  и скачать"
         )
 
         self._cancel_button = QPushButton(
