@@ -3,7 +3,10 @@ from __future__ import annotations
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QHBoxLayout,
+    QLabel,
+    QProgressBar,
     QPushButton,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -23,9 +26,7 @@ class TopPanel(QWidget):
         super().__init__()
 
         self._create_widgets()
-        self.save_button.setFixedWidth(
-            170
-        )
+        self.save_button.setFixedWidth(170)
         self._create_layout()
         self._connect_signals()
 
@@ -39,6 +40,27 @@ class TopPanel(QWidget):
             "📥 Сохранить статью"
         )
 
+        self.stage_label = QLabel()
+        self.stage_label.setVisible(False)
+        
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 0)
+        self.progress_bar.setTextVisible(False)
+        self.progress_bar.setFixedHeight(10)
+        self.progress_bar.setMinimumWidth(300)
+        self.progress_bar.setVisible(False)
+        self.progress_bar.setStyleSheet(
+            "QProgressBar {"
+            "    border: none;"
+            "    border-radius: 5px;"
+            "    background-color: #e0e0e0;"
+            "}"
+            "QProgressBar::chunk {"
+            "    background-color: #2ecc71;"
+            "    border-radius: 5px;"
+            "}"
+        )
+
     # ------------------------------------------------------------------
 
     def _create_layout(self) -> None:
@@ -46,25 +68,19 @@ class TopPanel(QWidget):
         Создание компоновки.
         """
 
-        layout = QHBoxLayout(self)
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(0, 0, 0, 0)
+        outer.setSpacing(4)
 
-        layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
-        )
+        row = QHBoxLayout()
+        row.setContentsMargins(0, 0, 0, 0)
+        row.setSpacing(8)
+        row.addWidget(self.url_widget, 1)
+        row.addWidget(self.save_button)
 
-        layout.setSpacing(8)
-
-        layout.addWidget(
-            self.url_widget,
-            1,
-        )
-
-        layout.addWidget(
-            self.save_button,
-        )
+        outer.addLayout(row)
+        outer.addWidget(self.stage_label)
+        outer.addWidget(self.progress_bar)
 
     # ------------------------------------------------------------------
 
@@ -89,11 +105,11 @@ class TopPanel(QWidget):
 
     def url(self) -> str:
         """
-		Вернуть введённый URL.
-		"""
+        Вернуть введённый URL.
+        """
 
         return self.url_widget.text().strip()
-    
+
     # ------------------------------------------------------------------
 
     def set_busy(
@@ -105,8 +121,25 @@ class TopPanel(QWidget):
         """
 
         self.url_widget.setEnabled(not busy)
-
         self.save_button.setEnabled(not busy)
+
+        self.stage_label.setVisible(busy)
+        self.progress_bar.setVisible(busy)
+
+        if not busy:
+            self.stage_label.clear()
+
+    # ------------------------------------------------------------------
+
+    def set_stage(
+        self,
+        stage: str,
+    ) -> None:
+        """
+        Обновить текст текущей стадии.
+        """
+
+        self.stage_label.setText(stage)
 
     # ------------------------------------------------------------------
 

@@ -47,3 +47,9 @@ LOG_FILENAME = "papershelf.log"
 
 STATUS_MESSAGE_TIMEOUT = 3000
 STATUS_MESSAGE_LONG_TIMEOUT = 5000
+
+# ----------------------------------------------------------------------
+# Hide browser
+# ----------------------------------------------------------------------
+
+Flag = True

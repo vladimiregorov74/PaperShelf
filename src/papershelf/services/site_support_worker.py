@@ -32,24 +32,25 @@ class SiteSupportWorker(BaseWorker):
         self._title_suffix = title_suffix
 
     # ------------------------------------------------------------------
-
+    
     def execute(
-        self,
+            self,
     ) -> None:
         """
         Выполнить анализ сайта.
         """
-
+        
         if self._service is None:
             self._service = SiteSupportService()
-
+        
         self._service.register(
             url=self._url,
             logger=self._log,
             source=self._source,
             title_suffix=self._title_suffix,
+            on_stage=self.stage.emit,
         )
-
+        
         self.success.emit()
 
     # ------------------------------------------------------------------

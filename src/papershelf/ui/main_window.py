@@ -536,11 +536,14 @@ class MainWindow(BaseWindow):
             )
             return
         
+        self.top_panel.set_busy(True)
+        
         self._site_support_controller.register(
             url=url,
             logger=self.log_widget.info,
             source=data.source,
             title_suffix=data.title_suffix,
+            on_stage=self.top_panel.set_stage,
         )
     
     # ------------------------------------------------------------------
@@ -562,6 +565,7 @@ class MainWindow(BaseWindow):
             "Ошибка",
             traceback_text,
         )
+        self.top_panel.set_busy(False)
     
     # ------------------------------------------------------------------
     
@@ -591,7 +595,7 @@ class MainWindow(BaseWindow):
                 "Динамический сайт",
                 message,
             )
-            
+            self.top_panel.set_busy(False)
             return
         
         if isinstance(
@@ -607,7 +611,7 @@ class MainWindow(BaseWindow):
                 "Не удалось зарегистрировать сайт",
                 exception.reason,
             )
-            
+            self.top_panel.set_busy(False)
             return
     
     def _show_supported_sites(self) -> None:

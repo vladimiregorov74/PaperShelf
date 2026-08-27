@@ -28,13 +28,14 @@ class SiteSupportController(QObject):
         self._worker: SiteSupportWorker | None = None
 
     # ------------------------------------------------------------------
-
+    
     def register(
-        self,
-        url: str,
-        logger,
-        source: str,
-        title_suffix: str,
+            self,
+            url: str,
+            logger,
+            source: str,
+            title_suffix: str,
+            on_stage=None,
     ) -> None:
         """
         Начать регистрацию нового сайта.
@@ -46,13 +47,13 @@ class SiteSupportController(QObject):
         self._thread = QThread(
             self,
         )
-
+        
         self._worker = SiteSupportWorker(
             url=url,
             source=source,
             title_suffix=title_suffix,
         )
-
+        
         self._worker.moveToThread(
             self._thread,
         )
@@ -60,10 +61,15 @@ class SiteSupportController(QObject):
         # --------------------------------------------------------------
         # Лог
         # --------------------------------------------------------------
-
+        
         self._worker.log.connect(
             logger,
         )
+        
+        if on_stage is not None:
+            self._worker.stage.connect(
+                on_stage,
+            )
 
         # --------------------------------------------------------------
         # Результат

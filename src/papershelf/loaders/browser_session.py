@@ -8,6 +8,8 @@ from playwright.sync_api import (
     sync_playwright,
 )
 
+from papershelf.config.constants import Flag
+
 
 class BrowserSession:
     """
@@ -57,7 +59,7 @@ class BrowserSession:
         )
 
         self._browser = self._playwright.chromium.launch(
-            headless=False,
+            headless=Flag,
         )
 
         print(

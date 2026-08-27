@@ -16,7 +16,7 @@ from papershelf.services import (
 
 
 Logger = Callable[[str], None]
-
+StageCallback = Callable[[str], None]
 
 class ArticleController:
     """
@@ -42,76 +42,56 @@ class ArticleController:
             self,
             url: str,
             logger: Logger | None = None,
+            on_stage: StageCallback | None = None,
     ) -> Path:
         """
         Скачать, обработать и сохранить статью.
         """
-        
+
         log = logger or (lambda message: None)
-        
+        stage = on_stage or (lambda name: None)
+
         log(
             "ArticleController.save_article(): START"
         )
-        
-        log(
-            f"ArticleController: url={url}"
-        )
-        
-        log(
-            f"ArticleController: loader id={id(self._loader)}"
-        )
-        
+
+        stage("Предзагрузка")
+
         page = self._download_html(
             url,
             log,
         )
-        
-        log(
-            "ArticleController: HTML получен"
-        )
-        
+
+        stage("Анализ")
+
         article = self._parse_article(
             page,
             log,
         )
-        
-        log(
-            "ArticleController: Article создан"
-        )
-        
+
         directory = self._create_directory(
             article,
             log,
         )
-        
-        log(
-            f"ArticleController: directory={directory}"
-        )
-        
+
+        stage("Скачивание")
+
         self._download_assets(
             article,
             directory,
             log,
         )
-        
-        log(
-            "ArticleController: assets загружены"
-        )
-        
+
         self._export_article(
             article,
             directory,
             log,
         )
-        
-        log(
-            "ArticleController: article экспортирован"
-        )
-        
+
         log(
             "ArticleController.save_article(): END"
         )
-        
+
         return directory
 
     # ------------------------------------------------------------------

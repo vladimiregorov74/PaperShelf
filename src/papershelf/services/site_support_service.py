@@ -39,42 +39,48 @@ class SiteSupportService:
         self._loader = SmartLoader()
 
     # ------------------------------------------------------------------
-
+    
     def register(
-        self,
-        url: str,
-        logger,
-        source: str | None = None,
-        title_suffix: str = "",
+            self,
+            url: str,
+            logger,
+            source: str | None = None,
+            title_suffix: str = "",
+            on_stage=None,
     ) -> None:
         """
         Выполнить анализ сайта и зарегистрировать его.
         """
+        
+        stage = on_stage or (lambda name: None)
+        
         try:
+            stage("Анализ сайта")
+            
             logger(
                 "Запуск анализа сайта..."
             )
-    
+            
             logger(
                 f"URL анализа: {url}"
             )
-    
+            
             page = self._loader.load(
                 url,
             )
-    
+            
             inspector = SiteInspector()
-    
+            
             inspector.load_html(
                 page.html,
                 page.url,
             )
-    
+            
             report = inspector.inspect(
                 source=source,
                 title_suffix=title_suffix,
             )
-    
+            
             if report.article_candidate is None:
                 raise SiteAnalysisError(
                     url=url,
@@ -83,11 +89,13 @@ class SiteSupportService:
                         "контейнер статьи."
                     ),
                 )
-    
+            
+            stage("Сохранение конфигурации")
+            
             logger(
                 "Запись selectors.py..."
             )
-    
+            
             self._selector_generator.generate(
                 candidate=report.article_candidate,
                 cleaning_report=report.cleaning_report,
@@ -97,11 +105,11 @@ class SiteSupportService:
                     url,
                 ).netloc,
             )
-    
+            
             logger(
                 "Запись site_registry_data.py..."
             )
-    
+            
             self._site_registry_generator.generate(
                 domain=urlparse(
                     url,
@@ -110,23 +118,23 @@ class SiteSupportService:
                 source=source,
                 title_suffix=title_suffix,
             )
-    
+            
             logger(
                 "Перезагрузка конфигурации парсеров..."
             )
-    
+            
             importlib.reload(
                 site_registry_data,
             )
-    
+            
             importlib.reload(
                 selectors,
             )
-    
+            
             importlib.reload(
                 site_registry,
             )
-    
+            
             logger(
                 "Поддержка сайта успешно добавлена."
             )

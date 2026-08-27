@@ -11,15 +11,13 @@ class BaseWorker(QObject):
     """
     Базовый класс для фоновых задач.
     """
-
+    
     started = Signal()
     finished = Signal()
-
     log = Signal(str)
-
+    stage = Signal(str)
     error = Signal(str)
     exception = Signal(object)
-    
     close_requested = Signal()
 
     # ------------------------------------------------------------------

@@ -85,10 +85,11 @@ class SaveArticleWorker(BaseWorker):
                 "SaveArticleWorker: "
                 f"вызываем save_article(url={self._url})"
             )
-
+            
             directory = controller.save_article(
                 url=self._url,
                 logger=self._log,
+                on_stage=self.stage.emit,
             )
 
             self._log(
