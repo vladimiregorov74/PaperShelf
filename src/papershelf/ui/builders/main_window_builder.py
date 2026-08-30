@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QSplitter,
     QStatusBar,
     QVBoxLayout,
-    QWidget,
+    QWidget, QProgressBar,
 )
 
 from papershelf.config.constants import (
@@ -16,11 +16,11 @@ from papershelf.ui.actions import create_actions
 
 from papershelf.ui.menu_bar import MainMenuBar
 from papershelf.ui.panels.top_panel import TopPanel
+from papershelf.ui.styles.progress_bar_styles import PROGRESS_BAR_STYLE
 from papershelf.ui.toolbar import MainToolBar
 from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.ui.widgets.log_widget import LogWidget
 from papershelf.ui.widgets.preview_widget import PreviewWidget
-
 
 class MainWindowBuilder:
 
@@ -42,68 +42,82 @@ class MainWindowBuilder:
         window.actions = create_actions(window)
 
     # ------------------------------------------------------------
-
+    
     @staticmethod
     def _create_widgets(window) -> None:
-
         window.central_widget = QWidget()
-
+        
         window.top_panel = TopPanel()
-
+        
         window.log_widget = LogWidget()
-
+        
         window.library_widget = LibraryPanel()
-
+        
         window.preview_widget = PreviewWidget()
-
+        
+        window.preview_progress_bar = QProgressBar()
+        window.preview_progress_bar.setRange(0, 0)
+        window.preview_progress_bar.setTextVisible(False)
+        window.preview_progress_bar.setFixedHeight(4)
+        window.preview_progress_bar.setStyleSheet(PROGRESS_BAR_STYLE)
+        window.preview_progress_bar.hide()
+        
         window.splitter = QSplitter(Qt.Orientation.Horizontal)
-
+        
         window.main_toolbar = MainToolBar(window.actions)
         window.addToolBar(window.main_toolbar)
-
+        
         window.main_menu = MainMenuBar(window.actions)
         window.setMenuBar(window.main_menu)
-
+        
         window.status_bar = QStatusBar()
         window.status_bar.showMessage(STATUS_READY)
-
+        
         window.setStatusBar(window.status_bar)
 
     # ------------------------------------------------------------
-
+    
     @staticmethod
     def _create_layout(window) -> None:
-
         layout = QVBoxLayout(window.central_widget)
-
+        
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(10)
-
+        
         layout.addWidget(window.top_panel)
-
+        
         left_splitter = QSplitter(Qt.Orientation.Vertical)
-
+        
         left_splitter.addWidget(window.library_widget)
         left_splitter.addWidget(window.log_widget)
-
+        
         left_splitter.setStretchFactor(0, 3)
         left_splitter.setStretchFactor(1, 2)
-
+        
+        preview_container = QWidget()
+        
+        preview_layout = QVBoxLayout(preview_container)
+        preview_layout.setContentsMargins(0, 0, 0, 0)
+        preview_layout.setSpacing(0)
+        
+        preview_layout.addWidget(window.preview_progress_bar)
+        preview_layout.addWidget(window.preview_widget)
+        
         window.splitter.addWidget(left_splitter)
-        window.splitter.addWidget(window.preview_widget)
-
+        window.splitter.addWidget(preview_container)
+        
         window.splitter.setStretchFactor(0, 1)
         window.splitter.setStretchFactor(1, 3)
-
+        
         window.splitter.setSizes(
             [
                 LOG_PANEL_WIDTH,
                 1000,
             ]
         )
-
+        
         layout.addWidget(window.splitter, 1)
-
+        
         window.setCentralWidget(window.central_widget)
 
     # ------------------------------------------------------------
@@ -169,4 +183,12 @@ class MainWindowBuilder:
 
         window.actions.supported_sites.triggered.connect(
 	        window._show_supported_sites,
+        )
+        
+        window.preview_widget.loadStarted.connect(
+            window.preview_progress_bar.show
+        )
+        
+        window.preview_widget.loadFinished.connect(
+            window.preview_progress_bar.hide
         )
