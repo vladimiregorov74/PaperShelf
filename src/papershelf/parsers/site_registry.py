@@ -31,10 +31,11 @@ def _build_config(
             f"{prefix}_{suffix}",
             (),
         )
-
+    
     return SiteConfig(
         domain=domain,
         source=source,
+        identifier=prefix,
         article_selectors=_get("ARTICLE_SELECTORS"),
         content_selectors=_get("CONTENT_SELECTORS"),
         remove_selectors=_get("REMOVE_SELECTORS"),

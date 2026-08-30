@@ -18,10 +18,9 @@ class SaveController(QObject):
 
     save_requested = Signal(str)
 
-    unsupported_site = Signal(
-        str,
-        object,
-    )
+    unsupported_site = Signal(str, object,)
+    
+    stale_selectors = Signal(str, str, str)
 
     # ------------------------------------------------------------------
 
@@ -78,7 +77,11 @@ class SaveController(QObject):
         self._worker.unsupported_site.connect(
             self._on_unsupported_site,
         )
-
+        
+        self._worker.stale_selectors.connect(
+            self._on_stale_selectors,
+        )
+        
         self._worker.error.connect(
             self._on_error,
         )
@@ -273,6 +276,19 @@ class SaveController(QObject):
             False,
         )
 
+    # ------------------------------------------------------------------
+    
+    def _on_stale_selectors(
+            self,
+            url: str,
+            identifier: str,
+            source: str,
+    ) -> None:
+        
+        self._window.top_panel.set_busy(False)
+        
+        self.stale_selectors.emit(url, identifier, source)
+        
     # ------------------------------------------------------------------
 
     def close(self) -> None:

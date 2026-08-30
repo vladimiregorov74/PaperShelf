@@ -5,7 +5,7 @@ from pathlib import Path
 from PySide6.QtCore import Signal, Slot
 
 from papershelf.controllers import ArticleController
-from papershelf.core.exceptions import UnsupportedSiteError
+from papershelf.core.exceptions import UnsupportedSiteError, StaleSelectorsError
 from papershelf.workers.base_worker import BaseWorker
 
 
@@ -16,11 +16,10 @@ class SaveArticleWorker(BaseWorker):
 
     success = Signal(Path)
 
-    unsupported_site = Signal(
-        str,
-        object,
-    )
-
+    unsupported_site = Signal(str, object,)
+    
+    stale_selectors = Signal(str, str, str)  # url, identifier, source
+    
     closed = Signal()
 
     # ------------------------------------------------------------------
@@ -119,7 +118,20 @@ class SaveArticleWorker(BaseWorker):
                 exception.url,
                 exception.page,
             )
-
+        except StaleSelectorsError as exception:
+            self._log(
+                "SaveArticleWorker: получен StaleSelectorsError"
+            )
+            self._log(
+                f"identifier={exception.identifier} source={exception.source}"
+            )
+            
+            self.stale_selectors.emit(
+                exception.url,
+                exception.identifier,
+                exception.source,
+            )
+            
         finally:
             self._log(
                 "SaveArticleWorker: "

@@ -33,6 +33,7 @@ from papershelf.ui.dialogs.settings_dialog import SettingsDialog
 from papershelf.controllers import SiteSupportController
 from papershelf.ui.dialogs.supported_sites_dialog import SupportedSitesDialog
 from tools.site_inspector.naming_utils import guess_source_name
+from papershelf.services.site_registry_editor import SiteRegistryEditor
 
 
 class MainWindow(BaseWindow):
@@ -104,6 +105,10 @@ class MainWindow(BaseWindow):
         
         self._site_support_controller.error.connect(
             self._on_site_support_error,
+        )
+        
+        self._save_controller.stale_selectors.connect(
+            self._on_stale_selectors,
         )
         
         self._library_visible = True
@@ -664,3 +669,46 @@ class MainWindow(BaseWindow):
         
         self.actions.library.setToolTip(text)
         self.actions.library.setStatusTip(text)
+        
+    # ------------------------------------------------------------------
+    
+    def _on_stale_selectors(
+            self,
+            url: str,
+            identifier: str,
+            source: str,
+    ) -> None:
+        """
+        Сохранённые селекторы сайта устарели.
+        """
+        
+        answer = QMessageBox.question(
+            self,
+            "Статья скачалась пустой",
+            (
+                f"Похоже, сайт «{source}» изменил структуру страницы — "
+                "статья скачалась пустой.\n\n"
+                "Удалить сохранённые настройки этого сайта "
+                "и попробовать заново?"
+            ),
+        )
+        
+        if answer != QMessageBox.StandardButton.Yes:
+            self.log_widget.info(
+                "Повторный анализ сайта отменён.",
+            )
+            return
+        
+        editor = SiteRegistryEditor()
+        
+        editor.remove(
+            identifier,
+        )
+        
+        self.log_widget.info(
+            f"Настройки сайта «{source}» удалены.",
+        )
+        
+        self._save_controller.save(
+            url,
+        )

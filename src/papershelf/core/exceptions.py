@@ -110,3 +110,25 @@ class EmptyPageError(PaperShelfError):
         super().__init__(
             "Получена пустая или некорректная HTML-страница."
         )
+        
+# ------------------------------------------------------------------
+
+class StaleSelectorsError(PaperShelfError):
+    """
+    Сохранённые селекторы сайта устарели: статья получена пустой.
+    """
+
+    def __init__(
+        self,
+        url: str,
+        identifier: str,
+        source: str,
+    ) -> None:
+
+        self.url = url
+        self.identifier = identifier
+        self.source = source
+
+        super().__init__(
+            f"Селекторы сайта устарели: {source} ({identifier})"
+        )

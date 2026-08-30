@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-from papershelf.core.exceptions import UnsupportedSiteError
+from papershelf.core.exceptions import UnsupportedSiteError, StaleSelectorsError
 from papershelf.loaders.smart_loader import SmartLoader
 from papershelf.models import Article
 from papershelf.models.loaded_page import LoadedPage
@@ -141,35 +141,37 @@ class ArticleController:
         return page
 
     # ------------------------------------------------------------------
-
+    
     def _parse_article(
-        self,
-        page: LoadedPage,
-        logger: Logger,
+            self,
+            page: LoadedPage,
+            logger: Logger,
     ) -> Article:
-        """
-        Преобразовать HTML страницы в объект статьи.
-        """
-
-        logger(
-            "Парсинг статьи..."
-        )
-
+        
+        logger("Парсинг статьи...")
+        
         try:
-            parser = ParserFactory.create(
-                page.url,
-            )
-
+            parser = ParserFactory.create(page.url)
+        
         except UnsupportedSiteError as exception:
             raise UnsupportedSiteError(
                 url=exception.url,
                 page=page,
             ) from exception
-
-        return parser.parse(
+        
+        article = parser.parse(
             html=page.html,
             url=page.url,
         )
+        
+        if not article.html.strip():
+            raise StaleSelectorsError(
+                url=page.url,
+                identifier=parser.config.identifier,
+                source=parser.config.source,
+            )
+        
+        return article
 
     # ------------------------------------------------------------------
 

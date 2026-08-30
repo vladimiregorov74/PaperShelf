@@ -22,11 +22,12 @@ class SiteConfig:
     MetanitParser от HabrParser — всё остальное было одинаковым
     кодом, скопированным между файлами.
     """
-
+    
     domain: str
     source: str
-    article_selectors: tuple[str, ...]
-    content_selectors: tuple[str, ...]
+    identifier: str = ""
+    article_selectors: tuple[str, ...] = ()
+    content_selectors: tuple[str, ...] = ()
     remove_selectors: tuple[str, ...] = ()
     author_selectors: tuple[str, ...] = ()
     title_suffix: str = ""
@@ -367,3 +368,9 @@ class GenericParser(BaseParser):
         return image.get(
             "src",
         )
+
+    # ------------------------------------------------------------------
+    
+    @property
+    def config(self) -> SiteConfig:
+        return self._config
