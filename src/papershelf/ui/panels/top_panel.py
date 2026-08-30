@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
 
 from papershelf.ui.widgets.url_widget import UrlWidget
 from papershelf.ui.styles.progress_bar_styles import PROGRESS_BAR_STYLE
+from papershelf.ui.resources.icons import icon
 
 class TopPanel(QWidget):
     """
@@ -35,9 +36,10 @@ class TopPanel(QWidget):
     def _create_widgets(self) -> None:
 
         self.url_widget = UrlWidget()
-
+        
         self.save_button = QPushButton(
-            "📥 Сохранить статью"
+            icon("download"),  # ← иконка
+            "Сохранить статью"  # ← текст
         )
 
         self.stage_label = QLabel()

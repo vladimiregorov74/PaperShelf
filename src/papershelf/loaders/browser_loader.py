@@ -59,32 +59,40 @@ class BrowserLoader(PageLoader):
             f"loader_id={id(self)} "
             f"session_id={id(self._session)}"
         )
-
+        
         page = self._session.new_page()
-
+        
         try:
             print(
                 "BrowserLoader: page.goto()"
             )
-
+            # commit защищает от подвисания на прокси-заблокированных сторонних ресурсах,
+            # а wait_for_function("document.body !== null") сразу после goto() гарантирует,
+            # что MutationObserver вешается на уже существующий <body>, а не на пустой about:blank
+            
             page.goto(
                 url,
-                wait_until="domcontentloaded",
+                wait_until="commit",
                 timeout=30_000,
             )
-
+            
+            page.wait_for_function(
+                "document.body !== null",
+                timeout=15_000,
+            )
+            
             print(
                 f"BrowserLoader: page.url={page.url}"
             )
-
+            
             print(
                 f"BrowserLoader: title={page.title()!r}"
             )
-
+            
             self._install_mutation_observer(
                 page,
             )
-
+            
             self._wait_for_network_idle(
                 page,
             )
@@ -107,7 +115,7 @@ class BrowserLoader(PageLoader):
                 "BrowserLoader: HTML получен "
                 f"length={len(html)}"
             )
-
+            
             return LoadedPage(
                 url=page.url,
                 html=html,

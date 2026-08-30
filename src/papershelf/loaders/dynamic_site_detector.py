@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from bs4 import BeautifulSoup
 
+from tools.site_inspector.constants import ARTICLE_MIN_PARAGRAPHS, ARTICLE_MIN_TEXT_LENGTH
+
 
 class DynamicSiteDetector:
     """
@@ -12,24 +14,27 @@ class DynamicSiteDetector:
     # ------------------------------------------------------------------
 
     def is_dynamic(
-        self,
-        html: str,
+            self,
+            html: str,
     ) -> bool:
         """
         Проверить страницу.
         """
 
-        html_lower = html.lower()
-
-        if self._contains_framework_markers(
-            html_lower,
-        ):
-            return True
-
         soup = BeautifulSoup(
             html,
             "lxml",
         )
+
+        if self._has_substantial_content(soup):
+            return False
+
+        html_lower = html.lower()
+
+        if self._contains_framework_markers(
+                html_lower,
+        ):
+            return True
 
         return self._looks_like_spa(
             soup,
@@ -113,4 +118,28 @@ class DynamicSiteDetector:
 
             and len(scripts) > 10
 
+        )
+
+    # ------------------------------------------------------------------
+
+    def _has_substantial_content(
+            self,
+            soup: BeautifulSoup,
+    ) -> bool:
+        """
+        Проверить, есть ли уже достаточно текстового контента —
+        признак серверного рендеринга (SSR), даже при наличии
+        маркеров клиентского фреймворка в разметке.
+        """
+
+        paragraphs = soup.find_all("p")
+
+        text = soup.get_text(
+            " ",
+            strip=True,
+        )
+
+        return (
+                len(paragraphs) >= ARTICLE_MIN_PARAGRAPHS
+                and len(text) >= ARTICLE_MIN_TEXT_LENGTH
         )

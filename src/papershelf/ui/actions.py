@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QWidget
+from .resources.icons import icon
+
 
 
 @dataclass(slots=True)
@@ -28,34 +30,53 @@ def create_actions(parent: QWidget) -> AppActions:
     # Файл
     # ------------------------------------------------------------------
     
-    download = QAction("📥 Скачать", parent)
+    download = QAction(
+	    icon("download"),
+	    "Скачать",
+	    parent,
+	)
     download.setShortcut("Ctrl+D")
     download.setStatusTip("Скачать статью")
     
-    open_folder = QAction("📂 Открыть папку", parent)
+    open_folder = QAction(
+	    icon("folder-open"),
+	    "Открыть папку",
+	    parent
+    )
     open_folder.setShortcut("Ctrl+O")
     
-    exit_action = QAction("Выход", parent)
+    exit_action = QAction(
+	    icon("exit"),
+	    "Выход",
+	    parent
+    )
     exit_action.setShortcut("Ctrl+Q")
     
     # ------------------------------------------------------------------
     # Библиотека
     # ------------------------------------------------------------------
     
-    library = QAction("📚 Библиотека", parent)
+    library = QAction(
+	    icon("library"),
+	    "Библиотека",
+	    parent
+    )
     
     refresh_library = QAction(
-        "🔄 Обновить библиотеку",
+	    icon("refresh"),
+        "Обновить библиотеку",
         parent,
     )
     
     sort_by_date = QAction(
-        "📅 По дате",
+        icon("calendar"),
+        "По дате",
         parent,
     )
     
     sort_by_title = QAction(
-        "🔤 По названию",
+        icon("sort"),
+        "По названию",
         parent,
     )
     
@@ -64,11 +85,13 @@ def create_actions(parent: QWidget) -> AppActions:
     # ------------------------------------------------------------------
     
     settings = QAction(
-        "⚙ Настройки",
+        icon("settings"),
+        "Настройки",
         parent,
     )
     
     supported_sites = QAction(
+        icon("earth"),
         "Поддерживаемые сайты...",
         parent,
     )
@@ -78,6 +101,7 @@ def create_actions(parent: QWidget) -> AppActions:
     # ------------------------------------------------------------------
     
     about = QAction(
+        icon("info"),
         "О программе",
         parent,
     )

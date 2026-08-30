@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 )
 
 from papershelf.models import LibraryItem
+from papershelf.ui.resources.icons import icon
 from papershelf.ui.widgets.library_widget import LibraryWidget
 
 
@@ -42,8 +43,13 @@ class LibraryPanel(QWidget):
 
         self.search = QLineEdit()
 
+        self.search.addAction(
+	        icon("search"),
+	        QLineEdit.ActionPosition.LeadingPosition,
+        )
+
         self.search.setPlaceholderText(
-            "🔍 Поиск..."
+	        "Поиск..."
         )
         self.search.setClearButtonEnabled(True)
         self.library = LibraryWidget()
