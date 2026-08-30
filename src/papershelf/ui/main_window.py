@@ -106,6 +106,8 @@ class MainWindow(BaseWindow):
             self._on_site_support_error,
         )
         
+        self._library_visible = True
+        self._update_library_action()
 
     # ------------------------------------------------------------------
     # Dialogs
@@ -203,22 +205,22 @@ class MainWindow(BaseWindow):
         return articles
 
     # ------------------------------------------------------------------
-
-    def _toggle_library(
-        self,
-    ) -> None:
+    
+    def _toggle_library(self) -> None:
         """
         Показать или скрыть панель библиотеки.
         """
-
+        
         left_panel = self.splitter.widget(0)
-
+        
         if left_panel is None:
             return
-
-        left_panel.setVisible(
-            not left_panel.isVisible(),
-        )
+        
+        self._library_visible = not self._library_visible
+        
+        left_panel.setVisible(self._library_visible)
+        
+        self._update_library_action()
 
     # ------------------------------------------------------------------
 
@@ -633,3 +635,15 @@ class MainWindow(BaseWindow):
         self._save_controller.close()
     
         event.accept()
+    
+    # ------------------------------------------------------------------
+    
+    def _update_library_action(self) -> None:
+        
+        if self._library_visible:
+            text = "Скрыть библиотеку"
+        else:
+            text = "Показать библиотеку"
+        
+        self.actions.library.setToolTip(text)
+        self.actions.library.setStatusTip(text)
