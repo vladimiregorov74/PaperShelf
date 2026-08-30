@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from PySide6.QtWidgets import (
     QCheckBox,
-    QLabel,
     QPushButton,
 )
 
@@ -21,55 +20,69 @@ class SettingsDialog(BaseDialog):
     # ------------------------------------------------------------------
     # Construction
     # ------------------------------------------------------------------
-
+    
     def __init__(
-        self,
-        file_logging: bool,
-        parent=None,
+            self,
+            file_logging: bool,
+            log_panel_visible: bool,
+            parent=None,
     ) -> None:
         super().__init__(parent)
-
+        
         self.setWindowTitle("Настройки")
-
+        
         self._create_widgets(
             file_logging,
+            log_panel_visible,
         )
-
+        
         self._create_layout()
-
+        
         self._connect_signals()
 
     # ------------------------------------------------------------------
     # Widgets
     # ------------------------------------------------------------------
-
-    def _create_widgets(self, file_logging: bool,) -> None:
+    
+    def _create_widgets(
+            self,
+            file_logging: bool,
+            log_panel_visible: bool,
+    ) -> None:
         """
         Создать элементы интерфейса.
         """
-
+        
         self._title_label = self.create_section_title(
             "Настройки журнала"
         )
-
+        
         self._file_logging = QCheckBox(
             "Логирование в файл"
         )
-
+        
         self._file_logging.setChecked(
             file_logging,
         )
-
+        
+        self._log_panel_visible = QCheckBox(
+            "Показать панель логирования"
+        )
+        
+        self._log_panel_visible.setChecked(
+            log_panel_visible,
+        )
+        
         self._ok_button = QPushButton("OK")
         self._cancel_button = QPushButton("Отмена")
-
+        
         self._ok_button.setFixedWidth(110)
         self._cancel_button.setFixedWidth(110)
-
+        
         self._ok_button.setStyleSheet(
             SUCCESS_BUTTON_STYLE,
         )
-
+        
         self._cancel_button.setStyleSheet(
             SECONDARY_BUTTON_STYLE,
         )
@@ -89,6 +102,10 @@ class SettingsDialog(BaseDialog):
 
         self.main_layout.addWidget(
             self._file_logging,
+        )
+        
+        self.main_layout.addWidget(
+            self._log_panel_visible,
         )
 
         self.main_layout.addStretch()
@@ -125,3 +142,10 @@ class SettingsDialog(BaseDialog):
         """
 
         return self._file_logging.isChecked()
+    
+    def log_panel_visible(self) -> bool:
+        """
+        Возвращает состояние панели логирования.
+        """
+        
+        return self._log_panel_visible.isChecked()

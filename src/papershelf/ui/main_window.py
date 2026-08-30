@@ -483,20 +483,30 @@ class MainWindow(BaseWindow):
         
         dialog = SettingsDialog(
             file_logging=self._settings.file_logging_enabled(),
+            log_panel_visible=self._settings.log_panel_visible(),
             parent=self,
         )
         
-        if dialog.exec() == QDialog.DialogCode.Accepted:
-            enabled = dialog.file_logging_enabled()
-            
-            self._settings.set_file_logging(enabled)
-            
-            self._apply_settings()
-            
-            self.status_bar.showMessage(
-                "Настройки сохранены.",
-                STATUS_MESSAGE_TIMEOUT,
-            )
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
+        
+        file_logging = dialog.file_logging_enabled()
+        log_panel_visible = dialog.log_panel_visible()
+        
+        self._settings.set_file_logging(
+            file_logging,
+        )
+        
+        self._settings.set_log_panel_visible(
+            log_panel_visible,
+        )
+        
+        self._apply_settings()
+        
+        self.status_bar.showMessage(
+            "Настройки сохранены.",
+            STATUS_MESSAGE_TIMEOUT,
+        )
 
     # ------------------------------------------------------------------
     
@@ -508,6 +518,13 @@ class MainWindow(BaseWindow):
         self.log_widget.set_file_logging(
             self._settings.file_logging_enabled(),
         )
+        
+        left_splitter = self.splitter.widget(0)
+        
+        if left_splitter is not None:
+            self.log_widget.setVisible(
+                self._settings.log_panel_visible(),
+            )
 
     # ------------------------------------------------------------------
     

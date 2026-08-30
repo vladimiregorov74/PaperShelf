@@ -5,7 +5,7 @@ from PySide6.QtCore import QSettings
 from papershelf.config.constants import (
     APP_NAME,
     FILE_LOGGING_KEY,
-    ORGANIZATION_NAME,
+    ORGANIZATION_NAME, LOG_PANEL_VISIBLE_KEY,
 )
 
 
@@ -69,4 +69,39 @@ class AppSettings:
         self._settings.setValue(
             FILE_LOGGING_KEY,
             enabled,
+        )
+    
+    # ------------------------------------------------------------------
+    # Log panel
+    # ------------------------------------------------------------------
+    
+    def log_panel_visible(self) -> bool:
+        """
+        Возвращает состояние отображения панели логирования.
+        """
+        
+        return self._settings.value(
+            LOG_PANEL_VISIBLE_KEY,
+            False,
+            type=bool,
+        )
+    
+    # ------------------------------------------------------------------
+    
+    def set_log_panel_visible(
+            self,
+            visible: bool,
+    ) -> None:
+        """
+        Изменить состояние отображения панели логирования.
+
+        Parameters
+        ----------
+        visible:
+            Новое состояние.
+        """
+        
+        self._settings.setValue(
+            LOG_PANEL_VISIBLE_KEY,
+            visible,
         )

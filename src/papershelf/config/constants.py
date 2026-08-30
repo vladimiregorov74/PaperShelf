@@ -61,8 +61,11 @@ STATUS_MESSAGE_LONG_TIMEOUT = 5000
 
 HIDE_BROWSER_FLAG = True
 
+# ----------------------------------------------------------------------
+# Lod panel
+# ----------------------------------------------------------------------
 
-
+LOG_PANEL_VISIBLE_KEY = "ui/log_panel_visible"
 
 
 
