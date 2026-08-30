@@ -41,6 +41,7 @@ class TopPanel(QWidget):
             icon("download"),  # ← иконка
             "Сохранить статью"  # ← текст
         )
+        self.save_button.setMaximumHeight(35)
 
         self.stage_label = QLabel()
         self.stage_label.setVisible(False)
