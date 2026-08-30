@@ -147,7 +147,31 @@ class ArticleController:
             page: LoadedPage,
             logger: Logger,
     ) -> Article:
-        
+        """
+        Преобразовать HTML страницы в объект статьи.
+
+        Raises
+        ------
+        UnsupportedSiteError
+            Если для сайта нет зарегистрированного парсера.
+
+        StaleSelectorsError
+            Если парсер найден, но статья получена пустой —
+            вероятно, структура сайта изменилась и сохранённые
+            селекторы устарели.
+
+        Parameters
+        ----------
+        page:
+            Загруженная страница.
+
+        logger:
+            Функция для вывода логов.
+
+        Returns
+        -------
+        Article
+        """
         logger("Парсинг статьи...")
         
         try:
