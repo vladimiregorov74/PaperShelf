@@ -221,11 +221,11 @@ class MainWindow(BaseWindow):
         if left_panel is None:
             return
         
-        self._library_visible = not self._library_visible
+        visible = not left_panel.isVisible()
         
-        left_panel.setVisible(self._library_visible)
+        left_panel.setVisible(visible)
         
-        self._update_library_action()
+        self.preview_title_label.setVisible(visible)
 
     # ------------------------------------------------------------------
 

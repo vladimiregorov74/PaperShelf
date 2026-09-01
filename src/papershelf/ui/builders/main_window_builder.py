@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QSplitter,
     QStatusBar,
     QVBoxLayout,
-    QWidget, QProgressBar,
+    QWidget, QProgressBar, QLabel,
 )
 
 from papershelf.config.constants import (
@@ -17,6 +17,7 @@ from papershelf.ui.actions import create_actions
 from papershelf.ui.menu_bar import MainMenuBar
 from papershelf.ui.panels.top_panel import TopPanel
 from papershelf.ui.styles.progress_bar_styles import PROGRESS_BAR_STYLE
+from papershelf.ui.styles.section_title_style import SECTION_TITLE_STYLE, SECTION_TITLE_HEIGHT
 from papershelf.ui.toolbar import MainToolBar
 from papershelf.ui.widgets.library_panel import LibraryPanel
 from papershelf.ui.widgets.log_widget import LogWidget
@@ -61,7 +62,9 @@ class MainWindowBuilder:
         window.preview_progress_bar.setFixedHeight(4)
         window.preview_progress_bar.setStyleSheet(PROGRESS_BAR_STYLE)
         window.preview_progress_bar.hide()
-        
+        window.preview_title_label = QLabel("Просмотр статьи")
+        window.preview_title_label.setStyleSheet(SECTION_TITLE_STYLE)
+        window.preview_title_label.setFixedHeight(SECTION_TITLE_HEIGHT)
         window.splitter = QSplitter(Qt.Orientation.Horizontal)
         
         window.main_toolbar = MainToolBar(window.actions)
@@ -100,6 +103,7 @@ class MainWindowBuilder:
         preview_layout.setContentsMargins(0, 0, 0, 0)
         preview_layout.setSpacing(0)
         
+        preview_layout.addWidget(window.preview_title_label)
         preview_layout.addWidget(window.preview_progress_bar)
         preview_layout.addWidget(window.preview_widget)
         

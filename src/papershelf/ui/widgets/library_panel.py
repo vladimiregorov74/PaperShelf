@@ -4,11 +4,12 @@ from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QLineEdit,
     QVBoxLayout,
-    QWidget,
+    QWidget, QLabel,
 )
 
 from papershelf.models import LibraryItem
 from papershelf.ui.resources.icons import icon
+from papershelf.ui.styles.section_title_style import SECTION_TITLE_STYLE, SECTION_TITLE_HEIGHT
 from papershelf.ui.widgets.library_widget import LibraryWidget
 
 
@@ -38,39 +39,47 @@ class LibraryPanel(QWidget):
         self._connect_signals()
 
     # ------------------------------------------------------------------
-
+    
     def _create_widgets(self) -> None:
-
+        
+        self.title_label = QLabel("Библиотека")
+        self.title_label.setStyleSheet(SECTION_TITLE_STYLE)
+        self.title_label.setFixedHeight(SECTION_TITLE_HEIGHT)
+        
         self.search = QLineEdit()
-
+        
         self.search.addAction(
-	        icon("search"),
-	        QLineEdit.ActionPosition.LeadingPosition,
+            icon("search"),
+            QLineEdit.ActionPosition.LeadingPosition,
         )
-
+        
         self.search.setPlaceholderText(
-	        "Поиск..."
+            "Поиск..."
         )
         self.search.setClearButtonEnabled(True)
         self.library = LibraryWidget()
 
     # ------------------------------------------------------------------
-
+    
     def _create_layout(self) -> None:
-
+        
         layout = QVBoxLayout(self)
-
+        
         layout.setContentsMargins(
             0,
             0,
             0,
             0,
         )
-
+        
+        layout.addWidget(
+            self.title_label,
+        )
+        
         layout.addWidget(
             self.search,
         )
-
+        
         layout.addWidget(
             self.library,
             1,

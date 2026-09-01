@@ -15,7 +15,8 @@ def main() -> int:
     app.setWindowIcon(
         QIcon(str(APP_ICON_FILE))
     )
-
+    app.setApplicationName("PaperShelf")
+    app.setDesktopFileName("PaperShelf")
     window = MainWindow()
     window.show()
 
