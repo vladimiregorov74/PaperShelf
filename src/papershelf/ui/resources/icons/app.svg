@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="512"
+    height="512"
+    viewBox="0 0 512 512">
+
+    <!-- фон -->
+    <rect
+        x="24"
+        y="24"
+        width="464"
+        height="464"
+        rx="96"
+        fill="#F5F8FC"/>
+
+    <!-- полка -->
+    <rect
+        x="90"
+        y="360"
+        width="332"
+        height="28"
+        rx="14"
+        fill="#2563EB"/>
+
+    <!-- левая стойка -->
+    <rect
+        x="90"
+        y="210"
+        width="28"
+        height="178"
+        rx="14"
+        fill="#2563EB"/>
+
+    <!-- правая стойка -->
+    <rect
+        x="394"
+        y="210"
+        width="28"
+        height="178"
+        rx="14"
+        fill="#2563EB"/>
+
+    <!-- задний лист -->
+    <rect
+        x="240"
+        y="120"
+        width="118"
+        height="180"
+        rx="14"
+        fill="#8CB8FF"/>
+
+    <polygon
+        points="318,120 358,160 318,160"
+        fill="#CFE2FF"/>
+
+    <!-- средний лист -->
+    <rect
+        x="195"
+        y="105"
+        width="118"
+        height="180"
+        rx="14"
+        fill="#4F8DF8"/>
+
+    <polygon
+        points="273,105 313,145 273,145"
+        fill="#A8CBFF"/>
+
+    <!-- передний лист -->
+    <rect
+        x="145"
+        y="90"
+        width="118"
+        height="180"
+        rx="14"
+        fill="#FFFFFF"
+        stroke="#D6E0F0"
+        stroke-width="3"/>
+
+    <polygon
+        points="223,90 263,130 223,130"
+        fill="#E9F1FF"/>
+
+    <!-- строки текста -->
+    <rect
+        x="170"
+        y="145"
+        width="70"
+        height="8"
+        rx="4"
+        fill="#9AA8BD"/>
+
+    <rect
+        x="170"
+        y="170"
+        width="82"
+        height="8"
+        rx="4"
+        fill="#9AA8BD"/>
+
+    <rect
+        x="170"
+        y="195"
+        width="75"
+        height="8"
+        rx="4"
+        fill="#9AA8BD"/>
+
+    <rect
+        x="170"
+        y="220"
+        width="60"
+        height="8"
+        rx="4"
+        fill="#9AA8BD"/>
+
+</svg>

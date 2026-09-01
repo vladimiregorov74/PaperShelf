@@ -103,15 +103,17 @@ DAN_IT_REMOVE_SELECTORS = (
 
 HABR_AUTHOR_SELECTORS = (
     'span.tm-user-info.author',
-    'div.article-author',
+    'div.tm-article-author__company-card',
+    'div.tm-article-author__company-contacts',
+    'a.tm-article-author__contact',
 )
 
 HABR_ARTICLE_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-1',
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
 )
 
 HABR_CONTENT_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-1',
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
 )
 
 HABR_REMOVE_SELECTORS = (

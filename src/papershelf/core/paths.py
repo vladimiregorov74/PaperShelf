@@ -22,3 +22,19 @@ PARSERS_DIR = PROJECT_ROOT / "src" / "papershelf" / "parsers"
 SELECTORS_FILE = PARSERS_DIR / "selectors.py"
 
 SITE_REGISTRY_DATA_FILE = PARSERS_DIR / "site_registry_data.py"
+
+#
+# Иконка приложения
+#
+
+ICONS_DIR = (
+    PROJECT_ROOT
+    / "src"
+    / "papershelf"
+    / "ui"
+    / "resources"
+    / "icons"
+)
+
+APP_ICON_FILE = ICONS_DIR / "app.png"
+# APP_ICON_FILE = ICONS_DIR / "app.svg"
