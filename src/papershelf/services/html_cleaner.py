@@ -3,6 +3,8 @@ from __future__ import annotations
 from bs4 import BeautifulSoup
 from bs4 import Tag
 
+from papershelf.config.constants import REMOVE_SELECTORS
+
 
 class HtmlCleaner:
     """
@@ -12,12 +14,7 @@ class HtmlCleaner:
     использоваться любым парсером.
     """
 
-    _REMOVE_SELECTORS = (
-        "script",
-        "style",
-        "noscript",
-        ".code-explainer",
-    )
+    _REMOVE_SELECTORS = REMOVE_SELECTORS
 
     # ------------------------------------------------------------------
 
