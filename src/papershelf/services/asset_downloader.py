@@ -56,17 +56,17 @@ class AssetDownloader:
         )
 
         counter = 1
-
+        
         #
         # img
         #
         for image in soup.find_all("img"):
-
+            
             src = image.get("src")
-
+            
             if not src:
                 continue
-
+            
             local = self._download_asset(
                 src,
                 article.url,
@@ -74,26 +74,41 @@ class AssetDownloader:
                 counter,
                 logger,
             )
-
-            if local:
-
-                image["src"] = local
-                image.attrs.pop("srcset", None)
-
-                counter += 1
-
+            
+            if not local:
+                continue
+            
+            image["src"] = local
+            
+            #
+            # После сохранения изображения локально
+            # браузер сам определит его реальные размеры.
+            #
+            for attribute in (
+                    "srcset",
+                    "sizes",
+                    "width",
+                    "height",
+            ):
+                image.attrs.pop(
+                    attribute,
+                    None,
+                )
+            
+            counter += 1
+        
         #
         # picture/source srcset
         #
         for source in soup.find_all("source"):
-
+            
             srcset = source.get("srcset")
-
+            
             if not srcset:
                 continue
-
+            
             url = srcset.split()[0]
-
+            
             local = self._download_asset(
                 url,
                 article.url,
@@ -101,12 +116,18 @@ class AssetDownloader:
                 counter,
                 logger,
             )
-
-            if local:
-
-                source["srcset"] = local
-
-                counter += 1
+            
+            if not local:
+                continue
+            
+            source["srcset"] = local
+            
+            source.attrs.pop(
+                "sizes",
+                None,
+            )
+            
+            counter += 1
         
         body = soup.body
         

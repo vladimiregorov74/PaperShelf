@@ -163,7 +163,13 @@ h1 {{
 
 img {{
 
+    display: block;
+
     max-width: 100%;
+    
+    height: auto;
+
+    margin: 20px auto;
 }}
 
 pre {{
