@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import requests
 
+from papershelf.core.exceptions import PageNotFoundError
 from papershelf.loaders.browser_loader import BrowserLoader
 from papershelf.loaders.dynamic_site_detector import DynamicSiteDetector
 from papershelf.loaders.http_loader import HttpLoader
 from papershelf.loaders.page_loader import PageLoader
 from papershelf.models.loaded_page import LoadedPage
+from papershelf.services.http_fallback_policy import HttpFallbackPolicy
 
 
 class SmartLoader(PageLoader):
@@ -16,13 +18,21 @@ class SmartLoader(PageLoader):
     """
 
     # ------------------------------------------------------------------
-
-    def __init__(self) -> None:
+    
+    def __init__(
+            self,
+    ) -> None:
+        """
+        Инициализировать загрузчики и сервисы.
+        """
+        
         self._http = HttpLoader()
-
+        
         self._browser = BrowserLoader()
-
+        
         self._detector = DynamicSiteDetector()
+        
+        self._fallback_policy = HttpFallbackPolicy()
 
     # ------------------------------------------------------------------
     
@@ -32,6 +42,17 @@ class SmartLoader(PageLoader):
     ) -> LoadedPage:
         """
         Загрузить страницу подходящим способом.
+
+        Сначала выполняется загрузка через HttpLoader.
+        Если HTTP-загрузка завершилась ошибкой, решение
+        о переходе к BrowserLoader принимает HttpFallbackPolicy.
+
+        Ошибка 404 преобразуется в доменное исключение
+        PaperShelfError и не передается BrowserLoader.
+
+        После успешной HTTP-загрузки определяется,
+        является ли страница динамической. Для динамических
+        страниц используется BrowserLoader.
         """
         
         print(
@@ -57,16 +78,54 @@ class SmartLoader(PageLoader):
             )
         
         #
-        # Если requests не справился —
-        # пробуем полноценный браузер.
+        # HTTP-ошибка.
         #
         except requests.HTTPError as exc:
             
-            if exc.response is not None:
-                if exc.response.status_code == 404:
-                    raise
+            status_code = None
             
-            return self._browser.load(url)
+            if exc.response is not None:
+                status_code = exc.response.status_code
+            
+            print(
+                "SmartLoader: HTTP error "
+                f"status={status_code}"
+            )
+            
+            #
+            # 404 — страница действительно отсутствует.
+            #
+            if status_code == 404:
+                raise PageNotFoundError(
+                    url,
+                ) from exc
+            
+            #
+            # Остальные HTTP-ошибки передаем
+            # в HttpFallbackPolicy.
+            #
+            if not self._fallback_policy.should_use_browser(
+                    status_code,
+            ):
+                print(
+                    "SmartLoader: "
+                    "BrowserLoader не используется"
+                )
+                
+                raise
+            
+            print(
+                "SmartLoader: "
+                "switching to BrowserLoader"
+            )
+            
+            return self._browser.load(
+                url,
+            )
+        
+        #
+        # Остальные ошибки requests.
+        #
         except requests.RequestException as exc:
             
             print(
@@ -74,7 +133,8 @@ class SmartLoader(PageLoader):
             )
             
             print(
-                "SmartLoader: switching to BrowserLoader"
+                "SmartLoader: "
+                "switching to BrowserLoader"
             )
             
             return self._browser.load(

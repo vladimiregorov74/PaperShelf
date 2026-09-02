@@ -132,3 +132,27 @@ class StaleSelectorsError(PaperShelfError):
         super().__init__(
             f"Селекторы сайта устарели: {source} ({identifier})"
         )
+        
+class PageNotFoundError(PaperShelfError):
+    """
+    Запрошенная страница не существует.
+    """
+
+    # ------------------------------------------------------------------
+
+    def __init__(
+        self,
+        url: str,
+    ) -> None:
+        """
+        Parameters
+        ----------
+        url:
+            URL страницы, которая не была найдена.
+        """
+
+        self.url = url
+
+        super().__init__(
+            f"Страница не найдена: {url}"
+        )

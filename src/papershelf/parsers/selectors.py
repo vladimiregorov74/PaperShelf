@@ -29,28 +29,6 @@ WEZOM_REMOVE_SELECTORS = (
 )
 # ----------------------------------------------------------------------
 
-# massonnn.notion.site
-
-# ----------------------------------------------------------------------
-
-MASSONNN_AUTHOR_SELECTORS = (
-    'meta[property="article:author"]',
-)
-
-MASSONNN_ARTICLE_SELECTORS = (
-    'div.notion-page-content',
-)
-
-MASSONNN_CONTENT_SELECTORS = (
-    'div.notion-page-content',
-)
-
-MASSONNN_REMOVE_SELECTORS = (
-    'div.notion-selectable.notion-page-block',
-)
-
-# ----------------------------------------------------------------------
-
 # productstar.ru
 
 # ----------------------------------------------------------------------
@@ -67,6 +45,95 @@ PRODUCTSTAR_CONTENT_SELECTORS = (
 )
 
 PRODUCTSTAR_REMOVE_SELECTORS = (
+)
+# ----------------------------------------------------------------------
+
+# www.eurointegration.com.ua
+
+# ----------------------------------------------------------------------
+
+WWW_AUTHOR_SELECTORS = (
+    'span.post__author',
+    'div.article__author',
+)
+
+WWW_ARTICLE_SELECTORS = (
+    'div.post__text',
+)
+
+WWW_CONTENT_SELECTORS = (
+    'div.post__text',
+)
+
+WWW_REMOVE_SELECTORS = (
+    'div.mobile-only-ads',
+    'ins[class*="adsbygoogle"]',
+)
+
+# ----------------------------------------------------------------------
+
+# epravda.com.ua
+
+# ----------------------------------------------------------------------
+
+EPRAVDA_AUTHOR_SELECTORS = (
+    'span.post_news_author',
+)
+
+EPRAVDA_ARTICLE_SELECTORS = (
+    'div.post_article_text',
+)
+
+EPRAVDA_CONTENT_SELECTORS = (
+    'div.post_article_text',
+)
+
+EPRAVDA_REMOVE_SELECTORS = (
+    'div.also_box',
+)
+
+# ----------------------------------------------------------------------
+
+# life.pravda.com.ua
+
+# ----------------------------------------------------------------------
+
+LIFE_AUTHOR_SELECTORS = (
+    'span.post_news_author',
+)
+
+LIFE_ARTICLE_SELECTORS = (
+    'div.post_article_text',
+)
+
+LIFE_CONTENT_SELECTORS = (
+    'div.post_article_text',
+)
+
+LIFE_REMOVE_SELECTORS = (
+    'div.also_box',
+)
+
+# ----------------------------------------------------------------------
+
+# habr.com
+
+# ----------------------------------------------------------------------
+
+HABR_AUTHOR_SELECTORS = (
+    'span.tm-user-info.author',
+    'div.article-author',
+)
+
+HABR_ARTICLE_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_CONTENT_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_REMOVE_SELECTORS = (
 )
 
 # ----------------------------------------------------------------------
@@ -97,24 +164,22 @@ DAN_IT_REMOVE_SELECTORS = (
 
 # ----------------------------------------------------------------------
 
-# habr.com
+# massonnn.notion.site
 
 # ----------------------------------------------------------------------
 
-HABR_AUTHOR_SELECTORS = (
-    'span.tm-user-info.author',
-    'div.tm-article-author__company-card',
-    'div.tm-article-author__company-contacts',
-    'a.tm-article-author__contact',
+MASSONNN_AUTHOR_SELECTORS = (
+    'meta[property="article:author"]',
 )
 
-HABR_ARTICLE_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+MASSONNN_ARTICLE_SELECTORS = (
+    'div.notion-page-content',
 )
 
-HABR_CONTENT_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+MASSONNN_CONTENT_SELECTORS = (
+    'div.notion-page-content',
 )
 
-HABR_REMOVE_SELECTORS = (
+MASSONNN_REMOVE_SELECTORS = (
+    'div.notion-selectable.notion-page-block',
 )

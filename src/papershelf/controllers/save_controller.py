@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QMessageBox
 from papershelf.config.constants import (
     STATUS_MESSAGE_LONG_TIMEOUT,
 )
+from papershelf.core import PaperShelfError
 from papershelf.workers import SaveArticleWorker
 
 
@@ -84,6 +85,10 @@ class SaveController(QObject):
         
         self._worker.error.connect(
             self._on_error,
+        )
+        
+        self._worker.exception.connect(
+            self._on_exception,
         )
 
         self.save_requested.connect(
@@ -310,3 +315,34 @@ class SaveController(QObject):
 
         self._worker = None
         self._thread = None
+
+    # ------------------------------------------------------------------
+    
+    def _on_exception(
+            self,
+            exception: PaperShelfError,
+    ) -> None:
+        """
+        Обработать ожидаемое исключение приложения.
+        """
+        
+        message = str(exception)
+        
+        self._window.log_widget.error(
+            message,
+        )
+        
+        QMessageBox.warning(
+            self._window,
+            "Не удалось сохранить статью",
+            message,
+        )
+        
+        self._window.status_bar.showMessage(
+            message,
+            STATUS_MESSAGE_LONG_TIMEOUT,
+        )
+        
+        self._window.top_panel.set_busy(
+            False,
+        )
