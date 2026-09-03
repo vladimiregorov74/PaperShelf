@@ -196,3 +196,7 @@ class MainWindowBuilder:
         window.preview_widget.loadFinished.connect(
             window.preview_progress_bar.hide
         )
+        
+        window.actions.exit.triggered.connect(
+            window.close,
+        )
