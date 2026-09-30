@@ -1242,3 +1242,360 @@ https://habr.com/ru/articles/1036696/O(1)
 [22:00:59] INFO    SaveArticleWorker.save(): END
 [22:17:36] SUCCESS Статья удалена:
 PySide6.QtWidgets.QListWidget - Qt for Python
+[11:51:05] SUCCESS Статья удалена:
+Разбираем map, filter, reduce, any, all, zip и enumerate в Python / Хабр
+[11:51:09] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[11:51:10] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[11:51:10] INFO    SaveArticleWorker: run() START
+[11:51:10] INFO    SaveArticleWorker: execute() START
+[11:51:10] INFO    SaveArticleWorker.execute(): START
+[11:51:10] INFO    SaveArticleWorker: ArticleController создан id=127673538886448
+[11:51:10] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[11:51:10] INFO    ArticleController.save_article(): START
+[11:51:10] INFO    ArticleController._download_html(): START
+[11:51:10] INFO    loader id=127673303640656
+[11:51:10] INFO    Вызываем SmartLoader.load()
+[11:51:11] INFO    SmartLoader.load() завершён
+[11:51:11] INFO    page id=127673303633872
+[11:51:11] INFO    page.url=https://habr.com/ru/articles/1036696/
+[11:51:11] INFO    HTML length=173264
+[11:51:11] INFO    ArticleController._download_html(): END
+[11:51:11] INFO    Парсинг статьи...
+[11:51:11] INFO    Создание каталога...
+[11:51:11] INFO    Загрузка изображений...
+[11:51:11] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[11:51:11] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[11:51:11] INFO    Сохранение статьи...
+[11:51:11] INFO    ArticleController.save_article(): END
+[11:51:11] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[11:51:11] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[11:51:12] INFO    SaveArticleWorker: закрываем ArticleController
+[11:51:12] INFO    SaveArticleWorker: ArticleController закрыт
+[11:51:12] INFO    SaveArticleWorker.execute(): END
+[11:51:12] INFO    SaveArticleWorker: execute() END
+[11:51:12] INFO    SaveArticleWorker: finished.emit()
+[11:51:12] INFO    SaveArticleWorker: run() END
+[11:51:12] INFO    SaveArticleWorker.save(): END
+[11:51:54] SUCCESS Статья удалена:
+Разбираем map, filter, reduce, any, all, zip и enumerate в Python / Хабр
+[11:51:55] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[11:51:55] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[11:51:55] INFO    SaveArticleWorker: run() START
+[11:51:55] INFO    SaveArticleWorker: execute() START
+[11:51:55] INFO    SaveArticleWorker.execute(): START
+[11:51:55] INFO    SaveArticleWorker: ArticleController создан id=127671425496752
+[11:51:55] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[11:51:55] INFO    ArticleController.save_article(): START
+[11:51:55] INFO    ArticleController._download_html(): START
+[11:51:55] INFO    loader id=127673548177920
+[11:51:55] INFO    Вызываем SmartLoader.load()
+[11:51:56] INFO    SmartLoader.load() завершён
+[11:51:56] INFO    page id=127673303640640
+[11:51:56] INFO    page.url=https://habr.com/ru/articles/1036696/
+[11:51:56] INFO    HTML length=173264
+[11:51:56] INFO    ArticleController._download_html(): END
+[11:51:56] INFO    Парсинг статьи...
+[11:51:56] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[11:51:56] INFO    URL=https://habr.com/ru/articles/1036696/
+[11:51:56] INFO    page id=127673303640640
+[11:51:56] INFO    SaveArticleWorker: закрываем ArticleController
+[11:51:56] INFO    SaveArticleWorker: ArticleController закрыт
+[11:51:56] INFO    SaveArticleWorker.execute(): END
+[11:51:56] INFO    SaveArticleWorker: execute() END
+[11:51:56] INFO    SaveArticleWorker: finished.emit()
+[11:51:56] INFO    SaveArticleWorker: run() END
+[11:51:56] INFO    SaveArticleWorker.save(): END
+[11:51:57] INFO    SiteSupportWorker: run() START
+[11:51:57] INFO    SiteSupportWorker: execute() START
+[11:51:57] INFO    Запуск анализа сайта...
+[11:51:57] INFO    URL анализа: https://habr.com/ru/articles/1036696/
+[11:51:58] INFO    Запись selectors.py...
+[11:51:58] INFO    Запись site_registry_data.py...
+[11:51:58] INFO    Перезагрузка конфигурации парсеров...
+[11:51:58] INFO    Поддержка сайта успешно добавлена.
+[11:51:58] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[11:51:58] INFO    SiteSupportWorker: execute() END
+[11:51:58] INFO    SiteSupportWorker: finished.emit()
+[11:51:58] INFO    SiteSupportWorker: run() END
+[11:51:58] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[11:51:58] INFO    SaveArticleWorker: run() START
+[11:51:58] INFO    SaveArticleWorker: execute() START
+[11:51:58] INFO    SaveArticleWorker.execute(): START
+[11:51:58] INFO    SaveArticleWorker: ArticleController создан id=127670395685248
+[11:51:58] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[11:51:58] INFO    ArticleController.save_article(): START
+[11:51:58] INFO    ArticleController._download_html(): START
+[11:51:58] INFO    loader id=127670355256400
+[11:51:58] INFO    Вызываем SmartLoader.load()
+[11:51:58] INFO    SmartLoader.load() завершён
+[11:51:58] INFO    page id=127670352590256
+[11:51:58] INFO    page.url=https://habr.com/ru/articles/1036696/
+[11:51:58] INFO    HTML length=172870
+[11:51:58] INFO    ArticleController._download_html(): END
+[11:51:58] INFO    Парсинг статьи...
+[11:51:58] INFO    Создание каталога...
+[11:51:58] INFO    Загрузка изображений...
+[11:51:59] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[11:51:59] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[11:51:59] INFO    Сохранение статьи...
+[11:51:59] INFO    ArticleController.save_article(): END
+[11:51:59] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[11:51:59] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[11:51:59] INFO    SaveArticleWorker: закрываем ArticleController
+[11:51:59] INFO    SaveArticleWorker: ArticleController закрыт
+[11:51:59] INFO    SaveArticleWorker.execute(): END
+[11:51:59] INFO    SaveArticleWorker: execute() END
+[11:51:59] INFO    SaveArticleWorker: finished.emit()
+[11:51:59] INFO    SaveArticleWorker: run() END
+[11:51:59] INFO    SaveArticleWorker.save(): END
+[11:55:58] INFO    Получен URL: https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:55:58] INFO    SaveArticleWorker.save(): START url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:55:58] INFO    SaveArticleWorker: run() START
+[11:55:58] INFO    SaveArticleWorker: execute() START
+[11:55:58] INFO    SaveArticleWorker.execute(): START
+[11:55:58] INFO    SaveArticleWorker: ArticleController создан id=127673543744960
+[11:55:58] INFO    SaveArticleWorker: вызываем save_article(url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/)
+[11:55:58] INFO    ArticleController.save_article(): START
+[11:55:58] INFO    ArticleController._download_html(): START
+[11:55:58] INFO    loader id=127670394789120
+[11:55:58] INFO    Вызываем SmartLoader.load()
+[11:55:58] INFO    SmartLoader.load() завершён
+[11:55:58] INFO    page id=127670394788096
+[11:55:58] INFO    page.url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:55:58] INFO    HTML length=46651
+[11:55:58] INFO    ArticleController._download_html(): END
+[11:55:58] INFO    Парсинг статьи...
+[11:55:58] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[11:55:58] INFO    URL=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:55:58] INFO    page id=127670394788096
+[11:55:58] INFO    SaveArticleWorker: закрываем ArticleController
+[11:55:58] INFO    SaveArticleWorker: ArticleController закрыт
+[11:55:58] INFO    SaveArticleWorker.execute(): END
+[11:55:58] INFO    SaveArticleWorker: execute() END
+[11:55:58] INFO    SaveArticleWorker: finished.emit()
+[11:55:58] INFO    SaveArticleWorker: run() END
+[11:55:58] INFO    SaveArticleWorker.save(): END
+[11:56:00] INFO    SiteSupportWorker: run() START
+[11:56:00] INFO    SiteSupportWorker: execute() START
+[11:56:00] INFO    Запуск анализа сайта...
+[11:56:00] INFO    URL анализа: https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:56:00] INFO    Запись selectors.py...
+[11:56:00] INFO    Запись site_registry_data.py...
+[11:56:00] INFO    Перезагрузка конфигурации парсеров...
+[11:56:00] INFO    Поддержка сайта успешно добавлена.
+[11:56:00] INFO    Получен URL: https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:56:00] INFO    SiteSupportWorker: execute() END
+[11:56:00] INFO    SiteSupportWorker: finished.emit()
+[11:56:00] INFO    SiteSupportWorker: run() END
+[11:56:00] INFO    SaveArticleWorker.save(): START url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:56:00] INFO    SaveArticleWorker: run() START
+[11:56:00] INFO    SaveArticleWorker: execute() START
+[11:56:00] INFO    SaveArticleWorker.execute(): START
+[11:56:00] INFO    SaveArticleWorker: ArticleController создан id=127670394648144
+[11:56:00] INFO    SaveArticleWorker: вызываем save_article(url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/)
+[11:56:00] INFO    ArticleController.save_article(): START
+[11:56:00] INFO    ArticleController._download_html(): START
+[11:56:00] INFO    loader id=127670372752640
+[11:56:00] INFO    Вызываем SmartLoader.load()
+[11:56:00] INFO    SmartLoader.load() завершён
+[11:56:00] INFO    page id=127670452185472
+[11:56:00] INFO    page.url=https://tibbixel.com/free_svg/free-capybara-vector-art-love-hearts/
+[11:56:00] INFO    HTML length=46665
+[11:56:00] INFO    ArticleController._download_html(): END
+[11:56:00] INFO    Парсинг статьи...
+[11:56:00] INFO    Создание каталога...
+[11:56:00] INFO    Загрузка изображений...
+[11:56:00] INFO    Сохранение статьи...
+[11:56:00] INFO    ArticleController.save_article(): END
+[11:56:00] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/free-capybara-svg-whimsical-animal-clip-art-with-love-hearts
+[11:56:00] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/free-capybara-svg-whimsical-animal-clip-art-with-love-hearts
+[11:56:00] INFO    SaveArticleWorker: закрываем ArticleController
+[11:56:00] INFO    SaveArticleWorker: ArticleController закрыт
+[11:56:00] INFO    SaveArticleWorker.execute(): END
+[11:56:00] INFO    SaveArticleWorker: execute() END
+[11:56:00] INFO    SaveArticleWorker: finished.emit()
+[11:56:00] INFO    SaveArticleWorker: run() END
+[11:56:00] INFO    SaveArticleWorker.save(): END
+[12:08:02] SUCCESS Статья удалена:
+Free Capybara SVG: Whimsical Animal Clip Art with Love Hearts
+[12:08:16] SUCCESS Статья удалена:
+Разбираем map, filter, reduce, any, all, zip и enumerate в Python / Хабр
+[12:08:29] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[12:08:29] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[12:08:29] INFO    SaveArticleWorker: run() START
+[12:08:29] INFO    SaveArticleWorker: execute() START
+[12:08:29] INFO    SaveArticleWorker.execute(): START
+[12:08:29] INFO    SaveArticleWorker: ArticleController создан id=132290084132128
+[12:08:29] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[12:08:29] INFO    ArticleController.save_article(): START
+[12:08:29] INFO    ArticleController._download_html(): START
+[12:08:29] INFO    loader id=132290084131312
+[12:08:29] INFO    Вызываем SmartLoader.load()
+[12:08:30] INFO    SmartLoader.load() завершён
+[12:08:30] INFO    page id=132289844517312
+[12:08:30] INFO    page.url=https://habr.com/ru/articles/1036696/
+[12:08:30] INFO    HTML length=170239
+[12:08:30] INFO    ArticleController._download_html(): END
+[12:08:30] INFO    Парсинг статьи...
+[12:08:30] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[12:08:30] INFO    URL=https://habr.com/ru/articles/1036696/
+[12:08:30] INFO    page id=132289844517312
+[12:08:30] INFO    SaveArticleWorker: закрываем ArticleController
+[12:08:30] INFO    SaveArticleWorker: ArticleController закрыт
+[12:08:30] INFO    SaveArticleWorker.execute(): END
+[12:08:30] INFO    SaveArticleWorker: execute() END
+[12:08:30] INFO    SaveArticleWorker: finished.emit()
+[12:08:30] INFO    SaveArticleWorker: run() END
+[12:08:30] INFO    SaveArticleWorker.save(): END
+[12:08:31] INFO    SiteSupportWorker: run() START
+[12:08:31] INFO    SiteSupportWorker: execute() START
+[12:08:31] INFO    Запуск анализа сайта...
+[12:08:31] INFO    URL анализа: https://habr.com/ru/articles/1036696/
+[12:08:32] INFO    Запись selectors.py...
+[12:08:32] INFO    Запись site_registry_data.py...
+[12:08:32] INFO    Перезагрузка конфигурации парсеров...
+[12:08:32] INFO    Поддержка сайта успешно добавлена.
+[12:08:32] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[12:08:32] INFO    SiteSupportWorker: execute() END
+[12:08:32] INFO    SiteSupportWorker: finished.emit()
+[12:08:32] INFO    SiteSupportWorker: run() END
+[12:08:32] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[12:08:32] INFO    SaveArticleWorker: run() START
+[12:08:32] INFO    SaveArticleWorker: execute() START
+[12:08:32] INFO    SaveArticleWorker.execute(): START
+[12:08:32] INFO    SaveArticleWorker: ArticleController создан id=132286903974176
+[12:08:32] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[12:08:32] INFO    ArticleController.save_article(): START
+[12:08:32] INFO    ArticleController._download_html(): START
+[12:08:32] INFO    loader id=132286903973984
+[12:08:32] INFO    Вызываем SmartLoader.load()
+[12:08:33] INFO    SmartLoader.load() завершён
+[12:08:33] INFO    page id=132286927029680
+[12:08:33] INFO    page.url=https://habr.com/ru/articles/1036696/
+[12:08:33] INFO    HTML length=170239
+[12:08:33] INFO    ArticleController._download_html(): END
+[12:08:33] INFO    Парсинг статьи...
+[12:08:33] INFO    Создание каталога...
+[12:08:33] INFO    Загрузка изображений...
+[12:08:33] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[12:08:34] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[12:08:34] INFO    Сохранение статьи...
+[12:08:34] INFO    ArticleController.save_article(): END
+[12:08:34] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[12:08:34] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[12:08:34] INFO    SaveArticleWorker: закрываем ArticleController
+[12:08:34] INFO    SaveArticleWorker: ArticleController закрыт
+[12:08:34] INFO    SaveArticleWorker.execute(): END
+[12:08:34] INFO    SaveArticleWorker: execute() END
+[12:08:34] INFO    SaveArticleWorker: finished.emit()
+[12:08:34] INFO    SaveArticleWorker: run() END
+[12:08:34] INFO    SaveArticleWorker.save(): END
+[12:20:30] INFO    Получен URL: https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:30] INFO    SaveArticleWorker.save(): START url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:30] INFO    SaveArticleWorker: run() START
+[12:20:30] INFO    SaveArticleWorker: execute() START
+[12:20:30] INFO    SaveArticleWorker.execute(): START
+[12:20:30] INFO    SaveArticleWorker: ArticleController создан id=132289844520448
+[12:20:30] INFO    SaveArticleWorker: вызываем save_article(url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg)
+[12:20:30] INFO    ArticleController.save_article(): START
+[12:20:30] INFO    ArticleController._download_html(): START
+[12:20:30] INFO    loader id=132289844332832
+[12:20:30] INFO    Вызываем SmartLoader.load()
+[12:20:31] INFO    SmartLoader.load() завершён
+[12:20:31] INFO    page id=132289844342272
+[12:20:31] INFO    page.url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:31] INFO    HTML length=110487
+[12:20:31] INFO    ArticleController._download_html(): END
+[12:20:31] INFO    Парсинг статьи...
+[12:20:31] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[12:20:31] INFO    URL=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:31] INFO    page id=132289844342272
+[12:20:31] INFO    SaveArticleWorker: закрываем ArticleController
+[12:20:31] INFO    SaveArticleWorker: ArticleController закрыт
+[12:20:31] INFO    SaveArticleWorker.execute(): END
+[12:20:31] INFO    SaveArticleWorker: execute() END
+[12:20:31] INFO    SaveArticleWorker: finished.emit()
+[12:20:31] INFO    SaveArticleWorker: run() END
+[12:20:31] INFO    SaveArticleWorker.save(): END
+[12:20:58] INFO    SiteSupportWorker: run() START
+[12:20:58] INFO    SiteSupportWorker: execute() START
+[12:20:58] INFO    Запуск анализа сайта...
+[12:20:58] INFO    URL анализа: https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:59] INFO    Запись selectors.py...
+[12:20:59] INFO    Запись site_registry_data.py...
+[12:20:59] INFO    Перезагрузка конфигурации парсеров...
+[12:20:59] INFO    Поддержка сайта успешно добавлена.
+[12:20:59] INFO    Получен URL: https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:59] INFO    SiteSupportWorker: execute() END
+[12:20:59] INFO    SiteSupportWorker: finished.emit()
+[12:20:59] INFO    SiteSupportWorker: run() END
+[12:20:59] INFO    SaveArticleWorker.save(): START url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:59] INFO    SaveArticleWorker: run() START
+[12:20:59] INFO    SaveArticleWorker: execute() START
+[12:20:59] INFO    SaveArticleWorker.execute(): START
+[12:20:59] INFO    SaveArticleWorker: ArticleController создан id=132286858341376
+[12:20:59] INFO    SaveArticleWorker: вызываем save_article(url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg)
+[12:20:59] INFO    ArticleController.save_article(): START
+[12:20:59] INFO    ArticleController._download_html(): START
+[12:20:59] INFO    loader id=132286903974464
+[12:20:59] INFO    Вызываем SmartLoader.load()
+[12:20:59] INFO    SmartLoader.load() завершён
+[12:20:59] INFO    page id=132288225676304
+[12:20:59] INFO    page.url=https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:HTML.svg
+[12:20:59] INFO    HTML length=110487
+[12:20:59] INFO    ArticleController._download_html(): END
+[12:20:59] INFO    Парсинг статьи...
+[12:20:59] INFO    Создание каталога...
+[12:20:59] INFO    Загрузка изображений...
+[12:20:59] INFO    Скачан asset_001.png
+[12:20:59] INFO    Скачан asset_002.png
+[12:20:59] INFO    Скачан asset_003.png
+[12:20:59] INFO    Скачан asset_004.png
+[12:20:59] INFO    Скачан asset_005.png
+[12:20:59] INFO    Скачан asset_006.png
+[12:21:00] INFO    Скачан asset_007.png
+[12:21:00] INFO    Скачан asset_008.png
+[12:21:00] INFO    Скачан asset_009.png
+[12:21:00] INFO    Скачан asset_010.png
+[12:21:00] INFO    Скачан asset_011.png
+[12:21:00] INFO    Скачан asset_012.png
+[12:21:00] INFO    Скачан asset_013.png
+[12:21:00] INFO    Скачан asset_014.png
+[12:21:00] INFO    Скачан asset_015.png
+[12:21:00] INFO    Скачан asset_016.png
+[12:21:00] INFO    Сохранение статьи...
+[12:21:00] INFO    ArticleController.save_article(): END
+[12:21:00] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/fail-html-svg-vikipediia
+[12:21:00] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/fail-html-svg-vikipediia
+[12:21:00] INFO    SaveArticleWorker: закрываем ArticleController
+[12:21:00] INFO    SaveArticleWorker: ArticleController закрыт
+[12:21:00] INFO    SaveArticleWorker.execute(): END
+[12:21:00] INFO    SaveArticleWorker: execute() END
+[12:21:00] INFO    SaveArticleWorker: finished.emit()
+[12:21:00] INFO    SaveArticleWorker: run() END
+[12:21:00] INFO    SaveArticleWorker.save(): END
+[12:22:53] SUCCESS Статья удалена:
+Файл:HTML.svg — Википедия

@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import base64
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
+from urllib.parse import unquote
+from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
@@ -13,10 +16,12 @@ class AssetDownloader:
     """
     Скачивает ресурсы статьи.
 
-    Пока поддерживаются:
+    Поддерживаются:
 
     - img[src]
     - source[srcset]
+    - внешние SVG
+    - SVG в формате Data URI
 
     После загрузки заменяет ссылки
     в article.html на локальные.
@@ -41,6 +46,17 @@ class AssetDownloader:
     ) -> None:
         """
         Скачать ресурсы статьи.
+
+        Parameters
+        ----------
+        article:
+            Статья с исходным HTML.
+
+        directory:
+            Каталог, в котором сохраняется статья.
+
+        logger:
+            Необязательная функция для вывода сообщений.
         """
 
         soup = BeautifulSoup(
@@ -56,17 +72,17 @@ class AssetDownloader:
         )
 
         counter = 1
-        
+
         #
         # img
         #
         for image in soup.find_all("img"):
-            
+
             src = image.get("src")
-            
+
             if not src:
                 continue
-            
+
             local = self._download_asset(
                 src,
                 article.url,
@@ -74,41 +90,41 @@ class AssetDownloader:
                 counter,
                 logger,
             )
-            
+
             if not local:
                 continue
-            
+
             image["src"] = local
-            
+
             #
             # После сохранения изображения локально
             # браузер сам определит его реальные размеры.
             #
             for attribute in (
-                    "srcset",
-                    "sizes",
-                    "width",
-                    "height",
+                "srcset",
+                "sizes",
+                "width",
+                "height",
             ):
                 image.attrs.pop(
                     attribute,
                     None,
                 )
-            
+
             counter += 1
-        
+
         #
         # picture/source srcset
         #
         for source in soup.find_all("source"):
-            
+
             srcset = source.get("srcset")
-            
+
             if not srcset:
                 continue
-            
+
             url = srcset.split()[0]
-            
+
             local = self._download_asset(
                 url,
                 article.url,
@@ -116,21 +132,21 @@ class AssetDownloader:
                 counter,
                 logger,
             )
-            
+
             if not local:
                 continue
-            
+
             source["srcset"] = local
-            
+
             source.attrs.pop(
                 "sizes",
                 None,
             )
-            
+
             counter += 1
-        
+
         body = soup.body
-        
+
         if body is None:
             article.html = str(soup)
         else:
@@ -151,31 +167,40 @@ class AssetDownloader:
     ) -> str | None:
         """
         Скачать один ресурс.
-        """
 
-        if src.startswith("data:"):
-            return None
+        Data URI обрабатываются локально,
+        остальные ресурсы скачиваются через
+        DownloaderService.
+        """
 
         if src.startswith("blob:"):
             return None
 
-        absolute_url = urljoin(
-            article_url,
-            src,
-        )
-
         try:
 
-            extension = self._get_extension(
-                absolute_url,
-            )
+            if src.startswith("data:"):
+
+                data, extension = self._decode_data_uri(
+                    src,
+                )
+
+            else:
+
+                absolute_url = urljoin(
+                    article_url,
+                    src,
+                )
+
+                extension = self._get_extension(
+                    absolute_url,
+                )
+
+                data = self._downloader.download_binary(
+                    absolute_url,
+                )
 
             filename = (
                 f"asset_{counter:03d}.{extension}"
-            )
-
-            data = self._downloader.download_binary(
-                absolute_url,
             )
 
             path = assets_dir / filename
@@ -196,7 +221,7 @@ class AssetDownloader:
 
                 logger(
                     f"Ошибка загрузки:\n"
-                    f"{absolute_url}\n"
+                    f"{src}\n"
                     f"{exc}"
                 )
 
@@ -205,9 +230,58 @@ class AssetDownloader:
     # ------------------------------------------------------------------
 
     @staticmethod
+    def _decode_data_uri(
+        uri: str,
+    ) -> tuple[bytes, str]:
+        """
+        Декодировать Data URI.
+
+        Поддерживает SVG в формах:
+
+            data:image/svg+xml,...
+            data:image/svg+xml;base64,...
+
+        Returns
+        -------
+        tuple[bytes, str]
+            Данные ресурса и расширение файла.
+        """
+
+        header, data = uri.split(
+            ",",
+            maxsplit=1,
+        )
+
+        if "image/svg+xml" not in header.lower():
+            raise ValueError(
+                "Поддерживается только SVG Data URI."
+            )
+
+        if ";base64" in header.lower():
+
+            content = base64.b64decode(
+                data,
+            )
+
+        else:
+
+            content = unquote(
+                data,
+            ).encode(
+                "utf-8",
+            )
+
+        return content, "svg"
+
+    # ------------------------------------------------------------------
+
+    @staticmethod
     def _get_extension(
         url: str,
     ) -> str:
+        """
+        Получить расширение ресурса из URL.
+        """
 
         suffix = Path(
             urlparse(url).path
@@ -215,6 +289,8 @@ class AssetDownloader:
 
         if suffix:
 
-            return suffix.lstrip(".")
+            return suffix.lstrip(
+                ".",
+            )
 
         return "bin"

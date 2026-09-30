@@ -64,11 +64,11 @@ def main() -> None:
         title_suffix=args.title_suffix,
     )
 
-    print(
-        ReportFormatter.format(
-            report,
-        )
-    )
+    # print(
+    #     ReportFormatter.format(
+    #         report,
+    #     )
+    # )
 
 
 # ------------------------------------------------------------------

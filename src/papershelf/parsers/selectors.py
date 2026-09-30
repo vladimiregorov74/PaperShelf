@@ -113,29 +113,6 @@ LIFE_CONTENT_SELECTORS = (
 LIFE_REMOVE_SELECTORS = (
     'div.also_box',
 )
-
-# ----------------------------------------------------------------------
-
-# habr.com
-
-# ----------------------------------------------------------------------
-
-HABR_AUTHOR_SELECTORS = (
-    'span.tm-user-info.author',
-    'div.article-author',
-)
-
-HABR_ARTICLE_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
-)
-
-HABR_CONTENT_SELECTORS = (
-    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
-)
-
-HABR_REMOVE_SELECTORS = (
-)
-
 # ----------------------------------------------------------------------
 
 # dan-it.com.ua
@@ -236,4 +213,65 @@ DOC_CONTENT_SELECTORS = (
 DOC_REMOVE_SELECTORS = (
     'aside.sidebar-drawer',
     'header.mobile-header',
+)
+# ----------------------------------------------------------------------
+
+# tibbixel.com
+
+# ----------------------------------------------------------------------
+
+TIBBIXEL_AUTHOR_SELECTORS = (
+)
+
+TIBBIXEL_ARTICLE_SELECTORS = (
+    'div.image_content',
+)
+
+TIBBIXEL_CONTENT_SELECTORS = (
+    'div.image_content',
+)
+
+TIBBIXEL_REMOVE_SELECTORS = (
+    'div.description_tags',
+)
+
+# ----------------------------------------------------------------------
+
+# habr.com
+
+# ----------------------------------------------------------------------
+
+HABR_AUTHOR_SELECTORS = (
+    'span.tm-user-info.author',
+)
+
+HABR_ARTICLE_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_CONTENT_SELECTORS = (
+    'div.article-formatted-body.article-formatted-body.article-formatted-body_version-2',
+)
+
+HABR_REMOVE_SELECTORS = (
+)
+
+# ----------------------------------------------------------------------
+
+# ru.wikipedia.org
+
+# ----------------------------------------------------------------------
+
+RU_AUTHOR_SELECTORS = (
+)
+
+RU_ARTICLE_SELECTORS = (
+    '#mw-content-text',
+)
+
+RU_CONTENT_SELECTORS = (
+    '#mw-content-text',
+)
+
+RU_REMOVE_SELECTORS = (
 )

@@ -176,19 +176,19 @@ class SiteInspector:
                     article_candidate.element,
                     self._url,
                 )
-                print("SITE NAME =", urlparse(self._url).netloc)
-                print()
-                print("=== RESOLVED IMAGES ===")
-                
-                for image in article_candidate.element.find_all(
-                        "img",
-                ):
-                    print(
-                        image.get("src"),
-                    )
-                
-                print("=======================")
-                print()
+                # print("SITE NAME =", urlparse(self._url).netloc)
+                # print()
+                # print("=== RESOLVED IMAGES ===")
+                #
+                # for image in article_candidate.element.find_all(
+                #         "img",
+                # ):
+                #     print(
+                #         image.get("src"),
+                #     )
+                #
+                # print("=======================")
+                # print()
         
         statistics = self._create_statistics(
             headings=headings,
