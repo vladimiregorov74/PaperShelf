@@ -1,1 +1,1244 @@
-[13:58:17] INFO    SaveArticleWorker.close(): END
+[10:16:10] INFO    SaveArticleWorker.save(): END
+[10:22:41] INFO    SaveArticleWorker.close(): START
+[10:22:41] INFO    SaveArticleWorker.close(): END
+[14:19:08] SUCCESS Статья удалена:
+Як ротний ССО особисто евакуював пораненого і загиблого
+[14:19:09] INFO    Получен URL: https://life.pravda.com.ua/society/yak-rotniy-sso-osobisto-evakuyuvav-poranenogo-i-zagiblogo-317176/
+[14:19:09] INFO    SaveArticleWorker.save(): START url=https://life.pravda.com.ua/society/yak-rotniy-sso-osobisto-evakuyuvav-poranenogo-i-zagiblogo-317176/
+[14:19:09] INFO    SaveArticleWorker: run() START
+[14:19:09] INFO    SaveArticleWorker: execute() START
+[14:19:09] INFO    SaveArticleWorker.execute(): START
+[14:19:09] INFO    SaveArticleWorker: ArticleController создан id=133774820360896
+[14:19:09] INFO    SaveArticleWorker: вызываем save_article(url=https://life.pravda.com.ua/society/yak-rotniy-sso-osobisto-evakuyuvav-poranenogo-i-zagiblogo-317176/)
+[14:19:09] INFO    ArticleController.save_article(): START
+[14:19:09] INFO    ArticleController._download_html(): START
+[14:19:09] INFO    loader id=133774820369680
+[14:19:09] INFO    Вызываем SmartLoader.load()
+[14:19:55] INFO    SmartLoader.load() завершён
+[14:19:55] INFO    page id=133774771764000
+[14:19:55] INFO    page.url=https://life.pravda.com.ua/society/yak-rotniy-sso-osobisto-evakuyuvav-poranenogo-i-zagiblogo-317176/
+[14:19:55] INFO    HTML length=289534
+[14:19:55] INFO    ArticleController._download_html(): END
+[14:19:55] INFO    Парсинг статьи...
+[14:19:55] INFO    Создание каталога...
+[14:19:55] INFO    Загрузка изображений...
+[14:19:55] INFO    Скачан asset_001.jpeg
+[14:19:56] INFO    Скачан asset_002.jpg
+[14:19:56] INFO    Скачан asset_003.jpg
+[14:19:56] INFO    Скачан asset_004.jpeg
+[14:19:56] INFO    Скачан asset_005.jpeg
+[14:19:56] INFO    Скачан asset_006.jpeg
+[14:19:56] INFO    Скачан asset_007.jpg
+[14:19:56] INFO    Скачан asset_008.jpg
+[14:19:56] INFO    Скачан asset_009.jpg
+[14:19:56] INFO    Скачан asset_010.jpg
+[14:19:56] INFO    Скачан asset_011.jpeg
+[14:19:56] INFO    Скачан asset_012.jpeg
+[14:19:56] INFO    Сохранение статьи...
+[14:19:56] INFO    ArticleController.save_article(): END
+[14:19:56] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/iak-rotnii-sso-osobisto-evakuiuvav-poranenogo-i-zagiblogo
+[14:19:56] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/iak-rotnii-sso-osobisto-evakuiuvav-poranenogo-i-zagiblogo
+[14:19:56] INFO    SaveArticleWorker: закрываем ArticleController
+[14:19:56] INFO    SaveArticleWorker: ArticleController закрыт
+[14:19:56] INFO    SaveArticleWorker.execute(): END
+[14:19:56] INFO    SaveArticleWorker: execute() END
+[14:19:56] INFO    SaveArticleWorker: finished.emit()
+[14:19:56] INFO    SaveArticleWorker: run() END
+[14:19:56] INFO    SaveArticleWorker.save(): END
+[14:28:03] SUCCESS Статья удалена:
+Як ротний ССО особисто евакуював пораненого і загиблого
+[14:56:56] INFO    Получен URL: https://habr.com/ru/articles/1062328/
+[14:56:56] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1062328/
+[14:56:56] INFO    SaveArticleWorker: run() START
+[14:56:56] INFO    SaveArticleWorker: execute() START
+[14:56:56] INFO    SaveArticleWorker.execute(): START
+[14:56:56] INFO    SaveArticleWorker: ArticleController создан id=137064802610704
+[14:56:56] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1062328/)
+[14:56:56] INFO    ArticleController.save_article(): START
+[14:56:56] INFO    ArticleController._download_html(): START
+[14:56:56] INFO    loader id=137064567508720
+[14:56:56] INFO    Вызываем SmartLoader.load()
+[14:56:57] INFO    SmartLoader.load() завершён
+[14:56:57] INFO    page id=137064567516576
+[14:56:57] INFO    page.url=https://habr.com/ru/articles/1062328/
+[14:56:57] INFO    HTML length=150472
+[14:56:57] INFO    ArticleController._download_html(): END
+[14:56:57] INFO    Парсинг статьи...
+[14:56:57] INFO    Создание каталога...
+[14:56:57] INFO    Загрузка изображений...
+[14:56:57] INFO    Скачан asset_001.JPG
+[14:57:00] INFO    Скачан asset_002.jpg
+[14:57:00] INFO    Скачан asset_003.jpg
+[14:57:05] INFO    Скачан asset_004.jpg
+[14:57:07] INFO    Скачан asset_005.jpg
+[14:57:09] INFO    Скачан asset_006.jpg
+[14:57:12] INFO    Скачан asset_007.jpg
+[14:57:12] INFO    Сохранение статьи...
+[14:57:12] INFO    ArticleController.save_article(): END
+[14:57:12] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/vechnyi-dvigatel-vozmozhen-nauchnye-dokazatelstva-khabr
+[14:57:12] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/vechnyi-dvigatel-vozmozhen-nauchnye-dokazatelstva-khabr
+[14:57:12] INFO    SaveArticleWorker: закрываем ArticleController
+[14:57:12] INFO    SaveArticleWorker: ArticleController закрыт
+[14:57:12] INFO    SaveArticleWorker.execute(): END
+[14:57:12] INFO    SaveArticleWorker: execute() END
+[14:57:12] INFO    SaveArticleWorker: finished.emit()
+[14:57:12] INFO    SaveArticleWorker: run() END
+[14:57:12] INFO    SaveArticleWorker.save(): END
+[14:57:52] INFO    Получен URL: https://www.eurointegration.com.ua/rus/articles/2026/09/2/7244634/
+[14:57:52] INFO    SaveArticleWorker.save(): START url=https://www.eurointegration.com.ua/rus/articles/2026/09/2/7244634/
+[14:57:52] INFO    SaveArticleWorker: run() START
+[14:57:52] INFO    SaveArticleWorker: execute() START
+[14:57:52] INFO    SaveArticleWorker.execute(): START
+[14:57:52] INFO    SaveArticleWorker: ArticleController создан id=128072453603936
+[14:57:52] INFO    SaveArticleWorker: вызываем save_article(url=https://www.eurointegration.com.ua/rus/articles/2026/09/2/7244634/)
+[14:57:52] INFO    ArticleController.save_article(): START
+[14:57:52] INFO    ArticleController._download_html(): START
+[14:57:52] INFO    loader id=128072454244832
+[14:57:52] INFO    Вызываем SmartLoader.load()
+[14:57:52] INFO    SmartLoader.load() завершён
+[14:57:52] INFO    page id=128072454252640
+[14:57:52] INFO    page.url=https://www.eurointegration.com.ua/rus/articles/2026/09/2/7244634/
+[14:57:52] INFO    HTML length=59568
+[14:57:52] INFO    ArticleController._download_html(): END
+[14:57:52] INFO    Парсинг статьи...
+[14:57:52] INFO    Создание каталога...
+[14:57:52] INFO    Загрузка изображений...
+[14:57:52] INFO    Сохранение статьи...
+[14:57:52] INFO    ArticleController.save_article(): END
+[14:57:52] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/germaniia-pod-udarom-rossii-vse-o-napadenii-dronov-na-aeroport-leiptsiga-i-otvete-berlina-evropeiskaia-pravda
+[14:57:52] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/germaniia-pod-udarom-rossii-vse-o-napadenii-dronov-na-aeroport-leiptsiga-i-otvete-berlina-evropeiskaia-pravda
+[14:57:52] INFO    SaveArticleWorker: закрываем ArticleController
+[14:57:52] INFO    SaveArticleWorker: ArticleController закрыт
+[14:57:52] INFO    SaveArticleWorker.execute(): END
+[14:57:52] INFO    SaveArticleWorker: execute() END
+[14:57:52] INFO    SaveArticleWorker: finished.emit()
+[14:57:52] INFO    SaveArticleWorker: run() END
+[14:57:52] INFO    SaveArticleWorker.save(): END
+[14:58:06] SUCCESS Статья удалена:
+Германия под ударом России. Все о нападении дронов на аэропорт Лейпцига и ответе Берлина | Европейская правда
+[15:01:07] SUCCESS Статья удалена:
+Вечный двигатель возможен. Научные доказательства / Хабр
+[15:01:09] INFO    Получен URL: https://habr.com/ru/articles/1062328/
+[15:01:09] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1062328/
+[15:01:09] INFO    SaveArticleWorker: run() START
+[15:01:09] INFO    SaveArticleWorker: execute() START
+[15:01:09] INFO    SaveArticleWorker.execute(): START
+[15:01:09] INFO    SaveArticleWorker: ArticleController создан id=136624556363888
+[15:01:09] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1062328/)
+[15:01:09] INFO    ArticleController.save_article(): START
+[15:01:09] INFO    ArticleController._download_html(): START
+[15:01:09] INFO    loader id=136624556363504
+[15:01:09] INFO    Вызываем SmartLoader.load()
+[15:01:09] INFO    SmartLoader.load() завершён
+[15:01:09] INFO    page id=136624790777008
+[15:01:09] INFO    page.url=https://habr.com/ru/articles/1062328/
+[15:01:09] INFO    HTML length=150472
+[15:01:09] INFO    ArticleController._download_html(): END
+[15:01:09] INFO    Парсинг статьи...
+[15:01:09] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[15:01:09] INFO    URL=https://habr.com/ru/articles/1062328/
+[15:01:09] INFO    page id=136624790777008
+[15:01:09] INFO    SaveArticleWorker: закрываем ArticleController
+[15:01:09] INFO    SaveArticleWorker: ArticleController закрыт
+[15:01:09] INFO    SaveArticleWorker.execute(): END
+[15:01:09] INFO    SaveArticleWorker: execute() END
+[15:01:09] INFO    SaveArticleWorker: finished.emit()
+[15:01:09] INFO    SaveArticleWorker: run() END
+[15:01:09] INFO    SaveArticleWorker.save(): END
+[15:01:10] INFO    SiteSupportWorker: run() START
+[15:01:10] INFO    SiteSupportWorker: execute() START
+[15:01:10] INFO    Запуск анализа сайта...
+[15:01:10] INFO    URL анализа: https://habr.com/ru/articles/1062328/
+[15:01:11] INFO    Запись selectors.py...
+[15:01:11] INFO    Запись site_registry_data.py...
+[15:01:11] INFO    Перезагрузка конфигурации парсеров...
+[15:01:11] INFO    Поддержка сайта успешно добавлена.
+[15:01:11] INFO    Получен URL: https://habr.com/ru/articles/1062328/
+[15:01:11] INFO    SiteSupportWorker: execute() END
+[15:01:11] INFO    SiteSupportWorker: finished.emit()
+[15:01:11] INFO    SiteSupportWorker: run() END
+[15:01:11] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1062328/
+[15:01:11] INFO    SaveArticleWorker: run() START
+[15:01:11] INFO    SaveArticleWorker: execute() START
+[15:01:11] INFO    SaveArticleWorker.execute(): START
+[15:01:11] INFO    SaveArticleWorker: ArticleController создан id=136621904928336
+[15:01:11] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1062328/)
+[15:01:11] INFO    ArticleController.save_article(): START
+[15:01:11] INFO    ArticleController._download_html(): START
+[15:01:11] INFO    loader id=136621904928288
+[15:01:11] INFO    Вызываем SmartLoader.load()
+[15:01:11] INFO    SmartLoader.load() завершён
+[15:01:11] INFO    page id=136621818146544
+[15:01:11] INFO    page.url=https://habr.com/ru/articles/1062328/
+[15:01:11] INFO    HTML length=150472
+[15:01:11] INFO    ArticleController._download_html(): END
+[15:01:11] INFO    Парсинг статьи...
+[15:01:11] INFO    Создание каталога...
+[15:01:11] INFO    Загрузка изображений...
+[15:01:12] INFO    Скачан asset_001.JPG
+[15:01:12] INFO    Скачан asset_002.jpg
+[15:01:12] INFO    Скачан asset_003.jpg
+[15:01:12] INFO    Скачан asset_004.jpg
+[15:01:12] INFO    Скачан asset_005.jpg
+[15:01:12] INFO    Скачан asset_006.jpg
+[15:01:12] INFO    Скачан asset_007.jpg
+[15:01:12] INFO    Сохранение статьи...
+[15:01:12] INFO    ArticleController.save_article(): END
+[15:01:12] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/vechnyi-dvigatel-vozmozhen-nauchnye-dokazatelstva-khabr
+[15:01:12] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/vechnyi-dvigatel-vozmozhen-nauchnye-dokazatelstva-khabr
+[15:01:12] INFO    SaveArticleWorker: закрываем ArticleController
+[15:01:12] INFO    SaveArticleWorker: ArticleController закрыт
+[15:01:12] INFO    SaveArticleWorker.execute(): END
+[15:01:12] INFO    SaveArticleWorker: execute() END
+[15:01:12] INFO    SaveArticleWorker: finished.emit()
+[15:01:12] INFO    SaveArticleWorker: run() END
+[15:01:12] INFO    SaveArticleWorker.save(): END
+[15:01:50] SUCCESS Статья удалена:
+Как стать фронтенд-разработчиком с нуля в 2025 году: пошаговый план для новичков в Украине - DAN IT Education
+[15:01:51] INFO    Получен URL: https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:51] INFO    SaveArticleWorker.save(): START url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:51] INFO    SaveArticleWorker: run() START
+[15:01:51] INFO    SaveArticleWorker: execute() START
+[15:01:51] INFO    SaveArticleWorker.execute(): START
+[15:01:51] INFO    SaveArticleWorker: ArticleController создан id=136621925869008
+[15:01:51] INFO    SaveArticleWorker: вызываем save_article(url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/)
+[15:01:51] INFO    ArticleController.save_article(): START
+[15:01:51] INFO    ArticleController._download_html(): START
+[15:01:51] INFO    loader id=136621818315696
+[15:01:51] INFO    Вызываем SmartLoader.load()
+[15:01:51] INFO    SmartLoader.load() завершён
+[15:01:51] INFO    page id=136624556572736
+[15:01:51] INFO    page.url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:51] INFO    HTML length=348542
+[15:01:51] INFO    ArticleController._download_html(): END
+[15:01:51] INFO    Парсинг статьи...
+[15:01:51] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[15:01:51] INFO    URL=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:51] INFO    page id=136624556572736
+[15:01:51] INFO    SaveArticleWorker: закрываем ArticleController
+[15:01:51] INFO    SaveArticleWorker: ArticleController закрыт
+[15:01:51] INFO    SaveArticleWorker.execute(): END
+[15:01:51] INFO    SaveArticleWorker: execute() END
+[15:01:51] INFO    SaveArticleWorker: finished.emit()
+[15:01:51] INFO    SaveArticleWorker: run() END
+[15:01:51] INFO    SaveArticleWorker.save(): END
+[15:01:53] INFO    SiteSupportWorker: run() START
+[15:01:53] INFO    SiteSupportWorker: execute() START
+[15:01:53] INFO    Запуск анализа сайта...
+[15:01:53] INFO    URL анализа: https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:53] INFO    Запись selectors.py...
+[15:01:53] INFO    Запись site_registry_data.py...
+[15:01:53] INFO    Перезагрузка конфигурации парсеров...
+[15:01:53] INFO    Поддержка сайта успешно добавлена.
+[15:01:53] INFO    Получен URL: https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:53] INFO    SiteSupportWorker: execute() END
+[15:01:53] INFO    SiteSupportWorker: finished.emit()
+[15:01:53] INFO    SiteSupportWorker: run() END
+[15:01:53] INFO    SaveArticleWorker.save(): START url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:53] INFO    SaveArticleWorker: run() START
+[15:01:53] INFO    SaveArticleWorker: execute() START
+[15:01:53] INFO    SaveArticleWorker.execute(): START
+[15:01:53] INFO    SaveArticleWorker: ArticleController создан id=136621818963984
+[15:01:53] INFO    SaveArticleWorker: вызываем save_article(url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/)
+[15:01:53] INFO    ArticleController.save_article(): START
+[15:01:53] INFO    ArticleController._download_html(): START
+[15:01:53] INFO    loader id=136621447683616
+[15:01:53] INFO    Вызываем SmartLoader.load()
+[15:01:53] INFO    SmartLoader.load() завершён
+[15:01:53] INFO    page id=136621427539344
+[15:01:53] INFO    page.url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:01:53] INFO    HTML length=348542
+[15:01:53] INFO    ArticleController._download_html(): END
+[15:01:53] INFO    Парсинг статьи...
+[15:01:53] INFO    Создание каталога...
+[15:01:53] INFO    Загрузка изображений...
+[15:01:54] INFO    Скачан asset_001.jpg
+[15:01:54] INFO    Скачан asset_002.jpg
+[15:01:54] INFO    Скачан asset_003.jpg
+[15:01:54] INFO    Скачан asset_004.jpg
+[15:01:54] INFO    Скачан asset_005.jpg
+[15:01:54] INFO    Сохранение статьи...
+[15:01:54] INFO    ArticleController.save_article(): END
+[15:01:54] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:01:54] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:01:54] INFO    SaveArticleWorker: закрываем ArticleController
+[15:01:54] INFO    SaveArticleWorker: ArticleController закрыт
+[15:01:54] INFO    SaveArticleWorker.execute(): END
+[15:01:54] INFO    SaveArticleWorker: execute() END
+[15:01:54] INFO    SaveArticleWorker: finished.emit()
+[15:01:54] INFO    SaveArticleWorker: run() END
+[15:01:54] INFO    SaveArticleWorker.save(): END
+[15:02:23] SUCCESS Статья удалена:
+SQLAlchemy - от чайника к алхимику
+[15:02:24] INFO    Получен URL: https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:24] INFO    SaveArticleWorker.save(): START url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:24] INFO    SaveArticleWorker: run() START
+[15:02:24] INFO    SaveArticleWorker: execute() START
+[15:02:24] INFO    SaveArticleWorker.execute(): START
+[15:02:24] INFO    SaveArticleWorker: ArticleController создан id=136624556576592
+[15:02:24] INFO    SaveArticleWorker: вызываем save_article(url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769)
+[15:02:24] INFO    ArticleController.save_article(): START
+[15:02:24] INFO    ArticleController._download_html(): START
+[15:02:24] INFO    loader id=136621768918320
+[15:02:24] INFO    Вызываем SmartLoader.load()
+[15:02:36] INFO    SmartLoader.load() завершён
+[15:02:36] INFO    page id=136621413472032
+[15:02:36] INFO    page.url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:36] INFO    HTML length=58864
+[15:02:36] INFO    ArticleController._download_html(): END
+[15:02:36] INFO    Парсинг статьи...
+[15:02:36] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[15:02:36] INFO    URL=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:36] INFO    page id=136621413472032
+[15:02:36] INFO    SaveArticleWorker: закрываем ArticleController
+[15:02:36] INFO    SaveArticleWorker: ArticleController закрыт
+[15:02:36] INFO    SaveArticleWorker.execute(): END
+[15:02:36] INFO    SaveArticleWorker: execute() END
+[15:02:36] INFO    SaveArticleWorker: finished.emit()
+[15:02:36] INFO    SaveArticleWorker: run() END
+[15:02:36] INFO    SaveArticleWorker.save(): END
+[15:02:38] INFO    SiteSupportWorker: run() START
+[15:02:38] INFO    SiteSupportWorker: execute() START
+[15:02:38] INFO    Запуск анализа сайта...
+[15:02:38] INFO    URL анализа: https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:49] INFO    Запись selectors.py...
+[15:02:49] INFO    Запись site_registry_data.py...
+[15:02:49] INFO    Перезагрузка конфигурации парсеров...
+[15:02:49] INFO    Поддержка сайта успешно добавлена.
+[15:02:49] INFO    Получен URL: https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:49] INFO    SiteSupportWorker: execute() END
+[15:02:49] INFO    SiteSupportWorker: finished.emit()
+[15:02:49] INFO    SiteSupportWorker: run() END
+[15:02:49] INFO    SaveArticleWorker.save(): START url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:02:49] INFO    SaveArticleWorker: run() START
+[15:02:49] INFO    SaveArticleWorker: execute() START
+[15:02:49] INFO    SaveArticleWorker.execute(): START
+[15:02:49] INFO    SaveArticleWorker: ArticleController создан id=136621414688160
+[15:02:49] INFO    SaveArticleWorker: вызываем save_article(url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769)
+[15:02:49] INFO    ArticleController.save_article(): START
+[15:02:49] INFO    ArticleController._download_html(): START
+[15:02:49] INFO    loader id=136621414689744
+[15:02:49] INFO    Вызываем SmartLoader.load()
+[15:03:02] INFO    SmartLoader.load() завершён
+[15:03:02] INFO    page id=136621414082992
+[15:03:02] INFO    page.url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:03:02] INFO    HTML length=58864
+[15:03:02] INFO    ArticleController._download_html(): END
+[15:03:02] INFO    Парсинг статьи...
+[15:03:02] INFO    Создание каталога...
+[15:03:02] INFO    Загрузка изображений...
+[15:03:02] INFO    Скачан asset_001.ico
+[15:03:02] INFO    Сохранение статьи...
+[15:03:02] INFO    ArticleController.save_article(): END
+[15:03:02] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:03:02] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:03:02] INFO    SaveArticleWorker: закрываем ArticleController
+[15:03:02] INFO    SaveArticleWorker: ArticleController закрыт
+[15:03:02] INFO    SaveArticleWorker.execute(): END
+[15:03:02] INFO    SaveArticleWorker: execute() END
+[15:03:02] INFO    SaveArticleWorker: finished.emit()
+[15:03:02] INFO    SaveArticleWorker: run() END
+[15:03:02] INFO    SaveArticleWorker.save(): END
+[15:03:40] INFO    Получен URL: https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b41825876945
+[15:03:40] INFO    SaveArticleWorker.save(): START url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b41825876945
+[15:03:40] INFO    SaveArticleWorker: run() START
+[15:03:40] INFO    SaveArticleWorker: execute() START
+[15:03:40] INFO    SaveArticleWorker.execute(): START
+[15:03:40] INFO    SaveArticleWorker: ArticleController создан id=136621415186656
+[15:03:40] INFO    SaveArticleWorker: вызываем save_article(url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b41825876945)
+[15:03:40] INFO    ArticleController.save_article(): START
+[15:03:40] INFO    ArticleController._download_html(): START
+[15:03:40] INFO    loader id=136621415186608
+[15:03:40] INFO    Вызываем SmartLoader.load()
+[15:03:51] INFO    SmartLoader.load() завершён
+[15:03:51] INFO    page id=136621415401456
+[15:03:51] INFO    page.url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b41825876945
+[15:03:51] INFO    HTML length=23222
+[15:03:51] INFO    ArticleController._download_html(): END
+[15:03:51] INFO    Парсинг статьи...
+[15:03:51] INFO    Создание каталога...
+[15:03:51] INFO    Загрузка изображений...
+[15:03:51] INFO    Сохранение статьи...
+[15:03:51] INFO    ArticleController.save_article(): END
+[15:03:51] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/notion
+[15:03:51] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/notion
+[15:03:51] INFO    SaveArticleWorker: закрываем ArticleController
+[15:03:51] INFO    SaveArticleWorker: ArticleController закрыт
+[15:03:51] INFO    SaveArticleWorker.execute(): END
+[15:03:51] INFO    SaveArticleWorker: execute() END
+[15:03:51] INFO    SaveArticleWorker: finished.emit()
+[15:03:51] INFO    SaveArticleWorker: run() END
+[15:03:51] INFO    SaveArticleWorker.save(): END
+[15:04:07] SUCCESS Статья удалена:
+Notion
+[15:04:27] INFO    Получен URL: https://habr.com/ru/companies/bothub/1articles/1075920/
+[15:04:27] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/companies/bothub/1articles/1075920/
+[15:04:27] INFO    SaveArticleWorker: run() START
+[15:04:27] INFO    SaveArticleWorker: execute() START
+[15:04:27] INFO    SaveArticleWorker.execute(): START
+[15:04:27] INFO    SaveArticleWorker: ArticleController создан id=136621415401952
+[15:04:27] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/companies/bothub/1articles/1075920/)
+[15:04:27] INFO    ArticleController.save_article(): START
+[15:04:27] INFO    ArticleController._download_html(): START
+[15:04:27] INFO    loader id=136621415400848
+[15:04:27] INFO    Вызываем SmartLoader.load()
+[15:04:27] INFO    SaveArticleWorker: закрываем ArticleController
+[15:04:27] INFO    SaveArticleWorker: ArticleController закрыт
+[15:04:27] INFO    SaveArticleWorker.execute(): END
+[15:04:27] INFO    SaveArticleWorker: UNHANDLED EXCEPTION
+[15:04:27] ERROR   Traceback (most recent call last):
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/workers/base_worker.py", line 47, in run
+    self.execute()
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/workers/save_article_worker.py", line 88, in execute
+    directory = controller.save_article(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/controllers/article_controller.py", line 57, in save_article
+    page = self._download_html(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/controllers/article_controller.py", line 117, in _download_html
+    page = self._loader.load(
+           ^^^^^^^^^^^^^^^^^^
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/loaders/smart_loader.py", line 67, in load
+    page = self._http.load(
+           ^^^^^^^^^^^^^^^^
+  File "/mnt/D/PycharmProjects/PaperShelf/src/papershelf/loaders/http_loader.py", line 44, in load
+    response.raise_for_status()
+  File "/mnt/D/PycharmProjects/PaperShelf/.venv/lib/python3.12/site-packages/requests/models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://habr.com/ru/companies/bothub/1articles/1075920/
+
+[15:04:27] INFO    SaveArticleWorker: finished.emit()
+[15:04:27] INFO    SaveArticleWorker: run() END
+[15:04:27] INFO    SaveArticleWorker.save(): END
+[15:05:50] INFO    Получен URL: https://massonnn.notion.site/SQLAlchemy2-e2e50d4977374ed598e3b8b418258769
+[15:05:50] INFO    SaveArticleWorker.save(): START url=https://massonnn.notion.site/SQLAlchemy2-e2e50d4977374ed598e3b8b418258769
+[15:05:50] INFO    SaveArticleWorker: run() START
+[15:05:50] INFO    SaveArticleWorker: execute() START
+[15:05:50] INFO    SaveArticleWorker.execute(): START
+[15:05:50] INFO    SaveArticleWorker: ArticleController создан id=136621413724480
+[15:05:50] INFO    SaveArticleWorker: вызываем save_article(url=https://massonnn.notion.site/SQLAlchemy2-e2e50d4977374ed598e3b8b418258769)
+[15:05:50] INFO    ArticleController.save_article(): START
+[15:05:50] INFO    ArticleController._download_html(): START
+[15:05:50] INFO    loader id=136621413721888
+[15:05:50] INFO    Вызываем SmartLoader.load()
+[15:06:02] INFO    SmartLoader.load() завершён
+[15:06:02] INFO    page id=136621450190544
+[15:06:02] INFO    page.url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:06:02] INFO    HTML length=58828
+[15:06:02] INFO    ArticleController._download_html(): END
+[15:06:02] INFO    Парсинг статьи...
+[15:06:02] INFO    Создание каталога...
+[15:06:02] INFO    Загрузка изображений...
+[15:06:03] INFO    Скачан asset_001.ico
+[15:06:03] INFO    Сохранение статьи...
+[15:06:03] INFO    ArticleController.save_article(): END
+[15:06:03] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:06:03] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:06:03] INFO    SaveArticleWorker: закрываем ArticleController
+[15:06:03] INFO    SaveArticleWorker: ArticleController закрыт
+[15:06:03] INFO    SaveArticleWorker.execute(): END
+[15:06:03] INFO    SaveArticleWorker: execute() END
+[15:06:03] INFO    SaveArticleWorker: finished.emit()
+[15:06:03] INFO    SaveArticleWorker: run() END
+[15:06:03] INFO    SaveArticleWorker.save(): END
+[15:18:52] INFO    Получен URL: https://massonnn.notion.site/SQLA2lchemy-e2e50d4977374ed598e3b8b418258769
+[15:18:52] INFO    SaveArticleWorker.save(): START url=https://massonnn.notion.site/SQLA2lchemy-e2e50d4977374ed598e3b8b418258769
+[15:18:52] INFO    SaveArticleWorker: run() START
+[15:18:52] INFO    SaveArticleWorker: execute() START
+[15:18:52] INFO    SaveArticleWorker.execute(): START
+[15:18:52] INFO    SaveArticleWorker: ArticleController создан id=128263980543408
+[15:18:52] INFO    SaveArticleWorker: вызываем save_article(url=https://massonnn.notion.site/SQLA2lchemy-e2e50d4977374ed598e3b8b418258769)
+[15:18:52] INFO    ArticleController.save_article(): START
+[15:18:52] INFO    ArticleController._download_html(): START
+[15:18:52] INFO    loader id=128263980543120
+[15:18:52] INFO    Вызываем SmartLoader.load()
+[15:19:04] INFO    SmartLoader.load() завершён
+[15:19:04] INFO    page id=128263747210544
+[15:19:04] INFO    page.url=https://massonnn.notion.site/SQLAlchemy-e2e50d4977374ed598e3b8b418258769
+[15:19:04] INFO    HTML length=58612
+[15:19:04] INFO    ArticleController._download_html(): END
+[15:19:04] INFO    Парсинг статьи...
+[15:19:04] INFO    Создание каталога...
+[15:19:04] INFO    Загрузка изображений...
+[15:19:05] INFO    Скачан asset_001.ico
+[15:19:05] INFO    Сохранение статьи...
+[15:19:05] INFO    ArticleController.save_article(): END
+[15:19:05] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:19:05] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/sqlalchemy-ot-chainika-k-alkhimiku
+[15:19:05] INFO    SaveArticleWorker: закрываем ArticleController
+[15:19:05] INFO    SaveArticleWorker: ArticleController закрыт
+[15:19:05] INFO    SaveArticleWorker.execute(): END
+[15:19:05] INFO    SaveArticleWorker: execute() END
+[15:19:05] INFO    SaveArticleWorker: finished.emit()
+[15:19:05] INFO    SaveArticleWorker: run() END
+[15:19:05] INFO    SaveArticleWorker.save(): END
+[15:19:43] INFO    Получен URL: https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:19:43] INFO    SaveArticleWorker.save(): START url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:19:43] INFO    SaveArticleWorker: run() START
+[15:19:43] INFO    SaveArticleWorker: execute() START
+[15:19:43] INFO    SaveArticleWorker.execute(): START
+[15:19:43] INFO    SaveArticleWorker: ArticleController создан id=128261077537312
+[15:19:43] INFO    SaveArticleWorker: вызываем save_article(url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/)
+[15:19:43] INFO    ArticleController.save_article(): START
+[15:19:43] INFO    ArticleController._download_html(): START
+[15:19:43] INFO    loader id=128261077538608
+[15:19:43] INFO    Вызываем SmartLoader.load()
+[15:19:44] INFO    SmartLoader.load() завершён
+[15:19:44] INFO    page id=128263746914432
+[15:19:44] INFO    page.url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:19:44] INFO    HTML length=348542
+[15:19:44] INFO    ArticleController._download_html(): END
+[15:19:44] INFO    Парсинг статьи...
+[15:19:44] INFO    Создание каталога...
+[15:19:44] INFO    Загрузка изображений...
+[15:19:44] INFO    Скачан asset_001.jpg
+[15:19:44] INFO    Скачан asset_002.jpg
+[15:19:44] INFO    Скачан asset_003.jpg
+[15:19:45] INFO    Скачан asset_004.jpg
+[15:19:45] INFO    Скачан asset_005.jpg
+[15:19:45] INFO    Сохранение статьи...
+[15:19:45] INFO    ArticleController.save_article(): END
+[15:19:45] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:19:45] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:19:45] INFO    SaveArticleWorker: закрываем ArticleController
+[15:19:45] INFO    SaveArticleWorker: ArticleController закрыт
+[15:19:45] INFO    SaveArticleWorker.execute(): END
+[15:19:45] INFO    SaveArticleWorker: execute() END
+[15:19:45] INFO    SaveArticleWorker: finished.emit()
+[15:19:45] INFO    SaveArticleWorker: run() END
+[15:19:45] INFO    SaveArticleWorker.save(): END
+[15:20:06] SUCCESS Статья удалена:
+Как стать фронтенд-разработчиком с нуля в 2025 году: пошаговый план для новичков в Украине - DAN IT Education
+[15:20:11] INFO    Получен URL: https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:11] INFO    SaveArticleWorker.save(): START url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:11] INFO    SaveArticleWorker: run() START
+[15:20:11] INFO    SaveArticleWorker: execute() START
+[15:20:11] INFO    SaveArticleWorker.execute(): START
+[15:20:11] INFO    SaveArticleWorker: ArticleController создан id=128261013257776
+[15:20:11] INFO    SaveArticleWorker: вызываем save_article(url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/)
+[15:20:11] INFO    ArticleController.save_article(): START
+[15:20:11] INFO    ArticleController._download_html(): START
+[15:20:11] INFO    loader id=128261015181968
+[15:20:11] INFO    Вызываем SmartLoader.load()
+[15:20:12] INFO    SmartLoader.load() завершён
+[15:20:12] INFO    page id=128263747214768
+[15:20:12] INFO    page.url=https://dan-it.com.ua/ru/blog2/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:12] INFO    HTML length=348542
+[15:20:12] INFO    ArticleController._download_html(): END
+[15:20:12] INFO    Парсинг статьи...
+[15:20:12] INFO    Создание каталога...
+[15:20:12] INFO    Загрузка изображений...
+[15:20:12] INFO    Скачан asset_001.jpg
+[15:20:12] INFO    Скачан asset_002.jpg
+[15:20:12] INFO    Скачан asset_003.jpg
+[15:20:12] INFO    Скачан asset_004.jpg
+[15:20:13] INFO    Скачан asset_005.jpg
+[15:20:13] INFO    Сохранение статьи...
+[15:20:13] INFO    ArticleController.save_article(): END
+[15:20:13] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:20:13] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:20:13] INFO    SaveArticleWorker: закрываем ArticleController
+[15:20:13] INFO    SaveArticleWorker: ArticleController закрыт
+[15:20:13] INFO    SaveArticleWorker.execute(): END
+[15:20:13] INFO    SaveArticleWorker: execute() END
+[15:20:13] INFO    SaveArticleWorker: finished.emit()
+[15:20:13] INFO    SaveArticleWorker: run() END
+[15:20:13] INFO    SaveArticleWorker.save(): END
+[15:20:35] INFO    Получен URL: https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:35] INFO    SaveArticleWorker.save(): START url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:35] INFO    SaveArticleWorker: run() START
+[15:20:35] INFO    SaveArticleWorker: execute() START
+[15:20:35] INFO    SaveArticleWorker.execute(): START
+[15:20:35] INFO    SaveArticleWorker: ArticleController создан id=128263747213680
+[15:20:35] INFO    SaveArticleWorker: вызываем save_article(url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/)
+[15:20:35] INFO    ArticleController.save_article(): START
+[15:20:35] INFO    ArticleController._download_html(): START
+[15:20:35] INFO    loader id=128263747211616
+[15:20:35] INFO    Вызываем SmartLoader.load()
+[15:20:35] INFO    SmartLoader.load() завершён
+[15:20:35] INFO    page id=128261078001712
+[15:20:35] INFO    page.url=https://dan-it.com.ua/ru/blog/kak-stat-frontend-razrabotchikom-s-nulya-v-2025-godu-poshagovyj-plan-dlya-novichkov-v-ukraine/
+[15:20:35] INFO    HTML length=348542
+[15:20:35] INFO    ArticleController._download_html(): END
+[15:20:35] INFO    Парсинг статьи...
+[15:20:35] INFO    Создание каталога...
+[15:20:35] INFO    Загрузка изображений...
+[15:20:35] INFO    Скачан asset_001.jpg
+[15:20:36] INFO    Скачан asset_002.jpg
+[15:20:36] INFO    Скачан asset_003.jpg
+[15:20:36] INFO    Скачан asset_004.jpg
+[15:20:36] INFO    Скачан asset_005.jpg
+[15:20:36] INFO    Сохранение статьи...
+[15:20:36] INFO    ArticleController.save_article(): END
+[15:20:36] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:20:36] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-stat-frontend-razrabotchikom-s-nulia-v-2025-godu-poshagovyi-plan-dlia-novichkov-v-ukraine-dan-it-education
+[15:20:36] INFO    SaveArticleWorker: закрываем ArticleController
+[15:20:36] INFO    SaveArticleWorker: ArticleController закрыт
+[15:20:36] INFO    SaveArticleWorker.execute(): END
+[15:20:36] INFO    SaveArticleWorker: execute() END
+[15:20:36] INFO    SaveArticleWorker: finished.emit()
+[15:20:36] INFO    SaveArticleWorker: run() END
+[15:20:36] INFO    SaveArticleWorker.save(): END
+[15:21:03] INFO    Получен URL: https://habr.com/14/companies/bothub/articles/1075920/
+[15:21:03] INFO    SaveArticleWorker.save(): START url=https://habr.com/14/companies/bothub/articles/1075920/
+[15:21:03] INFO    SaveArticleWorker: run() START
+[15:21:03] INFO    SaveArticleWorker: execute() START
+[15:21:03] INFO    SaveArticleWorker.execute(): START
+[15:21:03] INFO    SaveArticleWorker: ArticleController создан id=128261012096160
+[15:21:03] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/14/companies/bothub/articles/1075920/)
+[15:21:03] INFO    ArticleController.save_article(): START
+[15:21:03] INFO    ArticleController._download_html(): START
+[15:21:03] INFO    loader id=128261012103168
+[15:21:03] INFO    Вызываем SmartLoader.load()
+[15:21:04] INFO    SaveArticleWorker: закрываем ArticleController
+[15:21:04] INFO    SaveArticleWorker: ArticleController закрыт
+[15:21:04] INFO    SaveArticleWorker.execute(): END
+[15:21:04] INFO    SaveArticleWorker: PaperShelfError: PageNotFoundError('Страница не найдена: https://habr.com/14/companies/bothub/articles/1075920/')
+[15:21:04] ERROR   Страница не найдена: https://habr.com/14/companies/bothub/articles/1075920/
+[15:21:04] INFO    SaveArticleWorker: finished.emit()
+[15:21:04] INFO    SaveArticleWorker: run() END
+[15:21:04] INFO    SaveArticleWorker.save(): END
+[15:38:27] INFO    Получен URL: https://habr.com/ru/articles/1044422/
+[15:38:27] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1044422/
+[15:38:27] INFO    SaveArticleWorker: run() START
+[15:38:27] INFO    SaveArticleWorker: execute() START
+[15:38:27] INFO    SaveArticleWorker.execute(): START
+[15:38:27] INFO    SaveArticleWorker: ArticleController создан id=130094654217952
+[15:38:27] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1044422/)
+[15:38:27] INFO    ArticleController.save_article(): START
+[15:38:27] INFO    ArticleController._download_html(): START
+[15:38:27] INFO    loader id=130094889626336
+[15:38:27] INFO    Вызываем SmartLoader.load()
+[15:38:27] INFO    SmartLoader.load() завершён
+[15:38:27] INFO    page id=130094654859984
+[15:38:27] INFO    page.url=https://habr.com/ru/articles/1044422/
+[15:38:27] INFO    HTML length=178549
+[15:38:27] INFO    ArticleController._download_html(): END
+[15:38:27] INFO    Парсинг статьи...
+[15:38:27] INFO    Создание каталога...
+[15:38:27] INFO    Загрузка изображений...
+[15:38:28] INFO    Скачан asset_001.png
+[15:38:28] INFO    Скачан asset_002.png
+[15:38:29] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{SchemaValid} = \frac{1}{N}\sum_{i=1}^{N}\mathbb{1}\!\left[\,\operatorname{valid}(\hat{y}_i,\, S_i)\,\right] \\[12pt] &\text{LevSim} = \frac{1}{N}\sum_{i=1}^{N}\left(1 - \frac{\operatorname{lev}(\hat{y}_i,\, y_i)}{|\hat{y}_i| + |y_i|}\right) \\[14pt] \end{aligned}
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{SchemaValid} = \frac{1}{N}\sum_{i=1}^{N}\mathbb{1}\!\left[\,\operatorname{valid}(\hat{y}_i,\, S_i)\,\right] \\[12pt] &\text{LevSim} = \frac{1}{N}\sum_{i=1}^{N}\left(1 - \frac{\operatorname{lev}(\hat{y}_i,\, y_i)}{|\hat{y}_i| + |y_i|}\right) \\[14pt] \end{aligned}
+[15:38:29] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{Acc} = \frac{1}{M}\sum_{j=1}^{M}\mathbb{1}\!\left[\,\hat{a}_j = a_j\,\right] \\[14pt] \end{aligned}
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{Acc} = \frac{1}{M}\sum_{j=1}^{M}\mathbb{1}\!\left[\,\hat{a}_j = a_j\,\right] \\[14pt] \end{aligned}
+[15:38:29] INFO    Скачан asset_003.png
+[15:38:29] INFO    Скачан asset_004.png
+[15:38:29] INFO    Скачан asset_005.png
+[15:38:30] INFO    Скачан asset_006.png
+[15:38:30] INFO    Скачан asset_007.png
+[15:38:30] INFO    Скачан asset_008.png
+[15:38:30] INFO    Скачан asset_009.png
+[15:38:30] INFO    Сохранение статьи...
+[15:38:30] INFO    ArticleController.save_article(): END
+[15:38:30] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-doobuchit-llm-rasskazyvaiu-shag-za-shagom-khabr
+[15:38:30] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-doobuchit-llm-rasskazyvaiu-shag-za-shagom-khabr
+[15:38:30] INFO    SaveArticleWorker: закрываем ArticleController
+[15:38:30] INFO    SaveArticleWorker: ArticleController закрыт
+[15:38:30] INFO    SaveArticleWorker.execute(): END
+[15:38:30] INFO    SaveArticleWorker: execute() END
+[15:38:30] INFO    SaveArticleWorker: finished.emit()
+[15:38:30] INFO    SaveArticleWorker: run() END
+[15:38:30] INFO    SaveArticleWorker.save(): END
+[15:43:05] INFO    SaveArticleWorker.close(): START
+[15:43:05] INFO    SaveArticleWorker.close(): END
+[20:18:50] INFO    SaveArticleWorker.close(): START
+[20:18:50] INFO    SaveArticleWorker.close(): END
+[11:48:37] INFO    SaveArticleWorker.close(): START
+[11:48:37] INFO    SaveArticleWorker.close(): END
+[13:49:12] INFO    SaveArticleWorker.close(): START
+[13:49:12] INFO    SaveArticleWorker.close(): END
+[13:56:05] INFO    SaveArticleWorker.close(): START
+[13:56:05] INFO    SaveArticleWorker.close(): END
+[13:56:33] INFO    SaveArticleWorker.close(): START
+[13:56:33] INFO    SaveArticleWorker.close(): END
+[13:57:46] INFO    Получен URL: https://habr.com/ru/articles/1044422/
+[13:57:46] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1044422/
+[13:57:46] INFO    SaveArticleWorker: run() START
+[13:57:46] INFO    SaveArticleWorker: execute() START
+[13:57:46] INFO    SaveArticleWorker.execute(): START
+[13:57:46] INFO    SaveArticleWorker: ArticleController создан id=136040985727472
+[13:57:46] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1044422/)
+[13:57:46] INFO    ArticleController.save_article(): START
+[13:57:46] INFO    ArticleController._download_html(): START
+[13:57:46] INFO    loader id=136040986381392
+[13:57:46] INFO    Вызываем SmartLoader.load()
+[13:57:47] INFO    SmartLoader.load() завершён
+[13:57:47] INFO    page id=136040986389104
+[13:57:47] INFO    page.url=https://habr.com/ru/articles/1044422/
+[13:57:47] INFO    HTML length=172980
+[13:57:47] INFO    ArticleController._download_html(): END
+[13:57:47] INFO    Парсинг статьи...
+[13:57:47] INFO    Создание каталога...
+[13:57:47] INFO    Загрузка изображений...
+[13:57:48] INFO    Скачан asset_001.png
+[13:57:48] INFO    Скачан asset_002.png
+[13:57:48] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{SchemaValid} = \frac{1}{N}\sum_{i=1}^{N}\mathbb{1}\!\left[\,\operatorname{valid}(\hat{y}_i,\, S_i)\,\right] \\[12pt] &\text{LevSim} = \frac{1}{N}\sum_{i=1}^{N}\left(1 - \frac{\operatorname{lev}(\hat{y}_i,\, y_i)}{|\hat{y}_i| + |y_i|}\right) \\[14pt] \end{aligned}
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{SchemaValid} = \frac{1}{N}\sum_{i=1}^{N}\mathbb{1}\!\left[\,\operatorname{valid}(\hat{y}_i,\, S_i)\,\right] \\[12pt] &\text{LevSim} = \frac{1}{N}\sum_{i=1}^{N}\left(1 - \frac{\operatorname{lev}(\hat{y}_i,\, y_i)}{|\hat{y}_i| + |y_i|}\right) \\[14pt] \end{aligned}
+[13:57:49] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{Acc} = \frac{1}{M}\sum_{j=1}^{M}\mathbb{1}\!\left[\,\hat{a}_j = a_j\,\right] \\[14pt] \end{aligned}
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1044422/\begin{aligned} &\text{Acc} = \frac{1}{M}\sum_{j=1}^{M}\mathbb{1}\!\left[\,\hat{a}_j = a_j\,\right] \\[14pt] \end{aligned}
+[13:57:49] INFO    Скачан asset_003.png
+[13:57:49] INFO    Скачан asset_004.png
+[13:57:49] INFO    Скачан asset_005.png
+[13:57:49] INFO    Скачан asset_006.png
+[13:57:49] INFO    Скачан asset_007.png
+[13:57:49] INFO    Скачан asset_008.png
+[13:57:49] INFO    Скачан asset_009.png
+[13:57:49] INFO    Сохранение статьи...
+[13:57:49] INFO    ArticleController.save_article(): END
+[13:57:49] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/kak-doobuchit-llm-rasskazyvaiu-shag-za-shagom-khabr
+[13:57:49] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/kak-doobuchit-llm-rasskazyvaiu-shag-za-shagom-khabr
+[13:57:49] INFO    SaveArticleWorker: закрываем ArticleController
+[13:57:49] INFO    SaveArticleWorker: ArticleController закрыт
+[13:57:49] INFO    SaveArticleWorker.execute(): END
+[13:57:49] INFO    SaveArticleWorker: execute() END
+[13:57:49] INFO    SaveArticleWorker: finished.emit()
+[13:57:49] INFO    SaveArticleWorker: run() END
+[13:57:49] INFO    SaveArticleWorker.save(): END
+[14:24:53] INFO    Получен URL: https://habr.com/ru/articles/1078980/
+[14:24:53] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1078980/
+[14:24:53] INFO    SaveArticleWorker: run() START
+[14:24:53] INFO    SaveArticleWorker: execute() START
+[14:24:53] INFO    SaveArticleWorker.execute(): START
+[14:24:53] INFO    SaveArticleWorker: ArticleController создан id=124740154701440
+[14:24:53] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1078980/)
+[14:24:53] INFO    ArticleController.save_article(): START
+[14:24:53] INFO    ArticleController._download_html(): START
+[14:24:53] INFO    loader id=124740154693184
+[14:24:53] INFO    Вызываем SmartLoader.load()
+[14:24:54] INFO    SmartLoader.load() завершён
+[14:24:54] INFO    page id=124740155338240
+[14:24:54] INFO    page.url=https://habr.com/ru/articles/1078980/
+[14:24:54] INFO    HTML length=148516
+[14:24:54] INFO    ArticleController._download_html(): END
+[14:24:54] INFO    Парсинг статьи...
+[14:24:54] INFO    Создание каталога...
+[14:24:54] INFO    Загрузка изображений...
+[14:24:54] INFO    Скачан asset_001.jpg
+[14:24:54] INFO    Сохранение статьи...
+[14:24:54] INFO    ArticleController.save_article(): END
+[14:24:54] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/proektirovanie-meditsinskogo-ii-orientirovannogo-na-lechebnoe-delo-v-usloviiakh-ekstremalnykh-apparatnykh-ogranichenii-khabr
+[14:24:54] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/proektirovanie-meditsinskogo-ii-orientirovannogo-na-lechebnoe-delo-v-usloviiakh-ekstremalnykh-apparatnykh-ogranichenii-khabr
+[14:24:54] INFO    SaveArticleWorker: закрываем ArticleController
+[14:24:54] INFO    SaveArticleWorker: ArticleController закрыт
+[14:24:54] INFO    SaveArticleWorker.execute(): END
+[14:24:54] INFO    SaveArticleWorker: execute() END
+[14:24:54] INFO    SaveArticleWorker: finished.emit()
+[14:24:54] INFO    SaveArticleWorker: run() END
+[14:24:54] INFO    SaveArticleWorker.save(): END
+[16:46:51] INFO    Получен URL: https://habr.com/ru/articles/891050/
+[16:46:51] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/891050/
+[16:46:51] INFO    SaveArticleWorker: run() START
+[16:46:51] INFO    SaveArticleWorker: execute() START
+[16:46:51] INFO    SaveArticleWorker.execute(): START
+[16:46:51] INFO    SaveArticleWorker: ArticleController создан id=139965372550752
+[16:46:51] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/891050/)
+[16:46:51] INFO    ArticleController.save_article(): START
+[16:46:51] INFO    ArticleController._download_html(): START
+[16:46:51] INFO    loader id=139965372558048
+[16:46:51] INFO    Вызываем SmartLoader.load()
+[16:46:52] INFO    SmartLoader.load() завершён
+[16:46:52] INFO    page id=139965371921600
+[16:46:52] INFO    page.url=https://habr.com/ru/articles/891050/
+[16:46:52] INFO    HTML length=147579
+[16:46:52] INFO    ArticleController._download_html(): END
+[16:46:52] INFO    Парсинг статьи...
+[16:46:52] INFO    Создание каталога...
+[16:46:52] INFO    Загрузка изображений...
+[16:46:52] INFO    Скачан asset_001.png
+[16:46:53] INFO    Скачан asset_002.png
+[16:46:53] INFO    Скачан asset_003.png
+[16:46:53] INFO    Скачан asset_004.png
+[16:46:53] INFO    Скачан asset_005.png
+[16:46:53] INFO    Скачан asset_006.png
+[16:46:54] INFO    Скачан asset_007.png
+[16:46:54] INFO    Скачан asset_008.png
+[16:46:54] INFO    Скачан asset_009.png
+[16:46:54] INFO    Скачан asset_010.png
+[16:46:54] INFO    Скачан asset_011.png
+[16:46:54] INFO    Скачан asset_012.png
+[16:46:54] INFO    Скачан asset_013.png
+[16:46:54] INFO    Скачан asset_014.png
+[16:46:54] INFO    Скачан asset_015.png
+[16:46:55] INFO    Скачан asset_016.png
+[16:46:55] INFO    Скачан asset_017.png
+[16:46:55] INFO    Скачан asset_018.png
+[16:46:55] INFO    Скачан asset_019.png
+[16:46:55] INFO    Скачан asset_020.png
+[16:46:55] INFO    Скачан asset_021.png
+[16:46:55] INFO    Скачан asset_022.png
+[16:46:55] INFO    Скачан asset_023.png
+[16:46:55] INFO    Сохранение статьи...
+[16:46:55] INFO    ArticleController.save_article(): END
+[16:46:55] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/git-dlia-samykh-malenkikh-ot-pervoi-komandy-do-nastroiki-ssh-khabr
+[16:46:55] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/git-dlia-samykh-malenkikh-ot-pervoi-komandy-do-nastroiki-ssh-khabr
+[16:46:56] INFO    SaveArticleWorker: закрываем ArticleController
+[16:46:56] INFO    SaveArticleWorker: ArticleController закрыт
+[16:46:56] INFO    SaveArticleWorker.execute(): END
+[16:46:56] INFO    SaveArticleWorker: execute() END
+[16:46:56] INFO    SaveArticleWorker: finished.emit()
+[16:46:56] INFO    SaveArticleWorker: run() END
+[16:46:56] INFO    SaveArticleWorker.save(): END
+[12:52:55] INFO    Получен URL: https://habr.com/ru/articles/966048/
+[12:52:55] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/966048/
+[12:52:55] INFO    SaveArticleWorker: run() START
+[12:52:55] INFO    SaveArticleWorker: execute() START
+[12:52:55] INFO    SaveArticleWorker.execute(): START
+[12:52:55] INFO    SaveArticleWorker: ArticleController создан id=132649992729856
+[12:52:55] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/966048/)
+[12:52:55] INFO    ArticleController.save_article(): START
+[12:52:55] INFO    ArticleController._download_html(): START
+[12:52:55] INFO    loader id=132650228232464
+[12:52:55] INFO    Вызываем SmartLoader.load()
+[12:52:56] INFO    SmartLoader.load() завершён
+[12:52:56] INFO    page id=132649993366512
+[12:52:56] INFO    page.url=https://habr.com/ru/articles/966048/
+[12:52:56] INFO    HTML length=171591
+[12:52:56] INFO    ArticleController._download_html(): END
+[12:52:56] INFO    Парсинг статьи...
+[12:52:56] INFO    Создание каталога...
+[12:52:56] INFO    Загрузка изображений...
+[12:52:56] INFO    Сохранение статьи...
+[12:52:56] INFO    ArticleController.save_article(): END
+[12:52:56] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/zabudte-pro-print-sovremennoe-i-krasivoe-logirovanie-v-python-s-pomoshchiu-loguru-khabr
+[12:52:56] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/zabudte-pro-print-sovremennoe-i-krasivoe-logirovanie-v-python-s-pomoshchiu-loguru-khabr
+[12:52:56] INFO    SaveArticleWorker: закрываем ArticleController
+[12:52:56] INFO    SaveArticleWorker: ArticleController закрыт
+[12:52:56] INFO    SaveArticleWorker.execute(): END
+[12:52:56] INFO    SaveArticleWorker: execute() END
+[12:52:56] INFO    SaveArticleWorker: finished.emit()
+[12:52:56] INFO    SaveArticleWorker: run() END
+[12:52:56] INFO    SaveArticleWorker.save(): END
+[20:16:19] INFO    Получен URL: https://habr.com/ru/companies/netologyru/articles/979196/
+[20:16:19] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/companies/netologyru/articles/979196/
+[20:16:19] INFO    SaveArticleWorker: run() START
+[20:16:19] INFO    SaveArticleWorker: execute() START
+[20:16:19] INFO    SaveArticleWorker.execute(): START
+[20:16:19] INFO    SaveArticleWorker: ArticleController создан id=131709311833808
+[20:16:19] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/companies/netologyru/articles/979196/)
+[20:16:19] INFO    ArticleController.save_article(): START
+[20:16:19] INFO    ArticleController._download_html(): START
+[20:16:19] INFO    loader id=131709547509040
+[20:16:19] INFO    Вызываем SmartLoader.load()
+[20:16:23] INFO    SmartLoader.load() завершён
+[20:16:23] INFO    page id=131709312463200
+[20:16:23] INFO    page.url=https://habr.com/ru/companies/netologyru/articles/979196/
+[20:16:23] INFO    HTML length=198715
+[20:16:23] INFO    ArticleController._download_html(): END
+[20:16:23] INFO    Парсинг статьи...
+[20:16:23] INFO    Создание каталога...
+[20:16:23] INFO    Загрузка изображений...
+[20:16:23] INFO    Скачан asset_001.png
+[20:16:23] INFO    Сохранение статьи...
+[20:16:23] INFO    ArticleController.save_article(): END
+[20:16:23] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/klassy-v-python-ot-osnov-oop-do-prodvinutykh-kontseptsii-khabr
+[20:16:23] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/klassy-v-python-ot-osnov-oop-do-prodvinutykh-kontseptsii-khabr
+[20:16:23] INFO    SaveArticleWorker: закрываем ArticleController
+[20:16:23] INFO    SaveArticleWorker: ArticleController закрыт
+[20:16:23] INFO    SaveArticleWorker.execute(): END
+[20:16:23] INFO    SaveArticleWorker: execute() END
+[20:16:23] INFO    SaveArticleWorker: finished.emit()
+[20:16:23] INFO    SaveArticleWorker: run() END
+[20:16:23] INFO    SaveArticleWorker.save(): END
+[14:06:28] INFO    Получен URL: https://habr.com/ru/companies/wunderfund/articles/976906/
+[14:06:28] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/companies/wunderfund/articles/976906/
+[14:06:28] INFO    SaveArticleWorker: run() START
+[14:06:28] INFO    SaveArticleWorker: execute() START
+[14:06:28] INFO    SaveArticleWorker.execute(): START
+[14:06:28] INFO    SaveArticleWorker: ArticleController создан id=132265013079568
+[14:06:28] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/companies/wunderfund/articles/976906/)
+[14:06:28] INFO    ArticleController.save_article(): START
+[14:06:28] INFO    ArticleController._download_html(): START
+[14:06:28] INFO    loader id=132265012637296
+[14:06:28] INFO    Вызываем SmartLoader.load()
+[14:06:29] INFO    SmartLoader.load() завершён
+[14:06:29] INFO    page id=132264777985920
+[14:06:29] INFO    page.url=https://habr.com/ru/companies/wunderfund/articles/976906/
+[14:06:29] INFO    HTML length=186597
+[14:06:29] INFO    ArticleController._download_html(): END
+[14:06:29] INFO    Парсинг статьи...
+[14:06:29] INFO    Создание каталога...
+[14:06:29] INFO    Загрузка изображений...
+[14:06:30] INFO    Скачан asset_001.png
+[14:06:30] INFO    Сохранение статьи...
+[14:06:30] INFO    ArticleController.save_article(): END
+[14:06:30] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/polnoe-rukovodstvo-po-docker-dlia-ml-inzhenerov-khabr
+[14:06:30] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/polnoe-rukovodstvo-po-docker-dlia-ml-inzhenerov-khabr
+[14:06:30] INFO    SaveArticleWorker: закрываем ArticleController
+[14:06:30] INFO    SaveArticleWorker: ArticleController закрыт
+[14:06:30] INFO    SaveArticleWorker.execute(): END
+[14:06:30] INFO    SaveArticleWorker: execute() END
+[14:06:30] INFO    SaveArticleWorker: finished.emit()
+[14:06:30] INFO    SaveArticleWorker: run() END
+[14:06:30] INFO    SaveArticleWorker.save(): END
+[21:09:02] INFO    SaveArticleWorker.close(): START
+[21:09:02] INFO    SaveArticleWorker.close(): END
+[20:32:52] INFO    Получен URL: https://habr.com/ru/news/1083554/
+[20:32:52] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/news/1083554/
+[20:32:52] INFO    SaveArticleWorker: run() START
+[20:32:52] INFO    SaveArticleWorker: execute() START
+[20:32:52] INFO    SaveArticleWorker.execute(): START
+[20:32:52] INFO    SaveArticleWorker: ArticleController создан id=140238503382624
+[20:32:52] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/news/1083554/)
+[20:32:52] INFO    ArticleController.save_article(): START
+[20:32:52] INFO    ArticleController._download_html(): START
+[20:32:52] INFO    loader id=140238503390208
+[20:32:52] INFO    Вызываем SmartLoader.load()
+[20:32:53] INFO    SmartLoader.load() завершён
+[20:32:53] INFO    page id=140238738355920
+[20:32:53] INFO    page.url=https://habr.com/ru/news/1083554/
+[20:32:53] INFO    HTML length=105184
+[20:32:53] INFO    ArticleController._download_html(): END
+[20:32:53] INFO    Парсинг статьи...
+[20:32:53] INFO    Создание каталога...
+[20:32:53] INFO    Загрузка изображений...
+[20:32:53] INFO    Скачан asset_001.webp
+[20:32:53] INFO    Сохранение статьи...
+[20:32:53] INFO    ArticleController.save_article(): END
+[20:32:53] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/uchenye-obnaruzhili-znachitelnye-izmeneniia-v-mozge-cheloveka-v-vozraste-ot-50-do-75-let-khabr
+[20:32:53] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/uchenye-obnaruzhili-znachitelnye-izmeneniia-v-mozge-cheloveka-v-vozraste-ot-50-do-75-let-khabr
+[20:32:53] INFO    SaveArticleWorker: закрываем ArticleController
+[20:32:53] INFO    SaveArticleWorker: ArticleController закрыт
+[20:32:53] INFO    SaveArticleWorker.execute(): END
+[20:32:53] INFO    SaveArticleWorker: execute() END
+[20:32:53] INFO    SaveArticleWorker: finished.emit()
+[20:32:53] INFO    SaveArticleWorker: run() END
+[20:32:53] INFO    SaveArticleWorker.save(): END
+[22:01:12] SUCCESS Статья удалена:
+Учёные обнаружили значительные изменения в мозге человека в возрасте от 50 до 75 лет / Хабр
+[17:42:40] INFO    Получен URL: https://docs.github.com/ru/get-started/using-github/hello-world
+[17:42:41] INFO    SaveArticleWorker.save(): START url=https://docs.github.com/ru/get-started/using-github/hello-world
+[17:42:41] INFO    SaveArticleWorker: run() START
+[17:42:41] INFO    SaveArticleWorker: execute() START
+[17:42:41] INFO    SaveArticleWorker.execute(): START
+[17:42:41] INFO    SaveArticleWorker: ArticleController создан id=138956764516464
+[17:42:41] INFO    SaveArticleWorker: вызываем save_article(url=https://docs.github.com/ru/get-started/using-github/hello-world)
+[17:42:41] INFO    ArticleController.save_article(): START
+[17:42:41] INFO    ArticleController._download_html(): START
+[17:42:41] INFO    loader id=138956764524384
+[17:42:41] INFO    Вызываем SmartLoader.load()
+[17:42:41] INFO    SmartLoader.load() завершён
+[17:42:41] INFO    page id=138956764524992
+[17:42:41] INFO    page.url=https://docs.github.com/ru/get-started/using-github/hello-world
+[17:42:41] INFO    HTML length=234183
+[17:42:41] INFO    ArticleController._download_html(): END
+[17:42:41] INFO    Парсинг статьи...
+[17:42:41] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[17:42:41] INFO    URL=https://docs.github.com/ru/get-started/using-github/hello-world
+[17:42:41] INFO    page id=138956764524992
+[17:42:41] INFO    SaveArticleWorker: закрываем ArticleController
+[17:42:41] INFO    SaveArticleWorker: ArticleController закрыт
+[17:42:41] INFO    SaveArticleWorker.execute(): END
+[17:42:41] INFO    SaveArticleWorker: execute() END
+[17:42:41] INFO    SaveArticleWorker: finished.emit()
+[17:42:41] INFO    SaveArticleWorker: run() END
+[17:42:41] INFO    SaveArticleWorker.save(): END
+[17:43:31] INFO    SiteSupportWorker: run() START
+[17:43:31] INFO    SiteSupportWorker: execute() START
+[17:43:31] INFO    Запуск анализа сайта...
+[17:43:31] INFO    URL анализа: https://docs.github.com/ru/get-started/using-github/hello-world
+[17:43:32] INFO    Запись selectors.py...
+[17:43:32] INFO    Запись site_registry_data.py...
+[17:43:32] INFO    Перезагрузка конфигурации парсеров...
+[17:43:32] INFO    Поддержка сайта успешно добавлена.
+[17:43:32] INFO    Получен URL: https://docs.github.com/ru/get-started/using-github/hello-world
+[17:43:32] INFO    SiteSupportWorker: execute() END
+[17:43:32] INFO    SiteSupportWorker: finished.emit()
+[17:43:32] INFO    SiteSupportWorker: run() END
+[17:43:32] INFO    SaveArticleWorker.save(): START url=https://docs.github.com/ru/get-started/using-github/hello-world
+[17:43:32] INFO    SaveArticleWorker: run() START
+[17:43:32] INFO    SaveArticleWorker: execute() START
+[17:43:32] INFO    SaveArticleWorker.execute(): START
+[17:43:32] INFO    SaveArticleWorker: ArticleController создан id=138954655179424
+[17:43:32] INFO    SaveArticleWorker: вызываем save_article(url=https://docs.github.com/ru/get-started/using-github/hello-world)
+[17:43:32] INFO    ArticleController.save_article(): START
+[17:43:32] INFO    ArticleController._download_html(): START
+[17:43:32] INFO    loader id=138954655180384
+[17:43:32] INFO    Вызываем SmartLoader.load()
+[17:43:32] INFO    SmartLoader.load() завершён
+[17:43:32] INFO    page id=138956999945536
+[17:43:32] INFO    page.url=https://docs.github.com/ru/get-started/using-github/hello-world
+[17:43:32] INFO    HTML length=234183
+[17:43:32] INFO    ArticleController._download_html(): END
+[17:43:32] INFO    Парсинг статьи...
+[17:43:32] INFO    Создание каталога...
+[17:43:32] INFO    Загрузка изображений...
+[17:43:32] INFO    Скачан asset_001.png
+[17:43:32] INFO    Скачан asset_002.png
+[17:43:32] INFO    Скачан asset_003.png
+[17:43:33] INFO    Скачан asset_004.png
+[17:43:33] INFO    Скачан asset_005.png
+[17:43:33] INFO    Скачан asset_006.webp
+[17:43:33] INFO    Скачан asset_007.webp
+[17:43:33] INFO    Скачан asset_008.webp
+[17:43:33] INFO    Скачан asset_009.webp
+[17:43:33] INFO    Скачан asset_010.webp
+[17:43:33] INFO    Сохранение статьи...
+[17:43:33] INFO    ArticleController.save_article(): END
+[17:43:33] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/hello-world-dokumentatsiia-github
+[17:43:33] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/hello-world-dokumentatsiia-github
+[17:43:33] INFO    SaveArticleWorker: закрываем ArticleController
+[17:43:33] INFO    SaveArticleWorker: ArticleController закрыт
+[17:43:33] INFO    SaveArticleWorker.execute(): END
+[17:43:33] INFO    SaveArticleWorker: execute() END
+[17:43:33] INFO    SaveArticleWorker: finished.emit()
+[17:43:33] INFO    SaveArticleWorker: run() END
+[17:43:33] INFO    SaveArticleWorker.save(): END
+[17:45:30] INFO    Получен URL: https://docs.github.com/ru/get-started/using-github/connecting-to-github
+[17:45:30] INFO    SaveArticleWorker.save(): START url=https://docs.github.com/ru/get-started/using-github/connecting-to-github
+[17:45:30] INFO    SaveArticleWorker: run() START
+[17:45:30] INFO    SaveArticleWorker: execute() START
+[17:45:30] INFO    SaveArticleWorker.execute(): START
+[17:45:30] INFO    SaveArticleWorker: ArticleController создан id=138956764523376
+[17:45:30] INFO    SaveArticleWorker: вызываем save_article(url=https://docs.github.com/ru/get-started/using-github/connecting-to-github)
+[17:45:30] INFO    ArticleController.save_article(): START
+[17:45:30] INFO    ArticleController._download_html(): START
+[17:45:30] INFO    loader id=138956764516272
+[17:45:30] INFO    Вызываем SmartLoader.load()
+[17:45:31] INFO    SmartLoader.load() завершён
+[17:45:31] INFO    page id=138956764515824
+[17:45:31] INFO    page.url=https://docs.github.com/ru/get-started/using-github/connecting-to-github
+[17:45:31] INFO    HTML length=206439
+[17:45:31] INFO    ArticleController._download_html(): END
+[17:45:31] INFO    Парсинг статьи...
+[17:45:31] INFO    Создание каталога...
+[17:45:31] INFO    Загрузка изображений...
+[17:45:31] INFO    Сохранение статьи...
+[17:45:31] INFO    ArticleController.save_article(): END
+[17:45:31] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/podkliuchenie-k-github-dokumentatsiia-github
+[17:45:31] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/podkliuchenie-k-github-dokumentatsiia-github
+[17:45:31] INFO    SaveArticleWorker: закрываем ArticleController
+[17:45:31] INFO    SaveArticleWorker: ArticleController закрыт
+[17:45:31] INFO    SaveArticleWorker.execute(): END
+[17:45:31] INFO    SaveArticleWorker: execute() END
+[17:45:31] INFO    SaveArticleWorker: finished.emit()
+[17:45:31] INFO    SaveArticleWorker: run() END
+[17:45:31] INFO    SaveArticleWorker.save(): END
+[17:47:03] INFO    Получен URL: https://docs.github.com/ru/get-started/using-github/communicating-on-github
+[17:47:03] INFO    SaveArticleWorker.save(): START url=https://docs.github.com/ru/get-started/using-github/communicating-on-github
+[17:47:03] INFO    SaveArticleWorker: run() START
+[17:47:03] INFO    SaveArticleWorker: execute() START
+[17:47:03] INFO    SaveArticleWorker.execute(): START
+[17:47:03] INFO    SaveArticleWorker: ArticleController создан id=138954655019856
+[17:47:03] INFO    SaveArticleWorker: вызываем save_article(url=https://docs.github.com/ru/get-started/using-github/communicating-on-github)
+[17:47:03] INFO    ArticleController.save_article(): START
+[17:47:03] INFO    ArticleController._download_html(): START
+[17:47:03] INFO    loader id=138957050082560
+[17:47:03] INFO    Вызываем SmartLoader.load()
+[17:47:03] INFO    SmartLoader.load() завершён
+[17:47:03] INFO    page id=138954655185456
+[17:47:03] INFO    page.url=https://docs.github.com/ru/get-started/using-github/communicating-on-github
+[17:47:03] INFO    HTML length=219407
+[17:47:03] INFO    ArticleController._download_html(): END
+[17:47:03] INFO    Парсинг статьи...
+[17:47:04] INFO    Создание каталога...
+[17:47:04] INFO    Загрузка изображений...
+[17:47:04] INFO    Скачан asset_001.png
+[17:47:04] INFO    Скачан asset_002.png
+[17:47:04] INFO    Скачан asset_003.png
+[17:47:05] INFO    Скачан asset_004.png
+[17:47:05] INFO    Скачан asset_005.png
+[17:47:05] INFO    Скачан asset_006.webp
+[17:47:05] INFO    Скачан asset_007.webp
+[17:47:05] INFO    Скачан asset_008.webp
+[17:47:05] INFO    Скачан asset_009.webp
+[17:47:05] INFO    Скачан asset_010.webp
+[17:47:05] INFO    Сохранение статьи...
+[17:47:05] INFO    ArticleController.save_article(): END
+[17:47:05] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/obshchenie-na-github-dokumentatsiia-github
+[17:47:05] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/obshchenie-na-github-dokumentatsiia-github
+[17:47:05] INFO    SaveArticleWorker: закрываем ArticleController
+[17:47:05] INFO    SaveArticleWorker: ArticleController закрыт
+[17:47:05] INFO    SaveArticleWorker.execute(): END
+[17:47:05] INFO    SaveArticleWorker: execute() END
+[17:47:05] INFO    SaveArticleWorker: finished.emit()
+[17:47:05] INFO    SaveArticleWorker: run() END
+[17:47:05] INFO    SaveArticleWorker.save(): END
+[17:52:30] SUCCESS Статья удалена:
+Подключение к GitHub - Документация GitHub
+[17:53:06] SUCCESS Статья удалена:
+Общение на GitHub - Документация GitHub
+[17:53:09] SUCCESS Статья удалена:
+Hello World - Документация GitHub
+[10:05:27] INFO    Получен URL: https://habr.com/ru/articles/1083612/
+[10:05:27] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1083612/
+[10:05:27] INFO    SaveArticleWorker: run() START
+[10:05:27] INFO    SaveArticleWorker: execute() START
+[10:05:27] INFO    SaveArticleWorker.execute(): START
+[10:05:27] INFO    SaveArticleWorker: ArticleController создан id=126770521797024
+[10:05:27] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1083612/)
+[10:05:27] INFO    ArticleController.save_article(): START
+[10:05:27] INFO    ArticleController._download_html(): START
+[10:05:27] INFO    loader id=126770286129088
+[10:05:27] INFO    Вызываем SmartLoader.load()
+[10:05:27] INFO    SmartLoader.load() завершён
+[10:05:27] INFO    page id=126770286767904
+[10:05:27] INFO    page.url=https://habr.com/ru/articles/1083612/
+[10:05:27] INFO    HTML length=141800
+[10:05:27] INFO    ArticleController._download_html(): END
+[10:05:27] INFO    Парсинг статьи...
+[10:05:27] INFO    Создание каталога...
+[10:05:27] INFO    Загрузка изображений...
+[10:05:28] INFO    Скачан asset_001.png
+[10:05:28] INFO    Скачан asset_002.png
+[10:05:28] INFO    Скачан asset_003.png
+[10:05:29] INFO    Скачан asset_004.png
+[10:05:29] INFO    Сохранение статьи...
+[10:05:29] INFO    ArticleController.save_article(): END
+[10:05:29] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/nizkogravitatsionnye-impulsnye-termoiadernye-reaktory-khabr
+[10:05:29] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/nizkogravitatsionnye-impulsnye-termoiadernye-reaktory-khabr
+[10:05:29] INFO    SaveArticleWorker: закрываем ArticleController
+[10:05:29] INFO    SaveArticleWorker: ArticleController закрыт
+[10:05:29] INFO    SaveArticleWorker.execute(): END
+[10:05:29] INFO    SaveArticleWorker: execute() END
+[10:05:29] INFO    SaveArticleWorker: finished.emit()
+[10:05:29] INFO    SaveArticleWorker: run() END
+[10:05:29] INFO    SaveArticleWorker.save(): END
+[16:16:35] SUCCESS Статья удалена:
+Низкогравитационные импульсные термоядерные реакторы / Хабр
+[16:16:37] INFO    SaveArticleWorker.close(): START
+[16:16:37] INFO    SaveArticleWorker.close(): END
+[21:17:08] INFO    Получен URL: https://habr.com/ru/articles/1036696/
+[21:17:08] INFO    SaveArticleWorker.save(): START url=https://habr.com/ru/articles/1036696/
+[21:17:08] INFO    SaveArticleWorker: run() START
+[21:17:08] INFO    SaveArticleWorker: execute() START
+[21:17:08] INFO    SaveArticleWorker.execute(): START
+[21:17:08] INFO    SaveArticleWorker: ArticleController создан id=136487866865072
+[21:17:08] INFO    SaveArticleWorker: вызываем save_article(url=https://habr.com/ru/articles/1036696/)
+[21:17:08] INFO    ArticleController.save_article(): START
+[21:17:08] INFO    ArticleController._download_html(): START
+[21:17:08] INFO    loader id=136487867502704
+[21:17:08] INFO    Вызываем SmartLoader.load()
+[21:17:09] INFO    SmartLoader.load() завершён
+[21:17:09] INFO    page id=136488102588672
+[21:17:09] INFO    page.url=https://habr.com/ru/articles/1036696/
+[21:17:09] INFO    HTML length=171388
+[21:17:09] INFO    ArticleController._download_html(): END
+[21:17:09] INFO    Парсинг статьи...
+[21:17:09] INFO    Создание каталога...
+[21:17:09] INFO    Загрузка изображений...
+[21:17:10] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[21:17:10] INFO    Ошибка загрузки:
+https://habr.com/ru/articles/1036696/O(1)
+Не удалось скачать ресурс:
+https://habr.com/ru/articles/1036696/O(1)
+[21:17:10] INFO    Сохранение статьи...
+[21:17:10] INFO    ArticleController.save_article(): END
+[21:17:10] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[21:17:10] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/razbiraem-map-filter-reduce-any-all-zip-i-enumerate-v-python-khabr
+[21:17:10] INFO    SaveArticleWorker: закрываем ArticleController
+[21:17:10] INFO    SaveArticleWorker: ArticleController закрыт
+[21:17:10] INFO    SaveArticleWorker.execute(): END
+[21:17:10] INFO    SaveArticleWorker: execute() END
+[21:17:10] INFO    SaveArticleWorker: finished.emit()
+[21:17:10] INFO    SaveArticleWorker: run() END
+[21:17:10] INFO    SaveArticleWorker.save(): END
+[22:00:20] INFO    Получен URL: https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:20] INFO    SaveArticleWorker.save(): START url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:20] INFO    SaveArticleWorker: run() START
+[22:00:20] INFO    SaveArticleWorker: execute() START
+[22:00:20] INFO    SaveArticleWorker.execute(): START
+[22:00:20] INFO    SaveArticleWorker: ArticleController создан id=125256554409008
+[22:00:20] INFO    SaveArticleWorker: вызываем save_article(url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget)
+[22:00:20] INFO    ArticleController.save_article(): START
+[22:00:20] INFO    ArticleController._download_html(): START
+[22:00:20] INFO    loader id=125256318268960
+[22:00:20] INFO    Вызываем SmartLoader.load()
+[22:00:21] INFO    SmartLoader.load() завершён
+[22:00:21] INFO    page id=125256318906384
+[22:00:21] INFO    page.url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:21] INFO    HTML length=441050
+[22:00:21] INFO    ArticleController._download_html(): END
+[22:00:21] INFO    Парсинг статьи...
+[22:00:21] INFO    SaveArticleWorker: получен UnsupportedSiteError
+[22:00:21] INFO    URL=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:21] INFO    page id=125256318906384
+[22:00:21] INFO    SaveArticleWorker: закрываем ArticleController
+[22:00:21] INFO    SaveArticleWorker: ArticleController закрыт
+[22:00:21] INFO    SaveArticleWorker.execute(): END
+[22:00:21] INFO    SaveArticleWorker: execute() END
+[22:00:21] INFO    SaveArticleWorker: finished.emit()
+[22:00:21] INFO    SaveArticleWorker: run() END
+[22:00:21] INFO    SaveArticleWorker.save(): END
+[22:00:56] INFO    SiteSupportWorker: run() START
+[22:00:56] INFO    SiteSupportWorker: execute() START
+[22:00:56] INFO    Запуск анализа сайта...
+[22:00:56] INFO    URL анализа: https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:57] INFO    Запись selectors.py...
+[22:00:57] INFO    Запись site_registry_data.py...
+[22:00:57] INFO    Перезагрузка конфигурации парсеров...
+[22:00:57] INFO    Поддержка сайта успешно добавлена.
+[22:00:57] INFO    Получен URL: https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:57] INFO    SiteSupportWorker: execute() END
+[22:00:57] INFO    SiteSupportWorker: finished.emit()
+[22:00:57] INFO    SiteSupportWorker: run() END
+[22:00:57] INFO    SaveArticleWorker.save(): START url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:57] INFO    SaveArticleWorker: run() START
+[22:00:57] INFO    SaveArticleWorker: execute() START
+[22:00:57] INFO    SaveArticleWorker.execute(): START
+[22:00:57] INFO    SaveArticleWorker: ArticleController создан id=125256559269536
+[22:00:57] INFO    SaveArticleWorker: вызываем save_article(url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget)
+[22:00:57] INFO    ArticleController.save_article(): START
+[22:00:57] INFO    ArticleController._download_html(): START
+[22:00:57] INFO    loader id=125256554409056
+[22:00:57] INFO    Вызываем SmartLoader.load()
+[22:00:58] INFO    SmartLoader.load() завершён
+[22:00:58] INFO    page id=125253358639072
+[22:00:58] INFO    page.url=https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QListWidget.html#PySide6.QtWidgets.QListWidget
+[22:00:58] INFO    HTML length=441050
+[22:00:58] INFO    ArticleController._download_html(): END
+[22:00:58] INFO    Парсинг статьи...
+[22:00:59] INFO    Создание каталога...
+[22:00:59] INFO    Загрузка изображений...
+[22:00:59] INFO    Скачан asset_001.png
+[22:00:59] INFO    Сохранение статьи...
+[22:00:59] INFO    ArticleController.save_article(): END
+[22:00:59] INFO    SaveArticleWorker: save_article() завершён: /mnt/D/PycharmProjects/PaperShelf/saved/pyside6-qtwidgets-qlistwidget-qt-for-python
+[22:00:59] SUCCESS Статья успешно сохранена:
+/mnt/D/PycharmProjects/PaperShelf/saved/pyside6-qtwidgets-qlistwidget-qt-for-python
+[22:00:59] INFO    SaveArticleWorker: закрываем ArticleController
+[22:00:59] INFO    SaveArticleWorker: ArticleController закрыт
+[22:00:59] INFO    SaveArticleWorker.execute(): END
+[22:00:59] INFO    SaveArticleWorker: execute() END
+[22:00:59] INFO    SaveArticleWorker: finished.emit()
+[22:00:59] INFO    SaveArticleWorker: run() END
+[22:00:59] INFO    SaveArticleWorker.save(): END
+[22:17:36] SUCCESS Статья удалена:
+PySide6.QtWidgets.QListWidget - Qt for Python

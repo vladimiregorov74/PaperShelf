@@ -183,3 +183,57 @@ MASSONNN_CONTENT_SELECTORS = (
 MASSONNN_REMOVE_SELECTORS = (
     'div.notion-selectable.notion-page-block',
 )
+
+# ----------------------------------------------------------------------
+
+# docs.github.com
+
+# ----------------------------------------------------------------------
+
+DOCS_AUTHOR_SELECTORS = (
+)
+
+DOCS_ARTICLE_SELECTORS = (
+    'div.MarkdownContent_markdownBody__v5MYy.markdown-body',
+)
+
+DOCS_CONTENT_SELECTORS = (
+    'div.MarkdownContent_markdownBody__v5MYy.markdown-body',
+)
+
+DOCS_REMOVE_SELECTORS = (
+    '#conclusion',
+    '#creating-a-branch',
+    '#further-reading',
+    '#introduction',
+    '#next-steps',
+    '#prerequisites',
+    '#reviewing-a-pull-request',
+    '#step-1-create-a-repository',
+    '#step-2-create-a-branch',
+    '#step-3-make-and-commit-changes',
+    '#step-4-open-a-pull-request',
+    '#step-5-merge-your-pull-request',
+)
+
+# ----------------------------------------------------------------------
+
+# doc.qt.io
+
+# ----------------------------------------------------------------------
+
+DOC_AUTHOR_SELECTORS = (
+)
+
+DOC_ARTICLE_SELECTORS = (
+    'div.page',
+)
+
+DOC_CONTENT_SELECTORS = (
+    'div.page',
+)
+
+DOC_REMOVE_SELECTORS = (
+    'aside.sidebar-drawer',
+    'header.mobile-header',
+)
